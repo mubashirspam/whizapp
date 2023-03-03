@@ -4,7 +4,6 @@ import 'package:whizapp/presentation/home/home_page.dart';
 import 'package:whizapp/presentation/main/widgets/bottom_navigation_widgets.dart';
 import 'package:whizapp/presentation/mylearning/my_learning_page.dart';
 import 'package:whizapp/presentation/profile/profile_page.dart';
-import 'package:whizapp/presentation/CoursePlayScreen/CoursePlayScreen.dart';
 import 'package:whizapp/presentation/whislist/whishlist_page.dart';
 
 class MainPage extends StatefulWidget {
@@ -19,7 +18,6 @@ class _MainPageState extends State<MainPage> {
     HomePage(),
     MyLearningPage(),
     WhishListPage(),
-    
     ProfilePage()
   ];
 
