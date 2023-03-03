@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class AppICons{
   AppICons._();
 
@@ -12,6 +14,14 @@ class AppICons{
   static const search = 'assets/icons/strock/Search.svg';
   static const filter = 'assets/icons/strock/Filter.svg';
   static const timeCircle = 'assets/icons/strock/TimeCircle.svg';
+
+ static const logout = 'assets/icons/strock/Logout.svg';
+ static const contactus = 'assets/icons/strock/3user.svg';
+ static const notificationStrock = 'assets/icons/strock/Notification.svg';
+ static const terms = 'assets/icons/strock/Paper.svg';
+ static const share = 'assets/icons/strock/Send.svg';
+ static const settiongs = 'assets/icons/strock/Setting.svg';
+  
  
 
   
