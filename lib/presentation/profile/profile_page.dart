@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:whizapp/core/asset/icons.dart';
 import 'package:whizapp/core/asset/image.dart';
 import 'package:whizapp/core/them/color.dart';
-import 'package:whizapp/presentation/constants/constDimensions.dart';
+import 'package:whizapp/presentation/constants/const_dimensions.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -11,7 +11,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       child: Column(
         children: [
           const SizedBox(
@@ -75,54 +75,58 @@ class ProfilePage extends StatelessWidget {
             ),
             child: Column(
               children: [
+                SizedBox(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ListTile(
+                        leading: SvgPicture.asset(AppICons.notificationStrock),
+                        title: const Text("Notifications"),
+                        trailing: SvgPicture.asset(AppICons.arrowRight),
+                      ),
+                      const Divider(
+                        color: AppColor.backgroundLight,
+                        thickness: ConstDimensions.dividerThickness,
+                      ),
+                    ],
+                  ),
+                ),
                 ListTile(
-                  leading: SvgPicture.asset(AppICons.notificationStrock),
-                  title: const Text("Notifications"),
+                  leading: SvgPicture.asset(AppICons.settings),
+                  title: const Text("Settings"),
                   trailing: SvgPicture.asset(AppICons.arrowRight),
                 ),
                 const Divider(
                   color: AppColor.backgroundLight,
                   thickness: ConstDimensions.dividerThickness,
                 ),
-                  ListTile(
-                  leading: SvgPicture.asset(AppICons.settings),
-                  title: const Text("Settings"),
-                  trailing: SvgPicture.asset(AppICons.arrowRight),
-                ),
-                  const Divider(
-                  color: AppColor.backgroundLight,
-                  thickness: ConstDimensions.dividerThickness,
-                ),
-                  ListTile(
+                ListTile(
                   leading: SvgPicture.asset(AppICons.share),
                   title: const Text("Share the App"),
                   trailing: SvgPicture.asset(AppICons.arrowRight),
                 ),
-                   const Divider(
+                const Divider(
                   color: AppColor.backgroundLight,
                   thickness: ConstDimensions.dividerThickness,
                 ),
-                  ListTile(
+                ListTile(
                   leading: SvgPicture.asset(AppICons.contactus),
                   title: const Text("Contact Us"),
                   trailing: SvgPicture.asset(AppICons.arrowRight),
                 ),
-                const    Divider(
+                const Divider(
                   color: AppColor.backgroundLight,
                   thickness: ConstDimensions.dividerThickness,
-                )
-                ,  ListTile(
+                ),
+                ListTile(
                   leading: SvgPicture.asset(AppICons.terms),
                   title: const Text("Terms & Conditions"),
                   trailing: SvgPicture.asset(AppICons.arrowRight),
                 ),
-            
-               
-              
               ],
             ),
           ),
-           Container(
+          Container(
             margin: const EdgeInsets.only(top: 30),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
@@ -135,10 +139,6 @@ class ProfilePage extends StatelessWidget {
                   title: const Text("Log Out"),
                   trailing: SvgPicture.asset(AppICons.arrowRight),
                 ),
-                
-            
-               
-              
               ],
             ),
           )

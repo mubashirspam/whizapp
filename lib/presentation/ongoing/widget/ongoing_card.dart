@@ -3,7 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:whizapp/core/asset/icons.dart';
 import 'package:whizapp/core/asset/image.dart';
 import 'package:whizapp/core/them/color.dart';
-import 'package:whizapp/presentation/constants/constDimensions.dart';
+import 'package:whizapp/presentation/constants/const_dimensions.dart';
+
 
 class OngoingCardWidget extends StatelessWidget {
   const OngoingCardWidget({
@@ -27,6 +28,7 @@ class OngoingCardWidget extends StatelessWidget {
         ],
       ),
       child: Column(
+        
         children: [
           SizedBox(
             child: Row(

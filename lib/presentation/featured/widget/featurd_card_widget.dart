@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:whizapp/core/asset/icons.dart';
 import 'package:whizapp/core/them/color.dart';
-import 'package:whizapp/presentation/constants/constDimensions.dart';
+import 'package:whizapp/presentation/CoursePlayScreen/course_play_screen.dart';
+import 'package:whizapp/presentation/constants/const_dimensions.dart';
 
 class FeaturedCardWidget extends StatelessWidget {
   const FeaturedCardWidget({super.key});
@@ -47,14 +48,18 @@ class FeaturedCardWidget extends StatelessWidget {
                   top: 10,
                   right: 8,
                   child: CircleAvatar(
-                    radius: ConstDimensions.iconWidth/2,
+                    radius: ConstDimensions.iconWidth / 2,
                     backgroundColor: AppColor.whiteLight,
-                    child:SvgPicture.asset(AppICons.inwhishlist,height: 16,) ,
+                    child: SvgPicture.asset(
+                      AppICons.inwhishlist,
+                      height: 16,
+                    ),
                   ),
                 )
               ],
             ),
           ),
+          const SizedBox(height: 10),
           SizedBox(
             height: 20,
             child: Wrap(
@@ -96,9 +101,18 @@ class FeaturedCardWidget extends StatelessWidget {
               top: 10.0,
               bottom: 15,
             ),
-            child: Text(
-              "Spoken English 30 days practice...",
-              style: Theme.of(context).textTheme.titleLarge,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const CoursePlayScreen(),
+                  ),
+                );
+              },
+              child: Text(
+                "Spoken English 30 days practice...",
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
             ),
           ),
           Row(
