@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:whizapp/core/asset/icons.dart';
 import 'package:whizapp/core/them/color.dart';
+
 import 'package:whizapp/presentation/CoursePlayScreen/course_play_screen.dart';
 import 'package:whizapp/presentation/constants/const_dimensions.dart';
+
 
 class FeaturedCardWidget extends StatelessWidget {
   const FeaturedCardWidget({super.key});
@@ -30,9 +32,10 @@ class FeaturedCardWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
+          Container(
             height: 150,
             width: double.maxFinite,
+
             child: Stack(
               children: [
                 ClipRRect(
@@ -57,6 +60,7 @@ class FeaturedCardWidget extends StatelessWidget {
                   ),
                 )
               ],
+
             ),
           ),
           const SizedBox(height: 10),

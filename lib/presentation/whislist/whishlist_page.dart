@@ -6,6 +6,7 @@ class WhishListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return SizedBox(
       child: Center(
         child: TextButton(
@@ -15,7 +16,5 @@ class WhishListPage extends StatelessWidget {
               ));
             },
             child: const Text("Play Course")),
-      ),
-    );
   }
 }
