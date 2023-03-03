@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:whizapp/core/asset/icons.dart';
 import 'package:whizapp/core/them/color.dart';
+import 'package:whizapp/presentation/constants/constDimensions.dart';
 
 class FeaturedCardWidget extends StatelessWidget {
   const FeaturedCardWidget({super.key});
@@ -28,16 +29,30 @@ class FeaturedCardWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
+          SizedBox(
             height: 150,
             width: double.maxFinite,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              image: const DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(
-                    "https://images.unsplash.com/photo-1588072432836-e10032774350?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1772&q=80"),
-              ),
+            child: Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.network(
+                    "https://images.unsplash.com/photo-1588072432836-e10032774350?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1772&q=80",
+                    height: double.maxFinite,
+                    width: double.maxFinite,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Positioned(
+                  top: 10,
+                  right: 8,
+                  child: CircleAvatar(
+                    radius: ConstDimensions.iconWidth/2,
+                    backgroundColor: AppColor.whiteLight,
+                    child:SvgPicture.asset(AppICons.inwhishlist,height: 16,) ,
+                  ),
+                )
+              ],
             ),
           ),
           SizedBox(
