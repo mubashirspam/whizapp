@@ -20,7 +20,9 @@ class AppICons{
  static const notificationStrock = 'assets/icons/strock/Notification.svg';
  static const terms = 'assets/icons/strock/Paper.svg';
  static const share = 'assets/icons/strock/Send.svg';
- static const settiongs = 'assets/icons/strock/Setting.svg';
+ static const settings = 'assets/icons/strock/Setting.svg';
+  static const arrowRight = 'assets/icons/strock/ArrowRight.svg';
+  static const arrowDown = 'assets/icons/strock/ArrowDown.svg';
   
  
 
@@ -35,6 +37,8 @@ class AppICons{
 
   // othor
   static const notification = 'assets/icons/fill/Notification.svg';
+  static const tickSquare = 'assets/icons/fill/TickSquare.svg';
+  static const lockYello ='assets/icons/fill/LockYellow.svg';
 
 
 
