@@ -12,7 +12,8 @@ ThemeData lightTheme() {
     scaffoldBackgroundColor: AppColor.backgroundLight,
     // extensions: [CustomThemeExtension.lightMode],
     appBarTheme: const AppBarTheme(
-      backgroundColor: AppColor.whiteLight,
+      backgroundColor: AppColor.backgroundLight,
+      elevation: 0,
       titleTextStyle: TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.w600,
@@ -57,7 +58,7 @@ ThemeData lightTheme() {
         borderRadius: BorderRadius.circular(10),
       ),
     ),
- 
+
     switchTheme: const SwitchThemeData(
       thumbColor: MaterialStatePropertyAll(
         Color(0xFF83939C),
@@ -101,6 +102,11 @@ ThemeData lightTheme() {
       headlineLarge: TextStyle(
         color: AppColor.textPrimeryLight,
         fontSize: 22,
+        fontWeight: FontWeight.bold,
+      ),
+      headlineSmall: TextStyle(
+        color: AppColor.textVilotLight,
+        fontSize: 14,
         fontWeight: FontWeight.bold,
       ),
     ),

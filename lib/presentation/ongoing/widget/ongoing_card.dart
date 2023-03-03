@@ -12,7 +12,6 @@ class OngoingCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 15),
       padding: const EdgeInsets.all(15),
       width: double.maxFinite,
       decoration: BoxDecoration(
