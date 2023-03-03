@@ -57,14 +57,7 @@ ThemeData lightTheme() {
         borderRadius: BorderRadius.circular(10),
       ),
     ),
-    floatingActionButtonTheme: const FloatingActionButtonThemeData(
-      backgroundColor: AppColor.greenDark,
-      foregroundColor: Colors.white,
-    ),
-    listTileTheme: const ListTileThemeData(
-      iconColor: AppColor.greyDark,
-      tileColor: AppColor.backgroundLight,
-    ),
+ 
     switchTheme: const SwitchThemeData(
       thumbColor: MaterialStatePropertyAll(
         Color(0xFF83939C),
