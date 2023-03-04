@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:whizapp/core/them/color.dart';
-import 'package:whizapp/presentation/common_widgets/button_widget.dart';
-import 'package:whizapp/presentation/login/widget/mobile_inputfield.dart';
+import 'package:whizapp/view/common_widgets/button_widget.dart';
+import 'package:whizapp/view/login/widget/mobile_inputfield.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

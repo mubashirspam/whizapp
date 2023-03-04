@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:whizapp/core/asset/image.dart';
 import 'package:whizapp/core/them/color.dart';
-import 'package:whizapp/presentation/common_widgets/button_widget.dart';
-import 'package:whizapp/presentation/main/main_page.dart';
+import 'package:whizapp/view/common_widgets/button_widget.dart';
+import 'package:whizapp/view/main/main_page.dart';
 
 class WelcomPage extends StatelessWidget {
   const WelcomPage({super.key});

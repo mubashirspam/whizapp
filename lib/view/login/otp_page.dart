@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:whizapp/presentation/common_widgets/button_widget.dart';
-import 'package:whizapp/presentation/login/widget/mobile_inputfield.dart';
-import 'package:whizapp/presentation/login/widget/otp_widget.dart';
+import 'package:whizapp/view/common_widgets/button_widget.dart';
+import 'package:whizapp/view/login/widget/mobile_inputfield.dart';
+import 'package:whizapp/view/login/widget/otp_widget.dart';
 
 import '../../core/them/color.dart';
 

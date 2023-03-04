@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:whizapp/core/asset/icons.dart';
 import 'package:whizapp/core/them/color.dart';
-import 'package:whizapp/presentation/CoursePlayScreen/widgets/course_play_bottombutton.dart';
-import 'package:whizapp/presentation/constants/const_dimensions.dart';
+import 'package:whizapp/view/CoursePlayScreen/widgets/course_play_bottombutton.dart';
+import 'package:whizapp/view/constants/const_dimensions.dart';
 
 class CoursePlayScreen extends StatelessWidget {
   const CoursePlayScreen({super.key});
