@@ -1,8 +1,14 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+
+import 'package:whizapp/controller/home_page_controller.dart';
 import 'package:whizapp/core/asset/icons.dart';
 import 'package:whizapp/core/asset/image.dart';
 import 'package:whizapp/core/them/color.dart';
+import 'package:whizapp/view/CoursePlayScreen/course_play_screen.dart';
 import 'package:whizapp/view/featured/widget/featurd_card_widget.dart';
 import 'package:whizapp/view/home/widgts/search_widget.dart';
 import 'package:whizapp/view/home/widgts/section_heading.dart';
@@ -13,6 +19,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    HomePageController homePageController = Get.put(HomePageController());
     return Padding(
       padding: const EdgeInsets.only(
         top: 20,
@@ -110,8 +117,24 @@ class HomePage extends StatelessWidget {
                       const OngoingCardWidget(),
                       const SizedBox(height: 20),
                       const SectionHeading(title: "Featured Course"),
-                      const FeaturedCardWidget(),
-                      const FeaturedCardWidget(),
+                      /*    const FeaturedCardWidget(),
+                        const FeaturedCardWidget(), */
+                      Obx(
+                        () => ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: homePageController.courses.length,
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                                onTap: () => Get.to(() => CoursePlayScreen(
+                                      course: homePageController.courses[index],
+                                    )),
+                                child: FeaturedCardWidget(
+                                  course: homePageController.courses[index],
+                                ));
+                          },
+                        ),
+                      ),
                     ],
                   ),
                 ),

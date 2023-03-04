@@ -10,9 +10,7 @@ class WhishListPage extends StatelessWidget {
       child: Center(
         child: TextButton(
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const CoursePlayScreen(),
-              ));
+         
             },
             child: const Text("Play Course")),
       ),
