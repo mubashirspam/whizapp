@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:whizapp/presentation/ongoing/widget/ongoing_card.dart';
+import 'package:whizapp/view/ongoing/widget/ongoing_card.dart';
 
 class MyLearningPage extends StatelessWidget {
   const MyLearningPage({super.key});

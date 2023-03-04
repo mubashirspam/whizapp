@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:whizapp/presentation/common_widgets/appbar.dart';
-import 'package:whizapp/presentation/home/home_page.dart';
-import 'package:whizapp/presentation/main/widgets/bottom_navigation_widgets.dart';
-import 'package:whizapp/presentation/mylearning/my_learning_page.dart';
-import 'package:whizapp/presentation/profile/profile_page.dart';
-import 'package:whizapp/presentation/CoursePlayScreen/course_play_screen.dart';
-import 'package:whizapp/presentation/whislist/whishlist_page.dart';
+import 'package:whizapp/view/common_widgets/appbar.dart';
+import 'package:whizapp/view/home/home_page.dart';
+import 'package:whizapp/view/main/widgets/bottom_navigation_widgets.dart';
+import 'package:whizapp/view/mylearning/my_learning_page.dart';
+import 'package:whizapp/view/profile/profile_page.dart';
+import 'package:whizapp/view/CoursePlayScreen/course_play_screen.dart';
+import 'package:whizapp/view/whislist/whishlist_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);

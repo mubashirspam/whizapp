@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:whizapp/core/asset/icons.dart';
 import 'package:whizapp/core/them/color.dart';
-import 'package:whizapp/presentation/CoursePlayScreen/course_play_screen.dart';
-import 'package:whizapp/presentation/constants/const_dimensions.dart';
+import 'package:whizapp/view/CoursePlayScreen/course_play_screen.dart';
+import 'package:whizapp/view/constants/const_dimensions.dart';
 
 class FeaturedCardWidget extends StatelessWidget {
   const FeaturedCardWidget({super.key});

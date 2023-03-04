@@ -3,10 +3,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:whizapp/core/asset/icons.dart';
 import 'package:whizapp/core/asset/image.dart';
 import 'package:whizapp/core/them/color.dart';
-import 'package:whizapp/presentation/featured/widget/featurd_card_widget.dart';
-import 'package:whizapp/presentation/home/widgts/search_widget.dart';
-import 'package:whizapp/presentation/home/widgts/section_heading.dart';
-import 'package:whizapp/presentation/ongoing/widget/ongoing_card.dart';
+import 'package:whizapp/view/featured/widget/featurd_card_widget.dart';
+import 'package:whizapp/view/home/widgts/search_widget.dart';
+import 'package:whizapp/view/home/widgts/section_heading.dart';
+import 'package:whizapp/view/ongoing/widget/ongoing_card.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

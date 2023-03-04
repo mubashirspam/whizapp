@@ -4,7 +4,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:whizapp/core/asset/icons.dart';
 import 'package:whizapp/core/them/color.dart';
-import 'package:whizapp/presentation/CoursePlayScreen/widgets/couse_app_bottom_barbutton.dart';
+import 'package:whizapp/view/CoursePlayScreen/widgets/couse_app_bottom_barbutton.dart';
 
 class CoursePlayBottomButton extends StatelessWidget {
   const CoursePlayBottomButton({super.key});

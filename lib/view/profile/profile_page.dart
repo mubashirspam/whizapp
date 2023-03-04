@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:whizapp/core/asset/icons.dart';
 import 'package:whizapp/core/asset/image.dart';
 import 'package:whizapp/core/them/color.dart';
-import 'package:whizapp/presentation/constants/const_dimensions.dart';
+import 'package:whizapp/view/constants/const_dimensions.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
