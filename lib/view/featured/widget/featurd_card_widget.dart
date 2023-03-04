@@ -2,11 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:whizapp/core/asset/icons.dart';
 import 'package:whizapp/core/them/color.dart';
+import 'package:whizapp/model/course/course.dart';
+import 'package:whizapp/model/lesson/lesson.dart';
 import 'package:whizapp/view/CoursePlayScreen/course_play_screen.dart';
 import 'package:whizapp/view/constants/const_dimensions.dart';
 
 class FeaturedCardWidget extends StatelessWidget {
-  const FeaturedCardWidget({super.key});
+  final Course course;
+
+  const FeaturedCardWidget({
+    super.key,
+    required this.course,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -65,20 +72,20 @@ class FeaturedCardWidget extends StatelessWidget {
             child: Wrap(
               alignment: WrapAlignment.start,
               crossAxisAlignment: WrapCrossAlignment.center,
-              children: const [
-                Icon(
+              children: [
+                const Icon(
                   Icons.star,
                   color: AppColor.iconyellowLight,
                   size: 15,
                 ),
                 Padding(
-                  padding: EdgeInsets.only(
+                  padding: const EdgeInsets.only(
                     right: 5,
                     left: 5,
                   ),
                   child: Text(
-                    "4.8",
-                    style: TextStyle(
+                    course.overallRating.toString(),
+                    style: const TextStyle(
                       color: AppColor.textPrimeryLight,
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
@@ -101,18 +108,9 @@ class FeaturedCardWidget extends StatelessWidget {
               top: 10.0,
               bottom: 15,
             ),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const CoursePlayScreen(),
-                  ),
-                );
-              },
-              child: Text(
-                "Spoken English 30 days practice...",
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
+            child: Text(
+              course.courseName,
+              style: Theme.of(context).textTheme.titleLarge,
             ),
           ),
           Row(
@@ -121,8 +119,10 @@ class FeaturedCardWidget extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 5),
                 child: Text(
-                  "10 Entrolled",
+                  
+                  "${course.courseEnrollmentCount} Entrolled",
                   style: Theme.of(context).textTheme.displaySmall,
+                
                 ),
               ),
               const Spacer(),
@@ -130,7 +130,8 @@ class FeaturedCardWidget extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 5),
                 child: Text(
-                  "36 Lessons",
+                  // total number of lessons in a course
+                  "${course.lessons.length} Lessons",
                   style: Theme.of(context).textTheme.displaySmall,
                 ),
               ),
@@ -142,8 +143,14 @@ class FeaturedCardWidget extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 5),
                 child: Text(
-                  "16h 56m",
+                  
+                
+                  // total duration of course
+               
+                  "${course.totalDuration.inHours}h ${course.totalDuration.inMinutes % 60}m" ,
                   style: Theme.of(context).textTheme.displaySmall,
+                  
+                
                 ),
               ),
             ],
