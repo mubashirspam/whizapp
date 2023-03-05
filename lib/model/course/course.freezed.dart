@@ -24,7 +24,8 @@ mixin _$Course {
   Duration get totalDuration =>
       throw _privateConstructorUsedError; //course enrolled by number of users
   int get courseEnrollmentCount => throw _privateConstructorUsedError;
-  String get courseName => throw _privateConstructorUsedError;
+  String get courseName =>
+      throw _privateConstructorUsedError; // creator of the course
   String get courseCreator => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -188,6 +189,7 @@ class _$_Course implements _Course {
   final int courseEnrollmentCount;
   @override
   final String courseName;
+// creator of the course
   @override
   final String courseCreator;
 
@@ -250,7 +252,7 @@ abstract class _Course implements Course {
   int get courseEnrollmentCount;
   @override
   String get courseName;
-  @override
+  @override // creator of the course
   String get courseCreator;
   @override
   @JsonKey(ignore: true)
