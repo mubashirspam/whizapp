@@ -3,12 +3,15 @@ import 'package:flutter_svg/svg.dart';
 import 'package:whizapp/core/asset/icons.dart';
 import 'package:whizapp/core/asset/image.dart';
 import 'package:whizapp/core/them/color.dart';
+import 'package:whizapp/model/ongoingCourse/ongoing_course.dart';
 import 'package:whizapp/view/constants/const_dimensions.dart';
 
 
 class OngoingCardWidget extends StatelessWidget {
+  final OngoingCourse ongoingCourse;
   const OngoingCardWidget({
     super.key,
+    required this.ongoingCourse
   });
 
   @override
@@ -55,15 +58,15 @@ class OngoingCardWidget extends StatelessWidget {
                   direction: Axis.vertical,
                   children: [
                     SizedBox(
-                      child: Text(
-                        "Spoken English 30 days ",
+                      child: Text(// course name
+                     ongoingCourse.course.courseName,
                         maxLines: 2,
                         overflow: TextOverflow.clip,
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ),
-                    Text(
-                      "Bisher",
+                    Text(//course creator
+                      ongoingCourse.course.courseCreator,
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
                   ],
@@ -81,9 +84,9 @@ class OngoingCardWidget extends StatelessWidget {
                   "Course Progress",
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
-                const Text(
-                  "30% complete",
-                  style: TextStyle(
+                 Text(//progress of the course
+                    "${(ongoingCourse.courseProgress*100).toInt()}%",
+                  style: const TextStyle(
                     color: AppColor.textVilotLight,
                     fontSize: 14,
                   ),
@@ -96,11 +99,11 @@ class OngoingCardWidget extends StatelessWidget {
           ),
           ClipRRect(
             borderRadius: BorderRadius.circular(100),
-            child: const LinearProgressIndicator(
+            child:  LinearProgressIndicator(
               minHeight: 9,
               color: AppColor.secondaryLight,
-              valueColor: AlwaysStoppedAnimation(AppColor.primeryLight),
-              value: 0.3,
+              valueColor: const AlwaysStoppedAnimation(AppColor.primeryLight),
+              value: ongoingCourse.courseProgress,
             ),
           ),
           Padding(
@@ -109,8 +112,8 @@ class OngoingCardWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  "16 Lessons",
+                Text(//total number of lessons in the course
+                  "${ongoingCourse.course.lessons.length} Lessons",
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
                 SvgPicture.asset(

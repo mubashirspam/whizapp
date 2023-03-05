@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:whizapp/core/them/color.dart';
 
+
 class SectionHeading extends StatelessWidget {
   final String title;
-  const SectionHeading({
-    super.key,
-    required this.title
-  });
+  final Function () onPressed;
+  const SectionHeading({super.key, required this.title,required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +17,14 @@ class SectionHeading extends StatelessWidget {
           title,
           style: Theme.of(context).textTheme.titleLarge,
         ),
-        const Text(
-          "SeeAll",
-          style: TextStyle(
-            color: AppColor.textVilotLight,
-            fontSize: 16,
+        TextButton(
+          onPressed: onPressed,
+          child: const Text(
+            "SeeAll",
+            style: TextStyle(
+              color: AppColor.textVilotLight,
+              fontSize: 16,
+            ),
           ),
         ),
       ],

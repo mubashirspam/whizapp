@@ -12,6 +12,7 @@ import 'package:whizapp/view/CoursePlayScreen/course_play_screen.dart';
 import 'package:whizapp/view/featured/widget/featurd_card_widget.dart';
 import 'package:whizapp/view/home/widgts/search_widget.dart';
 import 'package:whizapp/view/home/widgts/section_heading.dart';
+import 'package:whizapp/view/main/widgets/bottom_navigation_widgets.dart';
 import 'package:whizapp/view/ongoing/widget/ongoing_card.dart';
 
 class HomePage extends StatelessWidget {
@@ -19,7 +20,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    HomePageController homePageController = Get.put(HomePageController());
+    HomePageController homePageController = Get.put(HomePageController(),);
     return Padding(
       padding: const EdgeInsets.only(
         top: 20,
@@ -112,11 +113,12 @@ class HomePage extends StatelessWidget {
                       const SizedBox(
                         height: 15,
                       ),
-                      const SectionHeading(title: "Ongoing Course"),
+                       SectionHeading(title: "Ongoing Course",onPressed: () => selectedIndexNorifier.value = 1,),
                       const SizedBox(height: 20),
-                      const OngoingCardWidget(),
+                      //shows first ongoing course
+                      OngoingCardWidget(ongoingCourse: homePageController.ongoingCourses[0],),
                       const SizedBox(height: 20),
-                      const SectionHeading(title: "Featured Course"),
+                       SectionHeading(title: "Featured Course",onPressed: (){},),
                       /*    const FeaturedCardWidget(),
                         const FeaturedCardWidget(), */
                       Obx(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whizapp/view/common_widgets/appbar.dart';
 import 'package:whizapp/view/home/home_page.dart';
+
 import 'package:whizapp/view/main/widgets/bottom_navigation_widgets.dart';
 import 'package:whizapp/view/mylearning/my_learning_page.dart';
 import 'package:whizapp/view/profile/profile_page.dart';
@@ -17,6 +18,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   static const List<Widget> _widgetOptions = <Widget>[
     HomePage(),
+   
     MyLearningPage(),
     WhishListPage(),
     
