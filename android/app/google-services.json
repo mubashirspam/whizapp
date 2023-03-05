@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "276396897896",
+    "project_id": "whizapp-153fd",
+    "storage_bucket": "whizapp-153fd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:276396897896:android:16a208ad63335d12ce2ddd",
+        "android_client_info": {
+          "package_name": "com.example.whizapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "276396897896-15almdcbc061n7l1upv3av71ghptup8f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBD_vhjmMuEUrJd9iNVRPr3dT09uC82ba4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "276396897896-15almdcbc061n7l1upv3av71ghptup8f.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "276396897896-1rrpv607g7q65lqt8ie0lt1r85ksal4s.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.whizapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

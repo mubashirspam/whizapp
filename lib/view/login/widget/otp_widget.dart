@@ -1,38 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:whizapp/core/them/color.dart';
 
-class OtpFiled extends StatelessWidget {
-  const OtpFiled({super.key});
 
-  @override
-  Widget build(BuildContext context) => Expanded(
-        child: TextFormField(
-          cursorColor: AppColor.whiteLight,
-          keyboardType: TextInputType.number,
-          maxLength: 1,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: AppColor.whiteLight.withOpacity(0.1),
-            enabled: true,
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                  color: AppColor.textwhiteLight.withOpacity(0.3), width: 1),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide:
-                  const BorderSide(color: AppColor.whiteLight, width: 1),
-              borderRadius: BorderRadius.circular(12),
-            ),
-          ),
-        ),
-      );
-}
 
 class OtpWidget extends StatefulWidget {
   final ValueChanged<String>? onCompleted;
+  final List<TextEditingController> controllers;
 
-  const OtpWidget({Key? key, this.onCompleted}) : super(key: key);
+  const OtpWidget({Key? key, this.onCompleted , required this.controllers}) : super(key: key);
 
   @override
   State<OtpWidget> createState() => _OtpWidgetState();
@@ -40,8 +15,7 @@ class OtpWidget extends StatefulWidget {
 
 class _OtpWidgetState extends State<OtpWidget> {
   final List<FocusNode> _focusNodes = List.generate(6, (index) => FocusNode());
-  final List<TextEditingController> _controllers =
-      List.generate(6, (index) => TextEditingController());
+
 
   @override
   void initState() {
@@ -49,13 +23,13 @@ class _OtpWidgetState extends State<OtpWidget> {
 
     _focusNodes[0].requestFocus();
     for (var i = 0; i < _focusNodes.length; i++) {
-      _controllers[i].addListener(() {
-        if (_controllers[i].text.isNotEmpty && i < _controllers.length - 1) {
+      widget.controllers[i].addListener(() {
+        if (widget.controllers[i].text.isNotEmpty && i < widget.controllers.length - 1) {
           _focusNodes[i + 1].requestFocus();
         }
-        if (_controllers[i].text.isNotEmpty && i == _controllers.length - 1) {
+        if (widget.controllers[i].text.isNotEmpty && i == widget.controllers.length - 1) {
           var otp = "";
-          for (var controller in _controllers) {
+          for (var controller in widget.controllers) {
             otp += controller.text;
           }
           widget.onCompleted?.call(otp);
@@ -69,7 +43,7 @@ class _OtpWidgetState extends State<OtpWidget> {
     for (var node in _focusNodes) {
       node.dispose();
     }
-    for (var controller in _controllers) {
+    for (var controller in widget.controllers) {
       controller.dispose();
     }
     super.dispose();
@@ -80,14 +54,18 @@ class _OtpWidgetState extends State<OtpWidget> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: List.generate(
-        6,
-        (index) => Expanded(
-          child: SizedBox(
-            child: Row(children: [SizedBox(width: 5,),
+          6,
+          (index) => Expanded(
+                child: SizedBox(
+                  child: Row(
+                    children: [
+                      const SizedBox(
+                        width: 5,
+                      ),
                       Expanded(
                         child: TextField(
                           cursorColor: AppColor.whiteLight,
-                          controller: _controllers[index],
+                          controller: widget.controllers[index],
                           keyboardType: TextInputType.number,
                           textAlign: TextAlign.center,
                           maxLength: 1,
@@ -99,7 +77,8 @@ class _OtpWidgetState extends State<OtpWidget> {
                             enabled: true,
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                  color: AppColor.textwhiteLight.withOpacity(0.3),
+                                  color:
+                                      AppColor.textwhiteLight.withOpacity(0.3),
                                   width: 1),
                               borderRadius: BorderRadius.circular(12),
                             ),
@@ -112,10 +91,10 @@ class _OtpWidgetState extends State<OtpWidget> {
                           style: const TextStyle(fontSize: 24.0),
                         ),
                       ),
-                    ],),
-          ),
-        )
-      ),
+                    ],
+                  ),
+                ),
+              )),
     );
   }
 }

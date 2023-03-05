@@ -6,6 +6,10 @@ class TextFieldWidget extends StatelessWidget {
   final String hintText;
   final TextEditingController textEditingController;
   final Function(String value) onChanged;
+  final Function(dynamic value) onSaved;
+
+  final String? Function(String?)? validate;
+
   final Widget? prefix;
 
   // final void Function (String value) onSaved;
@@ -16,6 +20,8 @@ class TextFieldWidget extends StatelessWidget {
     required this.keyboardType,
     required this.textEditingController,
     required this.onChanged,
+    required this.onSaved,
+    required this.validate,
     this.prefix,
 
     // required this.onSaved,
@@ -28,11 +34,12 @@ class TextFieldWidget extends StatelessWidget {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child:
-            TextFormField(
+            child: TextFormField(
+              
               cursorColor: AppColor.whiteLight,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
+                
                 labelText: "Number",
                 labelStyle: const TextStyle(
                   color: AppColor.whiteLight,
@@ -52,12 +59,24 @@ class TextFieldWidget extends StatelessWidget {
                       const BorderSide(color: AppColor.whiteLight, width: 1),
                   borderRadius: BorderRadius.circular(12),
                 ),
+                errorBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.red, width: 1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                border: OutlineInputBorder(
+                  borderSide:
+                      const BorderSide(color: AppColor.whiteLight, width: 1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                
                 hintText: hintText,
                 hintStyle: const TextStyle(
                     color: AppColor.textSecondaryLight,
                     fontWeight: FontWeight.w200),
               ),
               onChanged: onChanged,
+              onSaved: onSaved,
+              validator: validate,
             ),
           ),
         ),

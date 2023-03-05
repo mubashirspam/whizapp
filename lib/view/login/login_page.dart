@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:whizapp/controller/authentication/auth_controller.dart';
 import 'package:whizapp/core/them/color.dart';
 import 'package:whizapp/view/common_widgets/button_widget.dart';
 import 'package:whizapp/view/login/widget/mobile_inputfield.dart';
+import 'package:whizapp/view/login/widget/otp_widget.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,12 +16,18 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _mobileController = TextEditingController();
- 
+  final authController = Get.put(AuthController());
+  final _formKey = GlobalKey<FormState>();
+
+
+    final List<TextEditingController> _controllers =
+      List.generate(6, (index) => TextEditingController());
+     
 
   int _selectedCountryCode = 0;
 
   final List<Map<String, dynamic>> countryList = [
-    {'name': 'Afghanistan', 'dial_code': '+93'},
+    {'name': 'india', 'dial_code': '+91'},
     {'name': 'Albania', 'dial_code': '+355'},
     {'name': 'Algeria', 'dial_code': '+213'},
     {'name': 'American Samoa', 'dial_code': '+1 684'},
@@ -26,8 +35,6 @@ class _LoginPageState extends State<LoginPage> {
     {'name': 'Angola', 'dial_code': '+244'},
     // Add more countries here...
   ];
-
-
 
   void _showDialog(Widget child) {
     showCupertinoModalPopup<void>(
@@ -67,60 +74,119 @@ class _LoginPageState extends State<LoginPage> {
             ],
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 150),
-            const Text(
-              "Welcome back!",
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 150),
+              Obx(() => authController.isOtpSent.value
+                  ? const Text(
+                      "Verification",
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  : const Text(
+                      "Welcome back!",
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )),
+              const SizedBox(height: 15),
+              Obx(() => authController.isOtpSent.value
+                  ? const Text(
+                      " Enter your OTP code number",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    )
+                  : const Text(
+                      " We're glad to have you back. Please enter your mobile number to proceed.",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    )),
+              const SizedBox(height: 50),
+              Obx(
+                () => authController.isOtpSent.value
+                    ?  OtpWidget(controllers: _controllers,)
+                    : TextFieldWidget(
+                        hintText: "mobile",
+                        keyboardType: TextInputType.phone,
+                        textEditingController: _mobileController,
+                        prefix: GestureDetector(
+                          onTap: () => _showDialog(_buildBottomPicker()),
+                          child: Text(
+                            countryList[_selectedCountryCode]["dial_code"],
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        onChanged: (value) {
+                          authController.phoneNo.value = value;
+                        },
+                        onSaved: (val) => authController.phoneNo.value =
+                            countryList[_selectedCountryCode]["dial_code"] +
+                                val!,
+                        validate: (val) => (val!.isEmpty || val.length < 10)
+                            ? "Enter valid number"
+                            : null,
+                      ),
               ),
-            ),
-            const SizedBox(height: 15),
-            const Text(
-              " We're glad to have you back. Please enter your mobile number to proceed.",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w300,
+
+
+              Text(
+                authController.statusMessage.value,
+                style: TextStyle(
+                    color: authController.statusMessageColor.value,
+                    fontWeight: FontWeight.bold),
               ),
-            ),
-            const SizedBox(height: 50),
-            TextFieldWidget(
-              hintText: "mobile",
-              keyboardType: TextInputType.phone,
-              textEditingController: _mobileController,
-              prefix: GestureDetector(
-                onTap: () => _showDialog(_buildBottomPicker()),
-                child: Text(
-                  countryList[_selectedCountryCode]["dial_code"],
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+
+              const Spacer(),
+              Row(
+                children: [
+                  Expanded(
+                    child: Obx(() => authController.isOtpSent.value
+                        ? ButtonWidget(
+                            name: "varify",
+                            onPressed: () {
+                              authController.otp.value = "";
+                              for (var controller in _controllers) {
+                                authController.otp.value += controller.text;
+                              }
+                              authController.verifyOTP();
+                            },
+                            bgColor: AppColor.whiteLight,
+                            fgColor: AppColor.textVilotLight,
+                          )
+                        : ButtonWidget(
+                            name: "Send OTP",
+                            onPressed: () {
+                              final form = _formKey.currentState;
+                              if (form!.validate()) {
+                                form.save();
+                                authController.getOtp();
+                              }
+                            },
+                            bgColor: AppColor.whiteLight,
+                            fgColor: AppColor.textVilotLight,
+                          )),
                   ),
-                ),
+                ],
               ),
-              onChanged: (value) {},
-            ),
-            const Spacer(),
-            Row(
-              children: [
-                Expanded(
-                  child: ButtonWidget(
-                    name: "Send OTP",
-                    onPressed: () {},
-                    bgColor: AppColor.whiteLight,
-                    fgColor: AppColor.textVilotLight,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 50,
-            )
-          ],
+              const SizedBox(
+                height: 50,
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -129,7 +195,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _buildBottomPicker() {
     return Container(
       height: 250.0,
-      padding: EdgeInsets.only(top: 6.0),
+      padding: const EdgeInsets.only(top: 6.0),
       color: CupertinoColors.white,
       child: Column(
         children: [
