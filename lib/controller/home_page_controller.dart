@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:whizapp/model/course/course.dart';
 import 'package:whizapp/model/lesson/lesson.dart';
@@ -6,19 +9,22 @@ import 'package:whizapp/model/ongoingCourse/ongoing_course.dart';
 class HomePageController extends GetxController {
   RxList<Course> courses = RxList<Course>();
   RxList<OngoingCourse> ongoingCourses = RxList<OngoingCourse>();
-  @override
-  void onInit() {
-   print('init ------------');
-    getCourses();
-    getOngoingCourse();
-    super.onInit();
+  // used for mylearning page pagination
+
+  var myLearningController = ScrollController().obs();
+
+  var isLoading = false.obs;
+
+  // api call for more data fetch
+  getMoreOngoingCourse()async{
+    print("api fetch----------");
+    isLoading.value = true;
+    await Future.delayed(Duration(seconds: 5));
+    var ii = ongoingCourses.value;
+    ongoingCourses.value = ongoingCourses.value+ii;
+    isLoading.value = false;
   }
-  @override
-  void onClose() {
-    // TODO: implement onClose
-    print("close===============================");
-    super.onClose();
-  }
+
 
   void getCourses() {
     // A dummy data generator 
@@ -46,7 +52,7 @@ class HomePageController extends GetxController {
     }
   }
   void getOngoingCourse(){
-    Lesson lesson = Lesson(
+    Lesson lesson = const Lesson(
           LessonId: 23,
           LessonUrl: 'https://youtu.be/EngW7tLk6R8',
           viewCounts: 500 ,
@@ -61,10 +67,32 @@ class HomePageController extends GetxController {
           courseCreator: "Bisher",
           courseName: "Spoken ",
           overallRating: 4.7,
-          totalDuration: Duration(hours: 10 ,minutes: 56),
+          totalDuration: const Duration(hours: 10 ,minutes: 56),
           courseEnrollmentCount: 300 );
     for(int x =1;x<10;x++){
       ongoingCourses.add(OngoingCourse(course:course , courseProgress: .7));
     }
   }
+  @override
+  void onInit() {
+myLearningController.addListener(() async{
+  var value =myLearningController.position.pixels/myLearningController.position.maxScrollExtent;
+  log(value.toString());
+  if(value >=.9 && isLoading.value == false){
+await getMoreOngoingCourse();
+  }
+},);
+    getCourses();
+    getOngoingCourse();
+    super.onInit();
+  }
+  @override
+  void onClose() {
+    // TODO: implement onClose
+    print("close===============================");
+   myLearningController.dispose();
+    super.onClose();
+  }
+
+
 }

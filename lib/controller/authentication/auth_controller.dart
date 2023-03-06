@@ -96,7 +96,7 @@ class AuthController extends GetxController
 //============================= OTP varifying function ==========================//
 
   verifyOTP() async {
-    FirebaseAuth auth = FirebaseAuth.instance;
+    //FirebaseAuth auth = FirebaseAuth.instance;
     try {
       statusMessage.value = "Verifying... ${otp.value}";
       // Create a PhoneAuthCredential with the code

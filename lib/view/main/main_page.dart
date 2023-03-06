@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:whizapp/view/common_widgets/appbar.dart';
+import 'package:whizapp/view/common_widgets/no_result_page.dart';
 import 'package:whizapp/view/home/home_page.dart';
 
 import 'package:whizapp/view/main/widgets/bottom_navigation_widgets.dart';
@@ -20,7 +21,8 @@ class _MainPageState extends State<MainPage> {
     HomePage(),
    
     MyLearningPage(),
-    WhishListPage(),
+  //  WhishListPage(),
+  NoResultPage(),
     
     ProfilePage()
   ];
