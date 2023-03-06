@@ -4,15 +4,17 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:whizapp/core/them/color.dart';
+import 'package:whizapp/model/user/user_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:whizapp/view/main/main_page.dart';
 
 class AuthController extends GetxController
     with GetSingleTickerProviderStateMixin {
   FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   RxString phoneNo = "".obs;
-
   RxString otp = "".obs;
   var isOtpSent = false.obs;
   var resendAfter = 30.obs;
@@ -23,15 +25,6 @@ class AuthController extends GetxController
 
   var timer;
 
-  // @override
-  // onInit() async {
-  //   super.onInit();
-  // }
-
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  // }
 //============================= timer ==========================//
 
   startResendOtpTimer() {
@@ -66,8 +59,12 @@ class AuthController extends GetxController
           await auth.signInWithCredential(phoneAuthCredential);
         },
         verificationFailed: (FirebaseAuthException error) {
-          log("Exption : ${error.message}");
-          log(phoneNo.value);
+          Get.snackbar(
+            "erro",
+            error.message.toString(),
+            colorText: AppColor.whiteLight,
+            isDismissible: true,
+          );
         },
       );
     } on FirebaseAuthException catch (error) {
@@ -99,19 +96,34 @@ class AuthController extends GetxController
     //FirebaseAuth auth = FirebaseAuth.instance;
     try {
       statusMessage.value = "Verifying... ${otp.value}";
-      // Create a PhoneAuthCredential with the code
 
-   
-
-      PhoneAuthCredential credential = PhoneAuthProvider.credential(
+      final PhoneAuthCredential credential = PhoneAuthProvider.credential(
           verificationId: firebaseVerificationId, smsCode: otp.value);
 
-      // Sign the user in (or link) with the credential
       await auth.signInWithCredential(credential);
-      Get.off(const MainPage());
-    } catch (e) {
+
+      Get.off(() => const MainPage());
+    } on FirebaseAuthException catch (e) {
       statusMessage.value = "Invalid  OTP";
       statusMessageColor = Colors.red.obs;
+      Get.snackbar(
+        "Invalid  OTP",
+        e.message.toString(),
+        colorText: AppColor.whiteLight,
+        isDismissible: true,
+      );
     }
+  }
+
+  // function for getCurrentUserInfo .....********************************************///
+
+  Future<UserModel?> getCurrentUserInfo() async {
+    UserModel? user;
+    final userInfo =
+        await firestore.collection('users').doc(auth.currentUser?.uid).get();
+
+    if (userInfo.data() == null) return user;
+    user = UserModel.fromMap(userInfo.data()!);
+    return user;
   }
 }

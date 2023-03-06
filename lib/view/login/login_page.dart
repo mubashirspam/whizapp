@@ -2,29 +2,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:whizapp/controller/authentication/auth_controller.dart';
+import 'package:whizapp/controller/authentication/country_controller.dart';
 import 'package:whizapp/core/them/color.dart';
 import 'package:whizapp/view/common_widgets/button_widget.dart';
 import 'package:whizapp/view/login/widget/mobile_inputfield.dart';
 import 'package:whizapp/view/login/widget/otp_widget.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class LoginPage extends StatelessWidget {
+  LoginPage({super.key});
 
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
   final TextEditingController _mobileController = TextEditingController();
   final authController = Get.put(AuthController());
+  final countryController = Get.put(CountryController());
   final _formKey = GlobalKey<FormState>();
 
-
-    final List<TextEditingController> _controllers =
+  final List<TextEditingController> _controllers =
       List.generate(6, (index) => TextEditingController());
-     
-
-  int _selectedCountryCode = 0;
 
   final List<Map<String, dynamic>> countryList = [
     {'name': 'india', 'dial_code': '+91'},
@@ -35,27 +28,6 @@ class _LoginPageState extends State<LoginPage> {
     {'name': 'Angola', 'dial_code': '+244'},
     // Add more countries here...
   ];
-
-  void _showDialog(Widget child) {
-    showCupertinoModalPopup<void>(
-      context: context,
-      builder: (BuildContext context) => Container(
-        height: 216,
-        padding: const EdgeInsets.only(top: 6.0),
-        // The Bottom margin is provided to align the popup above the system navigation bar.
-        margin: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-        ),
-        // Provide a background color for the popup.
-        color: CupertinoColors.systemBackground.resolveFrom(context),
-        // Use a SafeArea widget to avoid system overlaps.
-        child: SafeArea(
-          top: false,
-          child: child,
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,15 +87,19 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 50),
               Obx(
                 () => authController.isOtpSent.value
-                    ?  OtpWidget(controllers: _controllers,)
+                    ? OtpWidget(
+                        controllers: _controllers,
+                      )
                     : TextFieldWidget(
                         hintText: "mobile",
                         keyboardType: TextInputType.phone,
                         textEditingController: _mobileController,
                         prefix: GestureDetector(
-                          onTap: () => _showDialog(_buildBottomPicker()),
+                          onTap: () => countryController
+                              .showDialog(_buildBottomPicker()),
                           child: Text(
-                            countryList[_selectedCountryCode]["dial_code"],
+                            countryList[countryController
+                                .selectedCountryCode.value]["dial_code"],
                             style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -134,22 +110,25 @@ class _LoginPageState extends State<LoginPage> {
                           authController.phoneNo.value = value;
                         },
                         onSaved: (val) => authController.phoneNo.value =
-                            countryList[_selectedCountryCode]["dial_code"] +
+                            countryList[countryController
+                                    .selectedCountryCode.value]["dial_code"] +
                                 val!,
                         validate: (val) => (val!.isEmpty || val.length < 10)
                             ? "Enter valid number"
                             : null,
                       ),
               ),
-
-
-              Text(
-                authController.statusMessage.value,
-                style: TextStyle(
-                    color: authController.statusMessageColor.value,
-                    fontWeight: FontWeight.bold),
+              const SizedBox(
+                height: 30,
               ),
-
+              Center(
+                  child: Obx(
+                () => Text(
+                  authController.statusMessage.value,
+                  style: const TextStyle(
+                      color: AppColor.whiteLight, fontWeight: FontWeight.bold),
+                ),
+              )),
               const Spacer(),
               Row(
                 children: [
@@ -197,46 +176,40 @@ class _LoginPageState extends State<LoginPage> {
       height: 250.0,
       padding: const EdgeInsets.only(top: 6.0),
       color: CupertinoColors.white,
-      child: Column(
-        children: [
-          CupertinoPicker(
-            magnification: 1.22,
-            squeeze: 1.2,
-            useMagnifier: true,
-            itemExtent: 32,
-            // This is called when selected item is changed.
-            onSelectedItemChanged: (int selectedItem) {
-              setState(() {
-                _selectedCountryCode = selectedItem;
-              });
-            },
-            children: List<Widget>.generate(
-              countryList.length,
-              (int index) {
-                return Center(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 50),
-                    child: SizedBox(
-                      height: 20,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            countryList[index]["name"],
-                          ),
-                          Text(
-                            countryList[index]["dial_code"],
-                          ),
-                        ],
+      child: CupertinoPicker(
+        magnification: 1.22,
+        squeeze: 1.2,
+        useMagnifier: true,
+        itemExtent: 32,
+        // This is called when selected item is changed.
+        onSelectedItemChanged: (int selectedItem) {
+          countryController.selectedCountryCode.value = selectedItem;
+        },
+        children: List<Widget>.generate(
+          countryList.length,
+          (int index) {
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 50),
+                child: SizedBox(
+                  height: 20,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        countryList[index]["name"],
                       ),
-                    ),
+                      Text(
+                        countryList[index]["dial_code"],
+                      ),
+                    ],
                   ),
-                );
-              },
-            ),
-          ),
-        ],
+                ),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
