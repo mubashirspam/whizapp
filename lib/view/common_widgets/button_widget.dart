@@ -23,6 +23,7 @@ class ButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
+
       style: ButtonStyle(
         padding: MaterialStateProperty.resolveWith<EdgeInsetsGeometry>(
           (Set<MaterialState> states) => const EdgeInsets.symmetric(
@@ -63,6 +64,7 @@ class ButtonWidget extends StatelessWidget {
             ),
           );
         }),
+        
         elevation: MaterialStateProperty.resolveWith((states) => 4),
         animationDuration: const Duration(milliseconds: 30),
         shadowColor: MaterialStateProperty.resolveWith((states) {
@@ -72,6 +74,7 @@ class ButtonWidget extends StatelessWidget {
           return AppColor.primeryLight.withOpacity(0.5);
         }),
       ),
+
       onPressed: onPressed,
       child: Text(
         name,

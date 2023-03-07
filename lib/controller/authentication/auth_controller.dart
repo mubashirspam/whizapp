@@ -16,12 +16,14 @@ class AuthController extends GetxController
 
   RxString phoneNo = "".obs;
   RxString otp = "".obs;
-  var isOtpSent = false.obs;
-  var resendAfter = 30.obs;
-  var resendOTP = false.obs;
+  RxBool isOtpSent = false.obs;
+  RxInt resendAfter = 30.obs;
+  RxBool resendOTP = false.obs;
   String firebaseVerificationId = "";
   RxString statusMessage = "".obs;
   var statusMessageColor = Colors.black.obs;
+
+  RxBool isSendingOTP = false.obs;
 
   var timer;
 
@@ -43,22 +45,28 @@ class AuthController extends GetxController
 //============================= OTP send function ==========================//
 
   Future<void> getOtp() async {
+    isSendingOTP.value = true;
     try {
       await auth.verifyPhoneNumber(
         phoneNumber: phoneNo.value,
         codeSent: (String verificationId, int? resendToken) async {
+             isSendingOTP.value = false;
           firebaseVerificationId = verificationId;
           log("clicked otp button");
           isOtpSent.value = true;
           statusMessage.value = "OTP sent to +91$phoneNo";
           startResendOtpTimer();
+          
         },
         timeout: const Duration(seconds: 5),
         codeAutoRetrievalTimeout: (String verificationId) {},
         verificationCompleted: (PhoneAuthCredential phoneAuthCredential) async {
+          isSendingOTP.value = false;
           await auth.signInWithCredential(phoneAuthCredential);
         },
         verificationFailed: (FirebaseAuthException error) {
+          isSendingOTP.value = false;
+          log("Exption ${error}");  
           Get.snackbar(
             "erro",
             error.message.toString(),

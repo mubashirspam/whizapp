@@ -133,31 +133,37 @@ class LoginPage extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                    child: Obx(() => authController.isOtpSent.value
-                        ? ButtonWidget(
-                            name: "varify",
-                            onPressed: () {
-                              authController.otp.value = "";
-                              for (var controller in _controllers) {
-                                authController.otp.value += controller.text;
-                              }
-                              authController.verifyOTP();
-                            },
-                            bgColor: AppColor.whiteLight,
-                            fgColor: AppColor.textVilotLight,
-                          )
-                        : ButtonWidget(
-                            name: "Send OTP",
-                            onPressed: () {
-                              final form = _formKey.currentState;
-                              if (form!.validate()) {
-                                form.save();
-                                authController.getOtp();
-                              }
-                            },
-                            bgColor: AppColor.whiteLight,
-                            fgColor: AppColor.textVilotLight,
-                          )),
+                    child: Obx(
+                      () => authController.isOtpSent.value
+                          ? ButtonWidget(
+                              name: "verify",
+                              onPressed: () {
+                                authController.otp.value = "";
+                                for (var controller in _controllers) {
+                                  authController.otp.value += controller.text;
+                                }
+                                authController.verifyOTP();
+                              },
+                              bgColor: AppColor.whiteLight,
+                              fgColor: AppColor.textVilotLight,
+                            )
+                          : ButtonWidget(
+                              name: authController.isSendingOTP.value
+                                  ? "sending..."
+                                  : "Send OTP",
+                              onPressed: authController.isSendingOTP.value
+                                  ? () {}
+                                  : () {
+                                      final form = _formKey.currentState;
+                                      if (form!.validate()) {
+                                        form.save();
+                                        authController.getOtp();
+                                      }
+                                    },
+                              bgColor: AppColor.whiteLight,
+                              fgColor: AppColor.textVilotLight,
+                            ),
+                    ),
                   ),
                 ],
               ),
