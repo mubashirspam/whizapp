@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/instance_manager.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:whizapp/controller/home_page_controller.dart';
+import 'package:whizapp/core/them/color.dart';
 import 'package:whizapp/view/constants/const_dimensions.dart';
 import 'package:whizapp/view/ongoing/widget/ongoing_card.dart';
 
@@ -39,10 +41,12 @@ class MyLearningPage extends StatelessWidget {
            homePageController.isLoading.value?  const Padding(
           
              padding:   EdgeInsets.all(ConstDimensions.appPadding),
-             child:  SizedBox(height: 20,
-             width: 20,
-              child: CircularProgressIndicator(),
-              ),
+             child:  SizedBox(
+              height: 30,
+               child: LoadingIndicator(
+                colors: [AppColor.primeryLight],
+                indicatorType: Indicator.semiCircleSpin),
+             ),
            ):const SizedBox()
           ],
         ),

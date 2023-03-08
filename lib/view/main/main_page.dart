@@ -6,8 +6,6 @@ import 'package:whizapp/view/home/home_page.dart';
 import 'package:whizapp/view/main/widgets/bottom_navigation_widgets.dart';
 import 'package:whizapp/view/mylearning/my_learning_page.dart';
 import 'package:whizapp/view/profile/profile_page.dart';
-import 'package:whizapp/view/CoursePlayScreen/course_play_screen.dart';
-import 'package:whizapp/view/whislist/whishlist_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);

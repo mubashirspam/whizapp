@@ -9,9 +9,21 @@ import 'package:whizapp/model/user/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:whizapp/view/main/main_page.dart';
 
+import 'package:whizapp/view/welcom/welcom_page.dart';
+
 class AuthController extends GetxController
     with GetSingleTickerProviderStateMixin {
+  @override
+  void onReady() {
+    print('onReady -------------------');
+    super.onReady();
+    firebaseUser = Rx<User?>(auth.currentUser);
+    firebaseUser.bindStream(auth.authStateChanges());
+    ever(firebaseUser, setInitialScreen);
+  }
+
   FirebaseAuth auth = FirebaseAuth.instance;
+
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   RxString phoneNo = "".obs;
@@ -27,6 +39,7 @@ class AuthController extends GetxController
 
   var timer;
 
+  late Rx<User?> firebaseUser;
 //============================= timer ==========================//
 
   startResendOtpTimer() {
@@ -50,13 +63,12 @@ class AuthController extends GetxController
       await auth.verifyPhoneNumber(
         phoneNumber: phoneNo.value,
         codeSent: (String verificationId, int? resendToken) async {
-             isSendingOTP.value = false;
+          isSendingOTP.value = false;
           firebaseVerificationId = verificationId;
           log("clicked otp button");
           isOtpSent.value = true;
           statusMessage.value = "OTP sent to +91$phoneNo";
           startResendOtpTimer();
-          
         },
         timeout: const Duration(seconds: 5),
         codeAutoRetrievalTimeout: (String verificationId) {},
@@ -66,7 +78,7 @@ class AuthController extends GetxController
         },
         verificationFailed: (FirebaseAuthException error) {
           isSendingOTP.value = false;
-          log("Exption ${error}");  
+          log("Exption ${error}");
           Get.snackbar(
             "erro",
             error.message.toString(),
@@ -100,7 +112,7 @@ class AuthController extends GetxController
 
 //============================= OTP varifying function ==========================//
 
-  verifyOTP() async {
+  Future<void> verifyOTP() async {
     //FirebaseAuth auth = FirebaseAuth.instance;
     try {
       statusMessage.value = "Verifying... ${otp.value}";
@@ -109,8 +121,13 @@ class AuthController extends GetxController
           verificationId: firebaseVerificationId, smsCode: otp.value);
 
       await auth.signInWithCredential(credential);
-
-      Get.off(() => const MainPage());
+      isOtpSent.value = false;
+      statusMessage.value = '';
+      //A listener is watching for auth state changes 
+      //when there is any auth state change the listener 
+      //will trigger a function it will either naviagate to 
+      // main page or welcome page , so no need to set navigator manually like -below 
+      //await  Get.offAll(() => const MainPage());
     } on FirebaseAuthException catch (e) {
       statusMessage.value = "Invalid  OTP";
       statusMessageColor = Colors.red.obs;
@@ -133,5 +150,20 @@ class AuthController extends GetxController
     if (userInfo.data() == null) return user;
     user = UserModel.fromMap(userInfo.data()!);
     return user;
+  }
+
+  //userSignOut=======================================
+  Future<void> signOutUser() async {
+    await auth.signOut();
+  }
+
+  setInitialScreen(user) {
+    print('set inital screen =========');
+    if (user != null) {
+      log('------------ main page ');
+      Get.offAll(() => const MainPage());
+    } else {
+      Get.offAll(() => const WelcomPage());
+    }
   }
 }

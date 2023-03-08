@@ -3,8 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:whizapp/core/asset/icons.dart';
 import 'package:whizapp/core/them/color.dart';
 import 'package:whizapp/model/course/course.dart';
-import 'package:whizapp/model/lesson/lesson.dart';
-import 'package:whizapp/view/CoursePlayScreen/course_play_screen.dart';
+
 import 'package:whizapp/view/constants/const_dimensions.dart';
 
 class FeaturedCardWidget extends StatelessWidget {

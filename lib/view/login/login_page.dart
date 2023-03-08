@@ -3,16 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:whizapp/controller/authentication/auth_controller.dart';
 import 'package:whizapp/controller/authentication/country_controller.dart';
+
 import 'package:whizapp/core/them/color.dart';
 import 'package:whizapp/view/common_widgets/button_widget.dart';
 import 'package:whizapp/view/login/widget/mobile_inputfield.dart';
 import 'package:whizapp/view/login/widget/otp_widget.dart';
 
+
+
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
   final TextEditingController _mobileController = TextEditingController();
-  final authController = Get.put(AuthController());
+  final authController = Get.find<AuthController>();
   final countryController = Get.put(CountryController());
   final _formKey = GlobalKey<FormState>();
 
@@ -31,6 +34,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+   
     return Scaffold(
       backgroundColor: AppColor.primeryLight,
       body: Container(
@@ -137,12 +141,12 @@ class LoginPage extends StatelessWidget {
                       () => authController.isOtpSent.value
                           ? ButtonWidget(
                               name: "verify",
-                              onPressed: () {
+                              onPressed: ()async {
                                 authController.otp.value = "";
                                 for (var controller in _controllers) {
                                   authController.otp.value += controller.text;
                                 }
-                                authController.verifyOTP();
+                              await  authController.verifyOTP();
                               },
                               bgColor: AppColor.whiteLight,
                               fgColor: AppColor.textVilotLight,

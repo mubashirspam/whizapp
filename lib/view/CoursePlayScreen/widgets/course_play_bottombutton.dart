@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+
 import 'package:flutter_svg/svg.dart';
 import 'package:whizapp/core/asset/icons.dart';
 import 'package:whizapp/core/them/color.dart';
@@ -27,7 +26,7 @@ class CoursePlayBottomButton extends StatelessWidget {
               width: 52,
               child: SvgPicture.asset(
                 AppICons.whishlist,
-                colorFilter: ColorFilter.mode(Colors.white, BlendMode.dstIn),
+                colorFilter: const ColorFilter.mode(Colors.white, BlendMode.dstIn),
               ),
             ),
             CourseAppBottomBarButton(

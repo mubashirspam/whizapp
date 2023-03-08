@@ -11,7 +11,7 @@ class HomePageController extends GetxController {
   RxList<OngoingCourse> ongoingCourses = RxList<OngoingCourse>();
   // used for mylearning page pagination
 
-  var myLearningController = ScrollController().obs();
+  late var myLearningController;
 
   var isLoading = false.obs;
 
@@ -75,9 +75,11 @@ class HomePageController extends GetxController {
   }
   @override
   void onInit() {
+    print('home page controller init 77777777777777777777777');
+   myLearningController = ScrollController().obs();
 myLearningController.addListener(() async{
   var value =myLearningController.position.pixels/myLearningController.position.maxScrollExtent;
-  log(value.toString());
+  
   if(value >=.9 && isLoading.value == false){
 await getMoreOngoingCourse();
   }
