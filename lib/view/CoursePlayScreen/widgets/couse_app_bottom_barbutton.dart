@@ -21,6 +21,5 @@ final double width;
                     shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)))),
                 child:child),
-          );;
-  }
+          );  }
 }

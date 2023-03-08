@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+
+import 'package:whizapp/controller/authentication/auth_controller.dart';
+
 import 'package:whizapp/core/asset/icons.dart';
 import 'package:whizapp/core/asset/image.dart';
 import 'package:whizapp/core/them/color.dart';
+import 'package:whizapp/view/common_widgets/button_widget.dart';
 import 'package:whizapp/view/constants/const_dimensions.dart';
+
+import 'package:whizapp/view/main/widgets/bottom_navigation_widgets.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    AuthController authController = Get.find<AuthController>();
     return SingleChildScrollView(
       padding: const EdgeInsets.all(20),
       child: Column(
@@ -132,14 +140,36 @@ class ProfilePage extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               color: AppColor.whiteLight,
             ),
-            child: Column(
-              children: [
-                ListTile(
-                  leading: SvgPicture.asset(AppICons.logout),
-                  title: const Text("Log Out"),
-                  trailing: SvgPicture.asset(AppICons.arrowRight),
-                ),
-              ],
+            child: ListTile(
+              leading: SvgPicture.asset(AppICons.logout),
+              title: const Text("Log Out"),
+              trailing: SvgPicture.asset(AppICons.arrowRight),
+              onTap: () async {
+                Get.defaultDialog(
+                  
+                  contentPadding: const EdgeInsets.all(ConstDimensions.appPadding),
+                    title: "Are you sure?",
+                    titleStyle: Theme.of(context).textTheme.headlineLarge,
+                    middleText: 'Please confirm if you want to logout',
+                    middleTextStyle: Theme.of(context).textTheme.titleMedium,
+                    actions: [
+                      ButtonWidget(
+                      
+                          name: 'No ',
+                          onPressed: () {
+                            Get.back();
+                          }),
+                      ButtonWidget(
+                          name: 'Yes logout',
+                          onPressed: () async {
+                            await authController.signOutUser();
+                           // selectedIndexNorifier.value = 0;
+                            // a listener is listening to auth state change
+                            // no need to manually navigate
+                           // await Get.offAll(() => LoginPage());
+                          }),
+                    ]);
+              },
             ),
           )
         ],

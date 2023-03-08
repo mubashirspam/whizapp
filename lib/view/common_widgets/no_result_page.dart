@@ -1,10 +1,9 @@
 // shows a screen when there is nothing to show like if no ongoing course
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+
 import 'package:whizapp/core/asset/image.dart';
 import 'package:whizapp/view/common_widgets/button_widget.dart';
-import 'package:whizapp/view/constants/const_dimensions.dart';
+
 
 class NoResultPage extends StatelessWidget {
   const NoResultPage({super.key});

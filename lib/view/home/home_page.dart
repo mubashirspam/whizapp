@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -20,6 +20,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("rebuilding ----------------------------");
     HomePageController homePageController = Get.put(HomePageController(),);
     return Padding(
       padding: const EdgeInsets.only(
