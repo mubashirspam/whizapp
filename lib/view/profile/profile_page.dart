@@ -25,14 +25,18 @@ class ProfilePage extends StatelessWidget {
           const SizedBox(
             height: 50,
           ),
-          SizedBox(
-            height: 300,
+          Container(
+            decoration: BoxDecoration(
+              color: AppColor.whiteLight,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            height: 250,
             width: double.maxFinite,
             child: Stack(
               alignment: Alignment.topCenter,
               children: [
                 Container(
-                  height: 150,
+                  height: 125,
                   width: double.maxFinite,
                   decoration: BoxDecoration(
                     image: const DecorationImage(image: AssetImage(AppImg.f)),
@@ -49,6 +53,7 @@ class ProfilePage extends StatelessWidget {
                   ),
                 ),
                 Center(
+                  heightFactor: 1.5,
                   child: Container(
                     padding: const EdgeInsets.all(20),
                     height: 130,
@@ -72,9 +77,12 @@ class ProfilePage extends StatelessWidget {
                     "Mubashir Ahammed",
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
-                )
+                ),
               ],
             ),
+          ),
+          const SizedBox(
+            height: 20,
           ),
           Container(
             decoration: BoxDecoration(
