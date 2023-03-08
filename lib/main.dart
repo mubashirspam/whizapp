@@ -19,7 +19,7 @@ import 'package:whizapp/view/welcom/splash_screen.dart';
 
 
 Future<void> main() async {
-  debugInvertOversizedImages;
+ 
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
