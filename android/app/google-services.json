@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "276396897896-aqt7i863o5t2a85oi31bt8j9vcitti3n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.whizapp",
+            "certificate_hash": "74b90d491f81cf2066aa7b34657b4686e2c30ffc"
+          }
+        },
+        {
           "client_id": "276396897896-15almdcbc061n7l1upv3av71ghptup8f.apps.googleusercontent.com",
           "client_type": 3
         }

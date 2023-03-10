@@ -34,15 +34,33 @@ class AuthController extends GetxController
   String firebaseVerificationId = "";
   RxString statusMessage = "".obs;
   var statusMessageColor = Colors.black.obs;
-
-  RxBool isSendingOTP = false.obs;
-
-  var timer;
-
   late Rx<User?> firebaseUser;
+  RxBool isSendingOTP = false.obs;
+  Timer? timer;
+
+// Timer
+  void startTimer() {
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (resendAfter.value == 0) {
+        timer.cancel();
+        resendAfter.value = 30;
+        resendOTP.value = true;
+        print('timer cancelled =========');
+      } else {
+        resendAfter.value = resendAfter.value - 1;
+        resendOTP.value = false;
+        print('timer running =========');
+      }
+    });
+  }
+void cancelTimer(){
+  if(timer!.isActive){
+    timer!.cancel();
+  }
+}
 //============================= timer ==========================//
 
-  startResendOtpTimer() {
+/*   startResendOtpTimer() {
     timer = Timer.periodic(const Duration(seconds: 4), (timer) {
       if (resendAfter.value != 0) {
         resendAfter.value--;
@@ -53,7 +71,7 @@ class AuthController extends GetxController
       }
       update();
     });
-  }
+  } */
 
 //============================= OTP send function ==========================//
 
@@ -62,25 +80,39 @@ class AuthController extends GetxController
     try {
       await auth.verifyPhoneNumber(
         phoneNumber: phoneNo.value,
-        codeSent: (String verificationId, int? resendToken) async {
+
+        codeSent: (String verificationId, int? resendToken)  {
+
+         
           isSendingOTP.value = false;
           firebaseVerificationId = verificationId;
           log("clicked otp button");
           isOtpSent.value = true;
-          statusMessage.value = "OTP sent to +91$phoneNo";
-          startResendOtpTimer();
+          statusMessage.value = "OTP sent to $phoneNo";
+          /* startResendOtpTimer(); */
+          startTimer();
         },
+
+
         timeout: const Duration(seconds: 5),
+
+
         codeAutoRetrievalTimeout: (String verificationId) {},
+
+
         verificationCompleted: (PhoneAuthCredential phoneAuthCredential) async {
           isSendingOTP.value = false;
           await auth.signInWithCredential(phoneAuthCredential);
+          cancelTimer();
+          log('verification sucess getOtp ----------------------------------------');
+         
         },
+        
         verificationFailed: (FirebaseAuthException error) {
           isSendingOTP.value = false;
           log("Exption ${error}");
           Get.snackbar(
-            "erro",
+            "error",
             error.message.toString(),
             colorText: AppColor.whiteLight,
             isDismissible: true,
@@ -96,15 +128,48 @@ class AuthController extends GetxController
 
   resendOtp() async {
     resendOTP.value = false;
-    FirebaseAuth.instance.verifyPhoneNumber(
+    statusMessage.value ='Resending ....';
+    otp.value ='';
+   await auth.verifyPhoneNumber(
       phoneNumber: phoneNo.value,
-      verificationCompleted: (PhoneAuthCredential credential) {},
-      verificationFailed: (FirebaseAuthException e) {},
+      verificationCompleted: (PhoneAuthCredential credential) async {
+        isSendingOTP.value = false;
+
+          log('verification sucess ResendOtp ----------------------------------------');
+        await auth.signInWithCredential(PhoneAuthProvider.credential(
+            verificationId: firebaseVerificationId, smsCode: otp.value)).then((userCredential) {
+              // check whether the user registred for first time or not 
+              //firestore.collection('user')
+              
+            });
+            cancelTimer();
+
+      },
+      verificationFailed: (FirebaseAuthException error) {
+        isSendingOTP.value = false;
+        log("Exption ${error}");
+       
+        Get.snackbar(
+          "error",
+          error.message.toString(),
+          colorText: AppColor.whiteLight,
+          isDismissible: true,
+        );
+      },
       codeSent: (String verificationId, int? resendToken) {
+
+
+        
+           isSendingOTP.value = false;
+          
+
+
+
         firebaseVerificationId = verificationId;
         isOtpSent.value = true;
-        statusMessage.value = "OTP re-sent to +91${phoneNo.value}";
-        startResendOtpTimer();
+        statusMessage.value = "OTP re-sent to ${phoneNo.value}";
+        // startResendOtpTimer();
+        startTimer();
       },
       codeAutoRetrievalTimeout: (String verificationId) {},
     );
@@ -113,7 +178,6 @@ class AuthController extends GetxController
 //============================= OTP varifying function ==========================//
 
   Future<void> verifyOTP() async {
-    //FirebaseAuth auth = FirebaseAuth.instance;
     try {
       statusMessage.value = "Verifying... ${otp.value}";
 
@@ -121,12 +185,13 @@ class AuthController extends GetxController
           verificationId: firebaseVerificationId, smsCode: otp.value);
 
       await auth.signInWithCredential(credential);
+      cancelTimer();
       isOtpSent.value = false;
       statusMessage.value = '';
-      //A listener is watching for auth state changes 
-      //when there is any auth state change the listener 
-      //will trigger a function it will either naviagate to 
-      // main page or welcome page , so no need to set navigator manually like -below 
+      //A listener is watching for auth state changes
+      //when there is any auth state change the listener
+      //will trigger a function it will either naviagate to
+      // main page or welcome page , so no need to set navigator manually like -below
       //await  Get.offAll(() => const MainPage());
     } on FirebaseAuthException catch (e) {
       statusMessage.value = "Invalid  OTP";

@@ -3,7 +3,7 @@ import 'package:whizapp/core/them/color.dart';
 
 class ButtonWidget extends StatelessWidget {
   final String name;
-  final VoidCallback onPressed;
+  final VoidCallback ? onPressed;
 
   final Color? bgColor;
   final Color? bgInColor;
