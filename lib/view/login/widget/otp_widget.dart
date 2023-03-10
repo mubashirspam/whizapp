@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:whizapp/core/them/color.dart';
 
@@ -14,7 +16,9 @@ class OtpWidget extends StatefulWidget {
 }
 
 class _OtpWidgetState extends State<OtpWidget> {
+
   final List<FocusNode> _focusNodes = List.generate(6, (index) => FocusNode());
+ 
 
 
   @override
@@ -36,6 +40,8 @@ class _OtpWidgetState extends State<OtpWidget> {
         }
       });
     }
+    //// Timer ==========================
+  
   }
 
   @override
@@ -51,50 +57,55 @@ class _OtpWidgetState extends State<OtpWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: List.generate(
-          6,
-          (index) => Expanded(
-                child: SizedBox(
-                  child: Row(
-                    children: [
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Expanded(
-                        child: TextField(
-                          cursorColor: AppColor.whiteLight,
-                          controller: widget.controllers[index],
-                          keyboardType: TextInputType.number,
-                          textAlign: TextAlign.center,
-                          maxLength: 1,
-                          focusNode: _focusNodes[index],
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: AppColor.whiteLight.withOpacity(0.1),
-                            counter: const Offstage(),
-                            enabled: true,
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color:
-                                      AppColor.textwhiteLight.withOpacity(0.3),
-                                  width: 1),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: AppColor.whiteLight, width: 1),
-                              borderRadius: BorderRadius.circular(12),
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: List.generate(
+              6,
+              (index) => Expanded(
+                    child: SizedBox(
+                      child: Row(
+                        children: [
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Expanded(
+                            child: TextField(
+                              cursorColor: AppColor.whiteLight,
+                              controller: widget.controllers[index],
+                              keyboardType: TextInputType.number,
+                              textAlign: TextAlign.center,
+                              maxLength: 1,
+                              focusNode: _focusNodes[index],
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: AppColor.whiteLight.withOpacity(0.1),
+                                counter: const Offstage(),
+                                enabled: true,
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color:
+                                          AppColor.textwhiteLight.withOpacity(0.3),
+                                      width: 1),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: AppColor.whiteLight, width: 1),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              style: const TextStyle(fontSize: 24.0),
                             ),
                           ),
-                          style: const TextStyle(fontSize: 24.0),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-              )),
+                    ),
+                  )),
+        ),
+    
+      ],
     );
   }
 }

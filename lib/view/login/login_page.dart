@@ -6,6 +6,7 @@ import 'package:whizapp/controller/authentication/country_controller.dart';
 
 import 'package:whizapp/core/them/color.dart';
 import 'package:whizapp/view/common_widgets/button_widget.dart';
+import 'package:whizapp/view/constants/const_dimensions.dart';
 import 'package:whizapp/view/login/widget/mobile_inputfield.dart';
 import 'package:whizapp/view/login/widget/otp_widget.dart';
 
@@ -37,144 +38,157 @@ class LoginPage extends StatelessWidget {
    
     return Scaffold(
       backgroundColor: AppColor.primeryLight,
-      body: Container(
-        padding: const EdgeInsets.all(20),
-        decoration: const BoxDecoration(
-          gradient: RadialGradient(
-            center: Alignment(-1, -1),
-            tileMode: TileMode.clamp,
-            radius: 1,
-            colors: [
-              Color(0xff8A77F0),
-              AppColor.primeryLight,
-            ],
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          decoration: const BoxDecoration(
+            gradient: RadialGradient(
+              center: Alignment(-1, -1),
+              tileMode: TileMode.clamp,
+              radius: 1,
+              colors: [
+                Color(0xff8A77F0),
+                AppColor.primeryLight,
+              ],
+            ),
           ),
-        ),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 150),
-              Obx(() => authController.isOtpSent.value
-                  ? const Text(
-                      "Verification",
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )
-                  : const Text(
-                      "Welcome back!",
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )),
-              const SizedBox(height: 15),
-              Obx(() => authController.isOtpSent.value
-                  ? const Text(
-                      " Enter your OTP code number",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w300,
-                      ),
-                    )
-                  : const Text(
-                      " We're glad to have you back. Please enter your mobile number to proceed.",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w300,
-                      ),
-                    )),
-              const SizedBox(height: 50),
-              Obx(
-                () => authController.isOtpSent.value
-                    ? OtpWidget(
-                        controllers: _controllers,
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+            const SizedBox(height: 150,),
+                Obx(() => authController.isOtpSent.value
+                    ? const Text(
+                        "Verification",
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
                       )
-                    : TextFieldWidget(
-                        hintText: "mobile",
-                        keyboardType: TextInputType.phone,
-                        textEditingController: _mobileController,
-                        prefix: GestureDetector(
-                          onTap: () => countryController
-                              .showDialog(_buildBottomPicker()),
-                          child: Text(
-                            countryList[countryController
-                                .selectedCountryCode.value]["dial_code"],
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
+                    : const Text(
+                        "Welcome back!",
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )),
+                const SizedBox(height: 15),
+                Obx(() => authController.isOtpSent.value
+                    ? const Text(
+                        " Enter your OTP code number",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      )
+                    : const Text(
+                        " We're glad to have you back. Please enter your mobile number to proceed.",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      )),
+                const SizedBox(height: 50),
+                Obx(
+                  () => authController.isOtpSent.value
+                      ? OtpWidget(
+                          controllers: _controllers,
+                        )
+                      : TextFieldWidget(
+                          hintText: "mobile",
+                          keyboardType: TextInputType.phone,
+                          textEditingController: _mobileController,
+                          prefix: GestureDetector(
+                            onTap: () => countryController
+                                .showDialog(_buildBottomPicker()),
+                            child: Text(
+                              countryList[countryController
+                                  .selectedCountryCode.value]["dial_code"],
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
+                          onChanged: (value) {
+                            authController.phoneNo.value = value;
+                          },
+                          onSaved: (val) => authController.phoneNo.value =
+                              countryList[countryController
+                                      .selectedCountryCode.value]["dial_code"] +
+                                  val!,
+                          validate: (val) => (val!.isEmpty || val.length < 10)
+                              ? "Enter valid number"
+                              : null,
                         ),
-                        onChanged: (value) {
-                          authController.phoneNo.value = value;
-                        },
-                        onSaved: (val) => authController.phoneNo.value =
-                            countryList[countryController
-                                    .selectedCountryCode.value]["dial_code"] +
-                                val!,
-                        validate: (val) => (val!.isEmpty || val.length < 10)
-                            ? "Enter valid number"
-                            : null,
-                      ),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Center(
-                  child: Obx(
-                () => Text(
-                  authController.statusMessage.value,
-                  style: const TextStyle(
-                      color: AppColor.whiteLight, fontWeight: FontWeight.bold),
                 ),
-              )),
-              const Spacer(),
-              Row(
-                children: [
-                  Expanded(
+                const SizedBox(
+                  height: 30,
+                ),
+                Center(
                     child: Obx(
-                      () => authController.isOtpSent.value
-                          ? ButtonWidget(
-                              name: "verify",
-                              onPressed: ()async {
-                                authController.otp.value = "";
-                                for (var controller in _controllers) {
-                                  authController.otp.value += controller.text;
-                                }
-                              await  authController.verifyOTP();
-                              },
-                              bgColor: AppColor.whiteLight,
-                              fgColor: AppColor.textVilotLight,
-                            )
-                          : ButtonWidget(
-                              name: authController.isSendingOTP.value
-                                  ? "sending..."
-                                  : "Send OTP",
-                              onPressed: authController.isSendingOTP.value
-                                  ? () {}
-                                  : () {
-                                      final form = _formKey.currentState;
-                                      if (form!.validate()) {
-                                        form.save();
-                                        authController.getOtp();
-                                      }
-                                    },
-                              bgColor: AppColor.whiteLight,
-                              fgColor: AppColor.textVilotLight,
-                            ),
-                    ),
+                  () => Text(
+                    authController.statusMessage.value,
+                    style: const TextStyle(
+                        color: AppColor.whiteLight, fontWeight: FontWeight.bold),
                   ),
-                ],
-              ),
-              const SizedBox(
-                height: 50,
-              )
-            ],
+                )),
+              const SizedBox(height: 30,),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Obx(
+                        () => authController.isOtpSent.value
+                            ? Column(
+                              children: [
+                                authController.resendOTP.value?ButtonWidget(
+                                  name: 'Resend otp',bgColor: AppColor.backgroundLight,
+                                  fgColor: AppColor.primeryLight,
+                                  onPressed: (){
+                                  authController.resendOtp();
+                                }, ):Text("Resend otp : ${authController.resendAfter}"),
+                              const SizedBox(height: 20,),
+                                ButtonWidget(
+                                    name: "verify",
+                                    onPressed: ()async {
+                                      authController.otp.value = "";
+                                      for (var controller in _controllers) {
+                                        authController.otp.value += controller.text;
+                                      }
+                                    await  authController.verifyOTP();
+                                    },
+                                    bgColor: AppColor.whiteLight,
+                                    fgColor: AppColor.textVilotLight,
+                                  ),
+                              ],
+                            )
+                            : ButtonWidget(
+                                name: authController.isSendingOTP.value
+                                    ? "sending..."
+                                    : "Send OTP",
+                                onPressed: authController.isSendingOTP.value
+                                    ? null
+                                    : () {
+                                        final form = _formKey.currentState;
+                                        if (form!.validate()) {
+                                          form.save();
+                                          authController.getOtp();
+                                        }
+                                      },
+                                bgColor: AppColor.whiteLight,
+                                fgColor: AppColor.textVilotLight,
+                              ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 50,
+                )
+              ],
+            ),
           ),
         ),
       ),
