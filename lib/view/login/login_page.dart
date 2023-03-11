@@ -98,6 +98,7 @@ class LoginPage extends StatelessWidget {
                         )
                       : TextFieldWidget(
                           hintText: "mobile",
+                          labelText: 'Mobile number',
                           keyboardType: TextInputType.phone,
                           textEditingController: _mobileController,
                           prefix: GestureDetector(
