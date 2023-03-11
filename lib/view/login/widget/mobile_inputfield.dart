@@ -4,24 +4,29 @@ import 'package:whizapp/core/them/color.dart';
 class TextFieldWidget extends StatelessWidget {
   final TextInputType keyboardType;
   final String hintText;
+  final Widget? prefixIcon;
   final TextEditingController textEditingController;
   final Function(String value) onChanged;
   final Function(dynamic value) onSaved;
-
+final Function()? onTap;
   final String? Function(String?)? validate;
-
+final bool ? isReadOnly;
   final Widget? prefix;
-
+final String labelText;
   // final void Function (String value) onSaved;
 
   const TextFieldWidget({
     super.key,
+    this.onTap,
+    this.isReadOnly,
+    this.prefixIcon,
     required this.hintText,
     required this.keyboardType,
     required this.textEditingController,
     required this.onChanged,
     required this.onSaved,
     required this.validate,
+    required this.labelText,
     this.prefix,
 
     // required this.onSaved,
@@ -35,16 +40,20 @@ class TextFieldWidget extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: TextFormField(
-              
+              readOnly: isReadOnly??false,
+              onTap: onTap,
               cursorColor: AppColor.whiteLight,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
+        
+                labelText: labelText,
                 
-                labelText: "Number",
                 labelStyle: const TextStyle(
                   color: AppColor.whiteLight,
                 ),
                 prefix: prefix,
+                
+                prefixIcon: prefixIcon,
                 filled: true,
                 fillColor: AppColor.whiteLight.withOpacity(0.1),
                 enabled: true,
@@ -71,8 +80,8 @@ class TextFieldWidget extends StatelessWidget {
                 
                 hintText: hintText,
                 hintStyle: const TextStyle(
-                    color: AppColor.textSecondaryLight,
-                    fontWeight: FontWeight.w200),
+                    color: AppColor.textwhiteLight,
+                   /*  fontWeight: FontWeight.w200 */),
               ),
               onChanged: onChanged,
               onSaved: onSaved,
