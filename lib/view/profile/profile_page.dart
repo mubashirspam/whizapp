@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import 'package:whizapp/controller/authentication/auth_controller.dart';
+import 'package:whizapp/controller/firebase/firebase_controller.dart';
 
 import 'package:whizapp/core/asset/icons.dart';
 import 'package:whizapp/core/asset/image.dart';
@@ -139,6 +140,12 @@ class ProfilePage extends StatelessWidget {
                   title: const Text("Terms & Conditions"),
                   trailing: SvgPicture.asset(AppICons.arrowRight),
                 ),
+                TextButton(
+                    onPressed: () {
+                      
+                      FirestoreService().createCourse(course);
+                    },
+                    child: Text("upload"))
               ],
             ),
           ),
@@ -154,15 +161,14 @@ class ProfilePage extends StatelessWidget {
               trailing: SvgPicture.asset(AppICons.arrowRight),
               onTap: () async {
                 Get.defaultDialog(
-                  
-                  contentPadding: const EdgeInsets.all(ConstDimensions.appPadding),
+                    contentPadding:
+                        const EdgeInsets.all(ConstDimensions.appPadding),
                     title: "Are you sure?",
                     titleStyle: Theme.of(context).textTheme.headlineLarge,
                     middleText: 'Please confirm if you want to logout',
                     middleTextStyle: Theme.of(context).textTheme.titleMedium,
                     actions: [
                       ButtonWidget(
-                      
                           name: 'No ',
                           onPressed: () {
                             Get.back();
@@ -171,10 +177,10 @@ class ProfilePage extends StatelessWidget {
                           name: 'Yes logout',
                           onPressed: () async {
                             await authController.signOutUser();
-                           // selectedIndexNorifier.value = 0;
+                            // selectedIndexNorifier.value = 0;
                             // a listener is listening to auth state change
                             // no need to manually navigate
-                           // await Get.offAll(() => LoginPage());
+                            // await Get.offAll(() => LoginPage());
                           }),
                     ]);
               },

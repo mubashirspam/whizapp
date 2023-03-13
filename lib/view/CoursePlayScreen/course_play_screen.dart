@@ -6,6 +6,7 @@ import 'package:whizapp/core/them/color.dart';
 import 'package:whizapp/model/course/course.dart';
 import 'package:whizapp/view/CoursePlayScreen/widgets/course_play_bottombutton.dart';
 import 'package:whizapp/view/constants/const_dimensions.dart';
+import 'package:yt_player/yt_player.dart';
 
 class CoursePlayScreen extends StatelessWidget {
   final Course course;
@@ -13,6 +14,7 @@ class CoursePlayScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    YtController controller = YtController(videoId: 'bNn0gO0X4IM');
     return Scaffold(
       bottomNavigationBar: const CoursePlayBottomButton(),
       body: SafeArea(
@@ -21,6 +23,7 @@ class CoursePlayScreen extends StatelessWidget {
             Container(
               height: 220,
               color: AppColor.primeryLight,
+              child: YtPlayerBase(controller: controller,onReady: (){}),
             ),
             Expanded(
               child: SingleChildScrollView(
@@ -77,9 +80,7 @@ class CoursePlayScreen extends StatelessWidget {
                             ),
                             //duration of the lesson
                             subtitle: Text(
-                              "${course.lessons[index].LessonDuration.inHours}h ${course.lessons[index].LessonDuration
-                                              .inMinutes %
-                                          60}min",
+                              "${course.lessons[index].LessonDuration.inHours}h ${course.lessons[index].LessonDuration.inMinutes % 60}min",
                               style: Theme.of(context).textTheme.titleSmall,
                             ),
                             trailing: SvgPicture.asset(
