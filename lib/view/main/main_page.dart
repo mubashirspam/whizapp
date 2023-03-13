@@ -6,6 +6,7 @@ import 'package:whizapp/view/home/home_page.dart';
 import 'package:whizapp/view/main/widgets/bottom_navigation_widgets.dart';
 import 'package:whizapp/view/mylearning/my_learning_page.dart';
 import 'package:whizapp/view/profile/profile_page.dart';
+import 'package:whizapp/view/whislist/whishlist_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -15,14 +16,14 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  static const List<Widget> _widgetOptions = <Widget>[
-    HomePage(),
-   
-    MyLearningPage(),
-  //  WhishListPage(),
-  NoResultPage(),
-    
-    ProfilePage()
+  static final List<Widget> _widgetOptions = <Widget>[
+    const HomePage(),
+
+    const MyLearningPage(),
+    WhishListPage(),
+    // NoResultPage(),
+
+    const ProfilePage()
   ];
 
   @override

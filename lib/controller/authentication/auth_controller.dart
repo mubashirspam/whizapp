@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -54,11 +53,12 @@ class AuthController extends GetxController
       }
     });
   }
-void cancelTimer(){
-  if(timer!.isActive){
-    timer!.cancel();
+
+  void cancelTimer() {
+    if (timer!.isActive) {
+      timer!.cancel();
+    }
   }
-}
 //============================= timer ==========================//
 
 /*   startResendOtpTimer() {
@@ -81,10 +81,7 @@ void cancelTimer(){
     try {
       await auth.verifyPhoneNumber(
         phoneNumber: phoneNo.value,
-
-        codeSent: (String verificationId, int? resendToken)  {
-
-         
+        codeSent: (String verificationId, int? resendToken) {
           isSendingOTP.value = false;
           firebaseVerificationId = verificationId;
           log("clicked otp button");
@@ -93,22 +90,14 @@ void cancelTimer(){
           /* startResendOtpTimer(); */
           startTimer();
         },
-
-
         timeout: const Duration(seconds: 5),
-
-
         codeAutoRetrievalTimeout: (String verificationId) {},
-
-
         verificationCompleted: (PhoneAuthCredential phoneAuthCredential) async {
           isSendingOTP.value = false;
           await auth.signInWithCredential(phoneAuthCredential);
           cancelTimer();
           log('verification sucess getOtp ----------------------------------------');
-         
         },
-        
         verificationFailed: (FirebaseAuthException error) {
           isSendingOTP.value = false;
           log("Exption ${error}");
@@ -129,27 +118,27 @@ void cancelTimer(){
 
   resendOtp() async {
     resendOTP.value = false;
-    statusMessage.value ='Resending ....';
-    otp.value ='';
-   await auth.verifyPhoneNumber(
+    statusMessage.value = 'Resending ....';
+    otp.value = '';
+    await auth.verifyPhoneNumber(
       phoneNumber: phoneNo.value,
       verificationCompleted: (PhoneAuthCredential credential) async {
         isSendingOTP.value = false;
 
-          log('verification sucess ResendOtp ----------------------------------------');
-        await auth.signInWithCredential(PhoneAuthProvider.credential(
-            verificationId: firebaseVerificationId, smsCode: otp.value)).then((userCredential) {
-              // check whether the user registred for first time or not 
-              //firestore.collection('user')
-              
-            });
-            cancelTimer();
-
+        log('verification sucess ResendOtp ----------------------------------------');
+        await auth
+            .signInWithCredential(PhoneAuthProvider.credential(
+                verificationId: firebaseVerificationId, smsCode: otp.value))
+            .then((userCredential) {
+          // check whether the user registred for first time or not
+          //firestore.collection('user')
+        });
+        cancelTimer();
       },
       verificationFailed: (FirebaseAuthException error) {
         isSendingOTP.value = false;
         log("Exption ${error}");
-       
+
         Get.snackbar(
           "error",
           error.message.toString(),
@@ -158,13 +147,7 @@ void cancelTimer(){
         );
       },
       codeSent: (String verificationId, int? resendToken) {
-
-
-        
-           isSendingOTP.value = false;
-          
-
-
+        isSendingOTP.value = false;
 
         firebaseVerificationId = verificationId;
         isOtpSent.value = true;

@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:whizapp/core/them/color.dart';
 import 'package:whizapp/view/common_widgets/button_widget.dart';
+import 'package:whizapp/view/login/login_page.dart';
 
 import 'package:whizapp/view/login/widget/mobile_inputfield.dart';
+import 'package:whizapp/view/main/main_page.dart';
 
 class UserDataCollectorPage extends StatelessWidget {
   const UserDataCollectorPage({super.key});
@@ -31,15 +33,10 @@ class UserDataCollectorPage extends StatelessWidget {
               SizedBox(
                 height: 30,
               ),
-
- 
-       
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
                   readOnly: true,
-                  
-              
                   onTap: () => showCupertinoModalPopup(
                     context: context,
                     builder: (context) {
@@ -55,18 +52,17 @@ class UserDataCollectorPage extends StatelessWidget {
                     },
                   ),
                   decoration: InputDecoration(
-                   filled: true,hintText: "Tap to select student's Standard",
-                   hintStyle: TextStyle(
-                    color: AppColor.backgroundLight
-                   ),
-                fillColor: AppColor.whiteLight.withOpacity(0.1),
-                enabled: true,
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                      color: AppColor.textwhiteLight.withOpacity(0.3),
-                      width: 1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
+                      filled: true,
+                      hintText: "Tap to select student's Standard",
+                      hintStyle: TextStyle(color: AppColor.backgroundLight),
+                      fillColor: AppColor.whiteLight.withOpacity(0.1),
+                      enabled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: AppColor.textwhiteLight.withOpacity(0.3),
+                            width: 1),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
                       ),
@@ -76,12 +72,19 @@ class UserDataCollectorPage extends StatelessWidget {
                             Icons.arrow_upward_sharp,
                             color: AppColor.backgroundLight,
                           ),
-                          Icon(Icons.arrow_downward_sharp,
-                           color: AppColor.backgroundLight,)
+                          Icon(
+                            Icons.arrow_downward_sharp,
+                            color: AppColor.backgroundLight,
+                          )
                         ],
                       )),
                 ),
               ),
+              ButtonWidget(
+                  name: "next",
+                  onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => MainPage(),
+                      )))
             ],
           ),
         ),
