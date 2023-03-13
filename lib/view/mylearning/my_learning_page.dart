@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/instance_manager.dart';
+
 import 'package:whizapp/controller/home_page_controller.dart';
 import 'package:whizapp/core/them/color.dart';
 import 'package:whizapp/view/constants/const_dimensions.dart';
@@ -36,6 +37,7 @@ class MyLearningPage extends StatelessWidget {
                 ),
               ),
             ),
+
             homePageController.isLoading.value
                 ? const Padding(
                     padding: EdgeInsets.all(ConstDimensions.appPadding),
@@ -47,6 +49,9 @@ class MyLearningPage extends StatelessWidget {
                           strokeWidth: 3,
                         )))
                 : const SizedBox()
+
+            
+      
           ],
         ),
       ),
