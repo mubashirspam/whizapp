@@ -5,12 +5,12 @@ class TextFieldWidget extends StatelessWidget {
   final TextInputType keyboardType;
   final String hintText;
   final Widget? prefixIcon;
-  final TextEditingController textEditingController;
+  final TextEditingController? textEditingController;
   final Function(String value) onChanged;
   final Function(dynamic value) onSaved;
 final Function()? onTap;
   final String? Function(String?)? validate;
-final bool ? isReadOnly;
+final AutovalidateMode? autoValidateMode;
   final Widget? prefix;
 final String labelText;
   // final void Function (String value) onSaved;
@@ -18,11 +18,11 @@ final String labelText;
   const TextFieldWidget({
     super.key,
     this.onTap,
-    this.isReadOnly,
+    this.autoValidateMode,
     this.prefixIcon,
     required this.hintText,
     required this.keyboardType,
-    required this.textEditingController,
+     this.textEditingController,
     required this.onChanged,
     required this.onSaved,
     required this.validate,
@@ -40,10 +40,11 @@ final String labelText;
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: TextFormField(
-              readOnly: isReadOnly??false,
+          controller: textEditingController,
+          autovalidateMode: autoValidateMode,
               onTap: onTap,
               cursorColor: AppColor.whiteLight,
-              keyboardType: TextInputType.number,
+              keyboardType: keyboardType,
               decoration: InputDecoration(
         
                 labelText: labelText,

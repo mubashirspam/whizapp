@@ -6,8 +6,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:whizapp/core/them/color.dart';
 import 'package:whizapp/model/user/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:whizapp/view/login/user_data_collector_page.dart';
+import 'package:whizapp/view/login/login_page.dart';
+
 import 'package:whizapp/view/main/main_page.dart';
+import 'package:whizapp/view/main/widgets/bottom_navigation_widgets.dart';
 
 import 'package:whizapp/view/welcom/welcom_page.dart';
 
@@ -17,6 +19,7 @@ class AuthController extends GetxController
   void onReady() {
     print('onReady -------------------');
     super.onReady();
+    auth.authStateChanges();
     firebaseUser = Rx<User?>(auth.currentUser);
     firebaseUser.bindStream(auth.authStateChanges());
     ever(firebaseUser, setInitialScreen);
@@ -37,7 +40,8 @@ class AuthController extends GetxController
   late Rx<User?> firebaseUser;
   RxBool isSendingOTP = false.obs;
   Timer? timer;
-
+  // for logout user into login page instead of welcome page
+  bool isLoggedIn = false;
 // Timer
   void startTimer() {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -126,18 +130,17 @@ class AuthController extends GetxController
         isSendingOTP.value = false;
 
         log('verification sucess ResendOtp ----------------------------------------');
-        await auth
-            .signInWithCredential(PhoneAuthProvider.credential(
-                verificationId: firebaseVerificationId, smsCode: otp.value))
-            .then((userCredential) {
-          // check whether the user registred for first time or not
-          //firestore.collection('user')
-        });
+
+        await auth.signInWithCredential(PhoneAuthProvider.credential(
+            verificationId: firebaseVerificationId, smsCode: otp.value));
+
         cancelTimer();
       },
       verificationFailed: (FirebaseAuthException error) {
         isSendingOTP.value = false;
-        log("Exption ${error}");
+
+        log("Exption $error");
+
 
         Get.snackbar(
           "error",
@@ -193,6 +196,7 @@ class AuthController extends GetxController
 
   Future<UserModel?> getCurrentUserInfo() async {
     UserModel? user;
+
     final userInfo =
         await firestore.collection('users').doc(auth.currentUser?.uid).get();
 
@@ -206,13 +210,22 @@ class AuthController extends GetxController
     await auth.signOut();
   }
 
-  setInitialScreen(user) {
+  setInitialScreen(User? user) {
     print('set inital screen =========');
+
     if (user != null) {
+      firestore.collection('user').doc(user.uid).get();
       log('------------ main page ');
+      isLoggedIn = true;
+      selectedIndexNorifier.value = 0;
       Get.offAll(() => const MainPage());
     } else {
-      Get.offAll(() => const UserDataCollectorPage());
+      if (isLoggedIn) {
+        Get.offAll(() => LoginPage());
+      } else {
+        isLoggedIn = true;
+        Get.offAll(() => const WelcomPage());
+      }
     }
   }
 }

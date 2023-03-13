@@ -20,7 +20,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("rebuilding ----------------------------");
+    print("building home page ----------------------------");
     HomePageController homePageController = Get.put(HomePageController(),);
     return Padding(
       padding: const EdgeInsets.only(
