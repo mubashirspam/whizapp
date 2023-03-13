@@ -9,6 +9,8 @@ static const logo = 'assets/images/logo.png';
 
      static const f = 'assets/images/f.png';
 
+     static const bg = 'assets/images/bg.png';
+
   static const ill = 'assets/images/ill.svg';
   static const noInternet = 'assets/images/noConnection.png';
   static const charactor = 'assets/images/charactor1.png';

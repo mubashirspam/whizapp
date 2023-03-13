@@ -51,6 +51,7 @@ final course = CourseModel(
   name: 'Flutter Course',
   description: 'Learn Flutter development',
   rating: 4.5,
+
   comments: [
     Comment(author: 'John Doe', text: 'Great course!'),
     Comment(author: 'Jane Smith', text: 'Very helpful'),
