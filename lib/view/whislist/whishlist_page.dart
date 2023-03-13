@@ -11,7 +11,7 @@ class WhishListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       if (_courseController.isLoading.value) {
-        return Center(child: CircularProgressIndicator());
+        return const Center(child: CircularProgressIndicator());
       } else {
         return ListView.builder(
           itemCount: _courseController.courses.length,
@@ -19,8 +19,14 @@ class WhishListPage extends StatelessWidget {
             final course = _courseController.courses[index];
             return ListTile(
               title: Text(course.name),
-              subtitle: Text(course.description),
-              trailing: Text(course.rating.toString()),
+              subtitle: Text(
+                course.description,
+                style: const TextStyle(color: Colors.black),
+              ),
+              trailing: Text(
+                course.rating.toString(),
+                style: const TextStyle(color: Colors.black),
+              ),
             );
           },
         );

@@ -1,7 +1,5 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:whizapp/model/course/course_mode.dart';
 
@@ -49,7 +47,7 @@ class CourseController extends GetxController {
 }
 
 final course = CourseModel(
-  id: 'course4',
+  id: 'course3',
   name: 'Flutter Course',
   description: 'Learn Flutter development',
   rating: 4.5,
@@ -61,10 +59,8 @@ final course = CourseModel(
     Module(
       title: 'Getting Started',
       videos: [
-        Video(title: 'Introduction', url: 'https://example.com/video1'),
-        Video(
-            title: 'Setting up the environment',
-            url: 'https://example.com/video2'),
+        Video(title: 'Introduction', url: 'bNn0gO0X4IM'),
+        Video(title: 'Setting up the environment', url: 'bNn0gO0X4IM'),
       ],
       pdfs: [
         PDF(title: 'Flutter Basics', url: 'https://example.com/pdf1'),
@@ -73,8 +69,152 @@ final course = CourseModel(
     Module(
       title: 'Building UIs',
       videos: [
-        Video(title: 'Layouts', url: 'https://example.com/video3'),
-        Video(title: 'Widgets', url: 'https://example.com/video4'),
+        Video(title: 'Layouts', url: 'bNn0gO0X4IM'),
+        Video(title: 'Widgets', url: 'bNn0gO0X4IM'),
+      ],
+      pdfs: [],
+    ),
+    Module(
+      title: 'Building UIs',
+      videos: [
+        Video(title: 'Layouts', url: 'bNn0gO0X4IM'),
+        Video(title: 'Widgets', url: 'bNn0gO0X4IM'),
+      ],
+      pdfs: [],
+    ),
+    Module(
+      title: 'Building UIs',
+      videos: [
+        Video(title: 'Layouts', url: 'bNn0gO0X4IM'),
+        Video(title: 'Widgets', url: 'bNn0gO0X4IM'),
+      ],
+      pdfs: [],
+    ),
+    Module(
+      title: 'Building UIs',
+      videos: [
+        Video(title: 'Layouts', url: 'bNn0gO0X4IM'),
+        Video(title: 'Widgets', url: 'bNn0gO0X4IM'),
+      ],
+      pdfs: [],
+    ),
+    Module(
+      title: 'Building UIs',
+      videos: [
+        Video(title: 'Layouts', url: 'bNn0gO0X4IM'),
+        Video(title: 'Widgets', url: 'bNn0gO0X4IM'),
+      ],
+      pdfs: [],
+    ),
+    Module(
+      title: 'Building UIs',
+      videos: [
+        Video(title: 'Layouts', url: 'bNn0gO0X4IM'),
+        Video(title: 'Widgets', url: 'bNn0gO0X4IM'),
+      ],
+      pdfs: [],
+    ),
+    Module(
+      title: 'Building UIs',
+      videos: [
+        Video(title: 'Layouts', url: 'bNn0gO0X4IM'),
+        Video(title: 'Widgets', url: 'bNn0gO0X4IM'),
+      ],
+      pdfs: [],
+    ),
+    Module(
+      title: 'Building UIs',
+      videos: [
+        Video(title: 'Layouts', url: 'bNn0gO0X4IM'),
+        Video(title: 'Widgets', url: 'bNn0gO0X4IM'),
+      ],
+      pdfs: [],
+    ),
+    Module(
+      title: 'Building UIs',
+      videos: [
+        Video(title: 'Layouts', url: 'bNn0gO0X4IM'),
+        Video(title: 'Widgets', url: 'bNn0gO0X4IM'),
+      ],
+      pdfs: [],
+    ),
+    Module(
+      title: 'Building UIs',
+      videos: [
+        Video(title: 'Layouts', url: 'bNn0gO0X4IM'),
+        Video(title: 'Widgets', url: 'bNn0gO0X4IM'),
+      ],
+      pdfs: [],
+    ),
+    Module(
+      title: 'Building UIs',
+      videos: [
+        Video(title: 'Layouts', url: 'bNn0gO0X4IM'),
+        Video(title: 'Widgets', url: 'bNn0gO0X4IM'),
+      ],
+      pdfs: [],
+    ),
+    Module(
+      title: 'Building UIs',
+      videos: [
+        Video(title: 'Layouts', url: 'bNn0gO0X4IM'),
+        Video(title: 'Widgets', url: 'bNn0gO0X4IM'),
+      ],
+      pdfs: [],
+    ),
+    Module(
+      title: 'Building UIs',
+      videos: [
+        Video(title: 'Layouts', url: 'bNn0gO0X4IM'),
+        Video(title: 'Widgets', url: 'bNn0gO0X4IM'),
+      ],
+      pdfs: [],
+    ),
+    Module(
+      title: 'Building UIs',
+      videos: [
+        Video(title: 'Layouts', url: 'bNn0gO0X4IM'),
+        Video(title: 'Widgets', url: 'bNn0gO0X4IM'),
+      ],
+      pdfs: [],
+    ),
+    Module(
+      title: 'Building UIs',
+      videos: [
+        Video(title: 'Layouts', url: 'bNn0gO0X4IM'),
+        Video(title: 'Widgets', url: 'bNn0gO0X4IM'),
+      ],
+      pdfs: [],
+    ),
+    Module(
+      title: 'Building UIs',
+      videos: [
+        Video(title: 'Layouts', url: 'bNn0gO0X4IM'),
+        Video(title: 'Widgets', url: 'bNn0gO0X4IM'),
+      ],
+      pdfs: [],
+    ),
+    Module(
+      title: 'Building UIs',
+      videos: [
+        Video(title: 'Layouts', url: 'bNn0gO0X4IM'),
+        Video(title: 'Widgets', url: 'bNn0gO0X4IM'),
+      ],
+      pdfs: [],
+    ),
+    Module(
+      title: 'Building UIs',
+      videos: [
+        Video(title: 'Layouts', url: 'bNn0gO0X4IM'),
+        Video(title: 'Widgets', url: 'bNn0gO0X4IM'),
+      ],
+      pdfs: [],
+    ),
+    Module(
+      title: 'Building UIs',
+      videos: [
+        Video(title: 'Layouts', url: 'bNn0gO0X4IM'),
+        Video(title: 'Widgets', url: 'bNn0gO0X4IM'),
       ],
       pdfs: [],
     ),
