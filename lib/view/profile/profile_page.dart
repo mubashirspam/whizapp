@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -10,8 +12,11 @@ import 'package:whizapp/core/asset/image.dart';
 import 'package:whizapp/core/them/color.dart';
 import 'package:whizapp/view/common_widgets/button_widget.dart';
 import 'package:whizapp/view/constants/const_dimensions.dart';
+import 'package:whizapp/view/login/login_page.dart';
 
 import 'package:whizapp/view/main/widgets/bottom_navigation_widgets.dart';
+import 'package:whizapp/view/welcom/splash_screen.dart';
+import 'package:whizapp/view/welcom/welcom_page.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -19,6 +24,12 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AuthController authController = Get.find<AuthController>();
+    ever(authController.firebaseUser, (firebaseUser) {
+      if (firebaseUser == null) {
+        Get.offAll(() => WelcomPage());
+        log("user is null");
+      }
+    });
     return SingleChildScrollView(
       padding: const EdgeInsets.all(20),
       child: Column(
@@ -75,7 +86,7 @@ class ProfilePage extends StatelessWidget {
                 Positioned(
                   bottom: 50,
                   child: Text(
-                    "Mubashir Ahammed",
+                    'name',
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),
@@ -142,7 +153,6 @@ class ProfilePage extends StatelessWidget {
                 ),
                 TextButton(
                     onPressed: () {
-                      
                       FirestoreService().createCourse(course);
                     },
                     child: Text("upload"))
@@ -177,10 +187,8 @@ class ProfilePage extends StatelessWidget {
                           name: 'Yes logout',
                           onPressed: () async {
                             await authController.signOutUser();
+
                             // selectedIndexNorifier.value = 0;
-                            // a listener is listening to auth state change
-                            // no need to manually navigate
-                            // await Get.offAll(() => LoginPage());
                           }),
                     ]);
               },

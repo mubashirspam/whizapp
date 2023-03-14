@@ -1,86 +1,96 @@
-import 'dart:developer';
 
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+
 import 'package:whizapp/controller/authentication/user_data_collection_controller.dart';
 import 'package:whizapp/core/asset/icons.dart';
 import 'package:whizapp/core/asset/image.dart';
 import 'package:whizapp/core/them/color.dart';
+
 import 'package:whizapp/view/common_widgets/button_widget.dart';
-import 'package:whizapp/view/login/login_page.dart';
 
 import 'package:whizapp/view/login/widget/mobile_inputfield.dart';
-import 'package:whizapp/view/main/main_page.dart';
+
 
 class UserDataCollectorPage extends StatelessWidget {
-  const UserDataCollectorPage({super.key});
-
+   UserDataCollectorPage({super.key, required this.user});
+  final User user;
+  final    formGlobalKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     UserDataCollectorController userDataController =
         Get.put(UserDataCollectorController());
+
     return Scaffold(
       backgroundColor: AppColor.primeryLight,
-      body: SafeArea(
-        child: SingleChildScrollView(
+      body: Obx(
+        () => SafeArea(
+          child: userDataController.isLoading.value == true
+              ? const Center(
+                  child: CircularProgressIndicator(
+                    color: AppColor.backgroundLight,
+                  ),
+                )
+              : SingleChildScrollView(
+                  child: Form(
+                    key: formGlobalKey,
+                    child: Column(
+                      children: [
+                        const SizedBox(
+                          height: 50,
+                        ),
+                        Text(
+                          "One more step to go ...",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(fontSize: 30),
+                        ),
+                        Image.asset(
+                          AppImg.charactor1,
+                          height: 300,
+                          width: double.maxFinite,
+                        ),
+                        TextFieldWidget(
+                          hintText: "Student Name",
+                          autoValidateMode: AutovalidateMode.onUserInteraction,
+                          keyboardType: TextInputType.name,
+                          textEditingController:
+                              userDataController.nameController,
+                          onChanged: (String value) {},
+                          onSaved: (value) {},
+                          validate: (value) => userDataController
+                                  .nameController.value.text.isEmpty
+                              ? "Empty Field"
+                              : null,
+                          labelText: 'Student Name',
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                         CupertinoPickerClassField(formGlobalKey: formGlobalKey,),
+                         CupertinoDobPickerField(formGlobalKey: formGlobalKey,),
+                        ButtonWidget(
+                            bgColor: AppColor.backgroundLight,
+                            fgColor: AppColor.primeryLight,
+                            name: "Submit",
+                            onPressed: () async {
+                              bool isValid = 
+                                  formGlobalKey.currentState!
+                                  .validate();
 
-
-          child: Form(
-            key: userDataController.formGlobalKey,
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 50,
+                              if (isValid) {
+                                await userDataController.navigateUser(user);
+                              }
+                            })
+                      ],
+                    ),
+                  ),
                 ),
-                Text(
-                  "One more step to go ...",
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyLarge!
-                      .copyWith(fontSize: 30),
-                ),
-                Image.asset(
-                  AppImg.charactor1,
-                  height: 300,
-                  width: double.maxFinite,
-                ),
-                TextFieldWidget(
-                  hintText: "Student Name",
-                  autoValidateMode: AutovalidateMode.onUserInteraction,
-                  keyboardType: TextInputType.name,
-                  textEditingController: userDataController.nameController,
-                  onChanged: (String value) {},
-                  onSaved: (value) {},
-                  validate: (value) =>
-                      userDataController.nameController.value.text.isEmpty
-                          ? "Empty Field"
-                          : null,
-                  labelText: 'Student Name',
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                const CupertinoPickerClassField(),
-                const CupertinoDobPickerField(
-            
-                ),
-                ButtonWidget(
-                    bgColor: AppColor.backgroundLight,
-                    fgColor: AppColor.primeryLight,
-                    name: "Submit",
-                    onPressed: () {
-                      userDataController.formGlobalKey.currentState!.validate();
-                      log(userDataController.formGlobalKey.currentState!
-                          .validate()
-                          .toString());
-                      log(userDataController.nameController.text.toString());
-                    })
-              ],
-            ),
-
-          ),
         ),
       ),
     );
@@ -88,8 +98,9 @@ class UserDataCollectorPage extends StatelessWidget {
 }
 
 class CupertinoPickerClassField extends StatelessWidget {
+  final GlobalKey<FormState> formGlobalKey;
   const CupertinoPickerClassField({
-    super.key,
+    super.key,required this.formGlobalKey
   });
 
   @override
@@ -113,7 +124,7 @@ class CupertinoPickerClassField extends StatelessWidget {
             builder: (context) {
               return CupertinoActionSheet(
                 title: Obx(
-                 ()=>Text(userDataController.currentStandard.value,
+                  () => Text(userDataController.currentStandard.value,
                       style: Theme.of(context).textTheme.titleLarge),
                 ),
                 actions: [
@@ -130,7 +141,7 @@ class CupertinoPickerClassField extends StatelessWidget {
                               userDataController.classes[value]);
                           userDataController.classScrollController =
                               FixedExtentScrollController(initialItem: value);
-                          userDataController.formGlobalKey.currentState!
+                        formGlobalKey.currentState!
                               .validate();
                         },
                         children: userDataController.classes
@@ -169,11 +180,10 @@ class CupertinoPickerClassField extends StatelessWidget {
 }
 
 class CupertinoDobPickerField extends StatelessWidget {
+  final GlobalKey<FormState> formGlobalKey;
   const CupertinoDobPickerField({
-    super.key,
-   
+    super.key,required this.formGlobalKey
   });
-
 
   @override
   Widget build(BuildContext context) {
@@ -183,6 +193,7 @@ class CupertinoDobPickerField extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Obx(
         () => TextFormField(
+          
           validator: (value) {
             if (userDataController.currentDob.isEmpty) {
               return "Please Select Student class";
@@ -196,7 +207,7 @@ class CupertinoDobPickerField extends StatelessWidget {
             builder: (context) {
               return CupertinoActionSheet(
                 title: Obx(
-                 ()=> Text(userDataController.currentDob.value ,
+                  () => Text(userDataController.currentDob.value,
                       style: Theme.of(context).textTheme.titleLarge),
                 ),
                 actions: [
@@ -215,7 +226,7 @@ class CupertinoDobPickerField extends StatelessWidget {
                       onDateTimeChanged: (DateTime value) {
                         userDataController.currentDob(
                             "${value.day.toString().length < 2 ? "0${value.day}" : value.day}-${value.month.toString().length < 2 ? "0${value.month}" : value.month}-${value.year}");
-                        userDataController.formGlobalKey.currentState!
+                        formGlobalKey.currentState!
                             .validate();
                       },
                     ),

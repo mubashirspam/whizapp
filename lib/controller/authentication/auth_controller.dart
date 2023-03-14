@@ -7,28 +7,55 @@ import 'package:whizapp/core/them/color.dart';
 import 'package:whizapp/model/user/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:whizapp/view/login/login_page.dart';
+import 'package:whizapp/view/login/user_data_collector_page.dart';
 
 import 'package:whizapp/view/main/main_page.dart';
-import 'package:whizapp/view/main/widgets/bottom_navigation_widgets.dart';
 
 import 'package:whizapp/view/welcom/welcom_page.dart';
 
 class AuthController extends GetxController
     with GetSingleTickerProviderStateMixin {
   @override
-  void onReady() {
-    print('onReady -------------------');
-    super.onReady();
-    auth.authStateChanges();
+  void onInit() {
+  
+    super.onInit();
     firebaseUser = Rx<User?>(auth.currentUser);
+    userModel = Rx(null);
     firebaseUser.bindStream(auth.authStateChanges());
-    ever(firebaseUser, setInitialScreen);
+    log('doc read bind stream -----------------------');
+    ever(firebaseUser, (User? user)async {
+      if (user != null) {
+        log(' <= getCurrentUser===========================');
+
+  isLoading(true);
+        userModel.value =await  getCurrentUserModel(user);
+        isLoading(false);
+      } else {
+        //user == null
+        if (userModel.value != null) {
+     
+        }
+
+   
+      }
+    });
+
+
+    log('oninit =====auth controller ====');
+  }
+
+  @override
+  void onClose() {
+    // TODO: implement onClose
+    log('onclose ========================= authcontroller');
+    super.onClose();
   }
 
   FirebaseAuth auth = FirebaseAuth.instance;
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-
+  late Rx<UserModel?> userModel;
+  late Rx<User?> firebaseUser;
   RxString phoneNo = "".obs;
   RxString otp = "".obs;
   RxBool isOtpSent = false.obs;
@@ -37,12 +64,41 @@ class AuthController extends GetxController
   String firebaseVerificationId = "";
   RxString statusMessage = "".obs;
   var statusMessageColor = Colors.black.obs;
-  late Rx<User?> firebaseUser;
+RxBool isLoading = false.obs;
   RxBool isSendingOTP = false.obs;
   Timer? timer;
   // for logout user into login page instead of welcome page
-  bool isLoggedIn = false;
+
 // Timer
+
+  Future<UserModel?> getCurrentUserModel(User user) async {
+    log('get cutrrent User --------------------------- api ');
+    try{
+    
+ final docSnap = await firestore
+        .collection('user')
+        .doc(user.uid.trim())
+        .get(const GetOptions(source: Source.server));
+    if (docSnap.exists) {
+      return UserModel.fromFirestore(docSnap.data() as Map<String, dynamic>);
+    } else {
+      return null;
+    }
+    }
+    catch(e){
+    
+         Get.snackbar(
+            "error",
+            e.toString(),
+            colorText: AppColor.whiteLight,
+            isDismissible: true,
+          );
+      log(e.toString()+"getCurrentUsermodel ===== exception");
+
+    }
+   
+  }
+
   void startTimer() {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (resendAfter.value == 0) {
@@ -63,24 +119,11 @@ class AuthController extends GetxController
       timer!.cancel();
     }
   }
-//============================= timer ==========================//
 
-/*   startResendOtpTimer() {
-    timer = Timer.periodic(const Duration(seconds: 4), (timer) {
-      if (resendAfter.value != 0) {
-        resendAfter.value--;
-      } else {
-        resendAfter.value = 30;
-        resendOTP.value = true;
-        timer.cancel();
-      }
-      update();
-    });
-  } */
-
-//============================= OTP send function ==========================//
+//Send userData to firebase such as name phone number and dob
 
   Future<void> getOtp() async {
+    log('firebase request ---------------- get otp');
     isSendingOTP.value = true;
     try {
       await auth.verifyPhoneNumber(
@@ -120,7 +163,8 @@ class AuthController extends GetxController
 
 //============================= OTP resend function ==========================//
 
-  resendOtp() async {
+  Future<void> resendOtp() async {
+    log('firebase request ---------------- resendotp');
     resendOTP.value = false;
     statusMessage.value = 'Resending ....';
     otp.value = '';
@@ -138,9 +182,9 @@ class AuthController extends GetxController
       },
       verificationFailed: (FirebaseAuthException error) {
         isSendingOTP.value = false;
-
+        statusMessage.value = '';
         log("Exption $error");
-
+        startTimer();
 
         Get.snackbar(
           "error",
@@ -165,6 +209,7 @@ class AuthController extends GetxController
 //============================= OTP varifying function ==========================//
 
   Future<void> verifyOTP() async {
+    log('firebase request ---------------- verify otp');
     try {
       statusMessage.value = "Verifying... ${otp.value}";
 
@@ -175,11 +220,7 @@ class AuthController extends GetxController
       cancelTimer();
       isOtpSent.value = false;
       statusMessage.value = '';
-      //A listener is watching for auth state changes
-      //when there is any auth state change the listener
-      //will trigger a function it will either naviagate to
-      // main page or welcome page , so no need to set navigator manually like -below
-      //await  Get.offAll(() => const MainPage());
+  
     } on FirebaseAuthException catch (e) {
       statusMessage.value = "Invalid  OTP";
       statusMessageColor = Colors.red.obs;
@@ -194,38 +235,13 @@ class AuthController extends GetxController
 
   // function for getCurrentUserInfo .....********************************************///
 
-  Future<UserModel?> getCurrentUserInfo() async {
-    UserModel? user;
-
-    final userInfo =
-        await firestore.collection('users').doc(auth.currentUser?.uid).get();
-
-    if (userInfo.data() == null) return user;
-    user = UserModel.fromMap(userInfo.data()!);
-    return user;
-  }
+ 
 
   //userSignOut=======================================
   Future<void> signOutUser() async {
+    log('firebase request ---------------- signoutUSer called');
     await auth.signOut();
   }
 
-  setInitialScreen(User? user) {
-    print('set inital screen =========');
 
-    if (user != null) {
-      firestore.collection('user').doc(user.uid).get();
-      log('------------ main page ');
-      isLoggedIn = true;
-      selectedIndexNorifier.value = 0;
-      Get.offAll(() => const MainPage());
-    } else {
-      if (isLoggedIn) {
-        Get.offAll(() => LoginPage());
-      } else {
-        isLoggedIn = true;
-        Get.offAll(() => const WelcomPage());
-      }
-    }
-  }
 }
