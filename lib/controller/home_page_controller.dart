@@ -17,7 +17,7 @@ class HomePageController extends GetxController {
 
   // api call for more data fetch
   getMoreOngoingCourse()async{
-    print("api fetch----------");
+    print("api fetch-get more ongoing course---------");
     isLoading.value = true;
     await Future.delayed(Duration(seconds: 5));
     var ii = ongoingCourses.value;

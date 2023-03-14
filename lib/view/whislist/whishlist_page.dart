@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:whizapp/controller/firebase/firebase_controller.dart';
+import 'package:whizapp/view/CoursePlayScreen/course_play_screen.dart';
 
 class WhishListPage extends StatelessWidget {
   final CourseController _courseController = Get.put(CourseController());
@@ -19,6 +20,7 @@ class WhishListPage extends StatelessWidget {
             final course = _courseController.courses[index];
             return ListTile(
               title: Text(course.name),
+              onTap: () => Get.to(CoursePlayScreen(course: _courseController.courses[index])),
               subtitle: Text(course.description),
               trailing: Text(course.rating.toString()),
             );

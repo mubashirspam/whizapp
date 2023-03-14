@@ -3,18 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:whizapp/core/asset/icons.dart';
 import 'package:whizapp/core/them/color.dart';
-import 'package:whizapp/model/course/course.dart';
+
+import 'package:whizapp/model/course/course_mode.dart';
 import 'package:whizapp/view/CoursePlayScreen/widgets/course_play_bottombutton.dart';
 import 'package:whizapp/view/constants/const_dimensions.dart';
 import 'package:yt_player/yt_player.dart';
 
 class CoursePlayScreen extends StatelessWidget {
-  final Course course;
+  final CourseModel course;
   const CoursePlayScreen({super.key, required this.course});
 
   @override
   Widget build(BuildContext context) {
-    YtController controller = YtController(videoId: 'bNn0gO0X4IM');
+    YtController controller = YtController(videoId:'sjssk');
+
     return Scaffold(
       bottomNavigationBar: const CoursePlayBottomButton(),
       body: SafeArea(
@@ -41,7 +43,7 @@ class CoursePlayScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Text(
-                              course.courseName,
+                              course.name,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: Theme.of(context).textTheme.titleMedium,
@@ -50,7 +52,7 @@ class CoursePlayScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Created by ${course.courseCreator}',
+                                  'Created by ${course.name}',
                                   maxLines: 1,
                                   style: Theme.of(context).textTheme.titleSmall,
                                 ),
@@ -74,15 +76,15 @@ class CoursePlayScreen extends StatelessWidget {
                             ),
                             // Name of the lesson
                             title: Text(
-                              course.lessons[index].LessonName,
+                              course.modules[index].title,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
                             ),
                             //duration of the lesson
-                            subtitle: Text(
+                        /*     subtitle: Text(
                               "${course.lessons[index].LessonDuration.inHours}h ${course.lessons[index].LessonDuration.inMinutes % 60}min",
                               style: Theme.of(context).textTheme.titleSmall,
-                            ),
+                            ), */
                             trailing: SvgPicture.asset(
                               index == 0
                                   ? AppICons.tickSquare
@@ -96,7 +98,7 @@ class CoursePlayScreen extends StatelessWidget {
                               height: 0,
                               thickness: ConstDimensions.dividerThickness);
                         },
-                        itemCount: course.lessons.length)
+                        itemCount: course.modules[0].videos.length)
                   ],
                 ),
               ),

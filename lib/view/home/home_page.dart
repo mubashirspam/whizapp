@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:whizapp/controller/authentication/auth_controller.dart';
 
 import 'package:whizapp/controller/home_page_controller.dart';
 import 'package:whizapp/core/asset/icons.dart';
@@ -22,6 +23,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     print("building home page ----------------------------");
     HomePageController homePageController = Get.put(HomePageController(),);
+       AuthController authController = Get.find<AuthController>();
     return Padding(
       padding: const EdgeInsets.only(
         top: 20,
@@ -67,27 +69,33 @@ class HomePage extends StatelessWidget {
                   const SizedBox(
                     width: 15,
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text(
-                        "Hi, Mubashir 👋",
-                        style: TextStyle(
-                          color: AppColor.textwhiteLight,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children:  [
+                         Text(
+                         /*    "Hi,${authController.userModel.value!.name} 👋", */
+                         "hi dhhddh",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: AppColor.textwhiteLight,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                      
+                        Text(
+                          "Let's start learning",
+                          style: TextStyle(
+                            color: Color(0xffE3DEF9),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
-                      ),
-                      Text(
-                        "Let's start learning",
-                        style: TextStyle(
-                          color: Color(0xffE3DEF9),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   const Spacer(),
                   SvgPicture.asset(AppICons.notification)
@@ -129,9 +137,9 @@ class HomePage extends StatelessWidget {
                           itemCount: homePageController.courses.length,
                           itemBuilder: (context, index) {
                             return InkWell(
-                                onTap: () => Get.to(() => CoursePlayScreen(
+                            /*     onTap: () => Get.to(() => CoursePlayScreen(
                                       course: homePageController.courses[index],
-                                    )),
+                                    )), */
                                 child: FeaturedCardWidget(
                                   course: homePageController.courses[index],
                                 ));

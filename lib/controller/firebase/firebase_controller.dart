@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:get/get.dart';
 import 'package:whizapp/model/course/course_mode.dart';
 
@@ -11,7 +11,9 @@ class FirestoreService {
 
   Future<void> createCourse(CourseModel course) async {
     try {
-      await _coursesCollection.doc(course.id).set(course.toMap());
+      var docRef = _coursesCollection.doc();
+      course.id = docRef.id;
+      docRef.set(course.toMap());
     } catch (e) {
       log(e.toString());
     }
@@ -33,8 +35,12 @@ class CourseController extends GetxController {
   void fetchCourses() async {
     try {
       isLoading(true);
-      final QuerySnapshot<Map<String, dynamic>> coursesQuery =
-          await _firestore.collection('courses').get();
+      final QuerySnapshot<Map<String, dynamic>> coursesQuery = await _firestore
+          .collection('courses')
+          .where('isPrivate', isEqualTo: false)
+         
+          .limit(2)
+          .get();
       courses.assignAll(
         coursesQuery.docs
             .map(
@@ -50,8 +56,8 @@ class CourseController extends GetxController {
 
 final course = CourseModel(
   id: 'course4',
-  name: 'Flutter Course',
-  description: 'Learn Flutter development',
+  name: 'Flutter  Tutorials ',
+  description: 'Learn Flutter',
   rating: 4.5,
   comments: [
     Comment(author: 'John Doe', text: 'Great course!'),
@@ -59,12 +65,12 @@ final course = CourseModel(
   ],
   modules: [
     Module(
-      title: 'Getting Started',
+      title: 'Getting Started Class and Objects',
       videos: [
-        Video(title: 'Introduction', url: 'https://example.com/video1'),
+        Video(title: 'Introduction', url: 'https://example.com/video2'),
         Video(
             title: 'Setting up the environment',
-            url: 'https://example.com/video2'),
+            url: 'https://example.com/video1'),
       ],
       pdfs: [
         PDF(title: 'Flutter Basics', url: 'https://example.com/pdf1'),
@@ -79,4 +85,10 @@ final course = CourseModel(
       pdfs: [],
     ),
   ],
+  createdAt: DateTime.now(),
+  updatedAt: DateTime.now(),
+  createdBy: "Bisher",
+  isPrivate: false,
+  totalDuration: '34',
+  thumbnailUrl: '',
 );
