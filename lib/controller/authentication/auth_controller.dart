@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,7 +15,7 @@ import 'package:whizapp/view/main/main_page.dart';
 import 'package:whizapp/view/welcom/welcom_page.dart';
 
 class AuthController extends GetxController
-    with GetSingleTickerProviderStateMixin {
+    with GetSingleTickerProviderStateMixin, StateMixin<UserModel>{
   @override
   void onInit() {
   
@@ -25,19 +26,32 @@ class AuthController extends GetxController
     log('doc read bind stream -----------------------');
     ever(firebaseUser, (User? user)async {
       if (user != null) {
-        log(' <= getCurrentUser===========================');
+       
+change(null,status: RxStatus.loading());
 
-  isLoading(true);
-        userModel.value =await  getCurrentUserModel(user);
-        isLoading(false);
+         final result = await getCurrentUserModel(user);
+         result.fold((error){
+             Get.snackbar(
+          "error",
+          error,
+          colorText: AppColor.whiteLight,
+          isDismissible: true,
+        );
+         }, (userModel) {
+          if(userModel != null){
+            change(userModel,status: RxStatus.success());
+          }
+          else{
+             change(null,status: RxStatus.success());
+          }
+         });
+       
       } else {
-        //user == null
-        if (userModel.value != null) {
-     
-        }
+        //firebase user is empty null ie not authenticated
+       change(null,status: RxStatus.empty());
+       
 
-   
-      }
+}
     });
 
 
@@ -64,14 +78,14 @@ class AuthController extends GetxController
   String firebaseVerificationId = "";
   RxString statusMessage = "".obs;
   var statusMessageColor = Colors.black.obs;
-RxBool isLoading = false.obs;
+
   RxBool isSendingOTP = false.obs;
   Timer? timer;
   // for logout user into login page instead of welcome page
 
 // Timer
 
-  Future<UserModel?> getCurrentUserModel(User user) async {
+  Future<Either<String,UserModel?>> getCurrentUserModel(User user) async {
     log('get cutrrent User --------------------------- api ');
     try{
     
@@ -79,21 +93,19 @@ RxBool isLoading = false.obs;
         .collection('user')
         .doc(user.uid.trim())
         .get(const GetOptions(source: Source.server));
+      
     if (docSnap.exists) {
-      return UserModel.fromFirestore(docSnap.data() as Map<String, dynamic>);
+      return
+      right(UserModel.fromFirestore(docSnap.data() as Map<String, dynamic>));
+    
     } else {
-      return null;
+      return right(null);
     }
     }
     catch(e){
-    
-         Get.snackbar(
-            "error",
-            e.toString(),
-            colorText: AppColor.whiteLight,
-            isDismissible: true,
-          );
-      log(e.toString()+"getCurrentUsermodel ===== exception");
+      log(e.toString());
+   return left(e.toString());
+
 
     }
    

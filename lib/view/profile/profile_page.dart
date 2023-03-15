@@ -15,8 +15,7 @@ import 'package:whizapp/view/constants/const_dimensions.dart';
 import 'package:whizapp/view/login/login_page.dart';
 
 import 'package:whizapp/view/main/widgets/bottom_navigation_widgets.dart';
-import 'package:whizapp/view/welcom/splash_screen.dart';
-import 'package:whizapp/view/welcom/welcom_page.dart';
+
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -26,7 +25,7 @@ class ProfilePage extends StatelessWidget {
     AuthController authController = Get.find<AuthController>();
     ever(authController.firebaseUser, (firebaseUser) {
       if (firebaseUser == null) {
-        Get.offAll(() => WelcomPage());
+        Get.offAll(() => LoginPage());
         log("user is null");
       }
     });

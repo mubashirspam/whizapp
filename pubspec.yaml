@@ -23,6 +23,7 @@ dependencies:
 
   yt_player:
     path: ../yt_player_flutter
+  dartz: ^0.10.1
 
   
  
