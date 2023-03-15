@@ -15,7 +15,8 @@ class CoursePlayScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    YtController controller = YtController(videoId:'sjssk');
+    YtController controller =
+        YtController(videoId: 'https://www.youtube.com/watch?v=c3-Z6XMOxy8');
 
     return Scaffold(
       bottomNavigationBar: const CoursePlayBottomButton(),
@@ -25,7 +26,7 @@ class CoursePlayScreen extends StatelessWidget {
             Container(
               height: 220,
               color: AppColor.primeryLight,
-              child: YtPlayerBase(controller: controller,onReady: (){}),
+              child: YtPlayerBase(controller: controller, onReady: () {}),
             ),
             Expanded(
               child: SingleChildScrollView(
@@ -81,7 +82,7 @@ class CoursePlayScreen extends StatelessWidget {
                               maxLines: 2,
                             ),
                             //duration of the lesson
-                        /*     subtitle: Text(
+                            /*     subtitle: Text(
                               "${course.lessons[index].LessonDuration.inHours}h ${course.lessons[index].LessonDuration.inMinutes % 60}min",
                               style: Theme.of(context).textTheme.titleSmall,
                             ), */
