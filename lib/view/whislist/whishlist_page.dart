@@ -5,6 +5,7 @@ import 'package:whizapp/controller/firebase/firebase_controller.dart';
 import 'package:whizapp/core/asset/icons.dart';
 import 'package:whizapp/core/them/color.dart';
 import 'package:whizapp/view/constants/const_dimensions.dart';
+import 'package:whizapp/view/CoursePlayScreen/course_play_screen.dart';
 
 class WhishListPage extends StatefulWidget {
   const WhishListPage({super.key});
@@ -222,6 +223,18 @@ class _WhishListPageState extends State<WhishListPage> {
             ),
           ),
         ]);
+        // return ListView.builder(
+        //   itemCount: _courseController.courses.length,
+        //   itemBuilder: (context, index) {
+        //     final course = _courseController.courses[index];
+        //     return ListTile(
+        //       title: Text(course.name),
+        //       onTap: () => Get.to(CoursePlayScreen(course: _courseController.courses[index])),
+        //       subtitle: Text(course.description),
+        //       trailing: Text(course.rating.toString()),
+        //     );
+        //   },
+        // );
       }
     });
   }

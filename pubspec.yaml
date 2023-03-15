@@ -20,8 +20,11 @@ dependencies:
   firebase_auth: ^4.2.9
   firebase_core: ^2.7.0
   cloud_firestore: ^4.4.3
+
   yt_player:
     path: ../yt_player_flutter
+  dartz: ^0.10.1
+
   
  
  

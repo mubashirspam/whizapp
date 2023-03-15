@@ -1,38 +1,56 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 class CourseModel {
-  final String id;
+  String id;
   final String name;
   final String description;
   final double rating;
   final List<Comment> comments;
   final List<Module> modules;
+  final String createdBy;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final bool isPrivate;
+  final String totalDuration;
+  final String thumbnailUrl;
 
-  CourseModel({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.rating,
-    required this.comments,
-    required this.modules,
-  });
+  CourseModel(
+      {required this.id,
+      required this.name,
+      required this.description,
+      required this.rating,
+      required this.comments,
+      required this.modules,
+      required this.createdBy,
+      required this.createdAt,
+      required this.updatedAt,
+      required this.isPrivate,
+      required this.totalDuration,
+      required this.thumbnailUrl});
 
   factory CourseModel.fromFirestore(DocumentSnapshot doc) {
     Map data = doc.data() as Map;
     return CourseModel(
-      id: doc.id,
-      name: data['name'],
-      description: data['description'],
-      rating: data['rating'].toDouble(),
-      comments: (data['comments'] as List<dynamic>)
-          .map((e) => Comment.fromMap(e))
-          .toList(),
-      modules: (data['modules'] as List<dynamic>)
-          .map((e) => Module.fromMap(e))
-          .toList(),
-    );
+        id: doc.id,
+        name: data['name'],
+        description: data['description'],
+        rating: data['rating'].toDouble(),
+        comments: (data['comments'] as List<dynamic>)
+            .map((e) => Comment.fromMap(e))
+            .toList(),
+        modules: (data['modules'] as List<dynamic>)
+            .map((e) => Module.fromMap(e))
+            .toList(),
+        createdBy: data['createdBy'],
+        createdAt: data['createdAt'].toDate(), //dateTime
+        updatedAt: data['updatedAt'].toDate(), //dateTime
+        isPrivate: data['isPrivate'], //bool
+        totalDuration: data['totalDuration'], //String
+        thumbnailUrl: data['thubnailUrl']);
   }
-
+  DateTime ts = DateTime.now();
+  Timestamp dT = Timestamp.fromDate(DateTime.now());
   Map<String, dynamic> toMap() {
     return {
       'name': name,
@@ -40,6 +58,12 @@ class CourseModel {
       'rating': rating,
       'comments': comments.map((e) => e.toMap()).toList(),
       'modules': modules.map((e) => e.toMap()).toList(),
+      'createdBy': createdBy,
+      'createdAt': Timestamp.fromDate(createdAt),
+      'updatedAt': Timestamp.fromDate(updatedAt),
+      'isPrivate': isPrivate,
+      'totalDuration': totalDuration,
+      'thumbnailUrl': thumbnailUrl
     };
   }
 }
