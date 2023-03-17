@@ -54,9 +54,9 @@ class CourseController extends GetxController {
 }
 
 final course = CourseModel(
-  id: 'course4',
-  name: 'Flutter  Tutorials ',
-  description: 'Learn Flutter',
+  id: '',
+  name: 'NLP ',
+  description: 'Learn NLP',
   rating: 4.5,
 
   comments: [

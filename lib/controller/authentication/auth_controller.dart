@@ -7,68 +7,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:whizapp/core/them/color.dart';
 import 'package:whizapp/model/user/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:whizapp/view/login/login_page.dart';
-import 'package:whizapp/view/login/user_data_collector_page.dart';
-
-import 'package:whizapp/view/main/main_page.dart';
-
-import 'package:whizapp/view/welcom/welcom_page.dart';
 
 class AuthController extends GetxController
-    with GetSingleTickerProviderStateMixin, StateMixin<UserModel>{
-  @override
-  void onInit() {
-  
-    super.onInit();
-    firebaseUser = Rx<User?>(auth.currentUser);
-    userModel = Rx(null);
-    firebaseUser.bindStream(auth.authStateChanges());
-    log('doc read bind stream -----------------------');
-    ever(firebaseUser, (User? user)async {
-      if (user != null) {
-       
-change(null,status: RxStatus.loading());
-
-         final result = await getCurrentUserModel(user);
-         result.fold((error){
-             Get.snackbar(
-          "error",
-          error,
-          colorText: AppColor.whiteLight,
-          isDismissible: true,
-        );
-         }, (userModel) {
-          if(userModel != null){
-            change(userModel,status: RxStatus.success());
-          }
-          else{
-             change(null,status: RxStatus.success());
-          }
-         });
-       
-      } else {
-        //firebase user is empty null ie not authenticated
-       change(null,status: RxStatus.empty());
-       
-
-}
-    });
-
-
-    log('oninit =====auth controller ====');
-  }
-
-  @override
-  void onClose() {
-    // TODO: implement onClose
-    log('onclose ========================= authcontroller');
-    super.onClose();
-  }
-
+    with GetSingleTickerProviderStateMixin, StateMixin<UserModel> {
   FirebaseAuth auth = FirebaseAuth.instance;
-
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  late Rx<UserModel?> userModel;
+
+   Rx<UserModel>? userModel;
   late Rx<User?> firebaseUser;
   RxString phoneNo = "".obs;
   RxString otp = "".obs;
@@ -78,37 +23,70 @@ change(null,status: RxStatus.loading());
   String firebaseVerificationId = "";
   RxString statusMessage = "".obs;
   var statusMessageColor = Colors.black.obs;
-
   RxBool isSendingOTP = false.obs;
   Timer? timer;
-  // for logout user into login page instead of welcome page
 
-// Timer
-
-  Future<Either<String,UserModel?>> getCurrentUserModel(User user) async {
-    log('get cutrrent User --------------------------- api ');
-    try{
-    
- final docSnap = await firestore
-        .collection('user')
-        .doc(user.uid.trim())
-        .get(const GetOptions(source: Source.server));
-      
-    if (docSnap.exists) {
-      return
-      right(UserModel.fromFirestore(docSnap.data() as Map<String, dynamic>));
-    
-    } else {
-      return right(null);
-    }
-    }
-    catch(e){
-      log(e.toString());
-   return left(e.toString());
-
-
-    }
+  @override
+  void onInit() {
+    super.onInit();
+    firebaseUser = Rx<User?>(auth.currentUser);
    
+    firebaseUser.bindStream(auth.authStateChanges().handleError((error) {}));
+    log('doc read bind stream -----------------------');
+    ever(firebaseUser, initUser);
+  }
+
+
+
+
+
+  void initUser(User? user) async {
+    if (user != null) {
+      change(null, status: RxStatus.loading());
+
+      final result = await getCurrentUserModel(user);
+      result.fold((error) {
+        showSnckbar(head: 'Error', body: error.toString());
+      }, (userModel) {
+        if (userModel != null) {
+          change(userModel, status: RxStatus.success());
+        } else {
+          change(null, status: RxStatus.success());
+        }
+      });
+    } else {
+      //firebase user is empty null ie not authenticated
+      change(null, status: RxStatus.empty());
+    }
+  }
+
+  void showSnckbar({required String head, required String body}) {
+    Get.snackbar(
+      head,
+      body,
+      colorText: AppColor.whiteLight,
+      isDismissible: true,
+    );
+  }
+
+  Future<Either<String, UserModel?>> getCurrentUserModel(User user) async {
+    log('get cutrrent User --------------------------- api ');
+    try {
+      final docSnap = await firestore
+          .collection('user')
+          .doc(user.uid.trim())
+          .get(const GetOptions(source: Source.server));
+
+      if (docSnap.exists) {
+        return right(
+            UserModel.fromFirestore(docSnap.data() as Map<String, dynamic>));
+      } else {
+        return right(null);
+      }
+    } catch (e) {
+      log(e.toString());
+      return left(e.toString());
+    }
   }
 
   void startTimer() {
@@ -117,11 +95,10 @@ change(null,status: RxStatus.loading());
         timer.cancel();
         resendAfter.value = 30;
         resendOTP.value = true;
-        print('timer cancelled =========');
       } else {
         resendAfter.value = resendAfter.value - 1;
         resendOTP.value = false;
-        print('timer running =========');
+        log('timer running =========');
       }
     });
   }
@@ -160,12 +137,7 @@ change(null,status: RxStatus.loading());
         verificationFailed: (FirebaseAuthException error) {
           isSendingOTP.value = false;
           log("Exption ${error}");
-          Get.snackbar(
-            "error",
-            error.message.toString(),
-            colorText: AppColor.whiteLight,
-            isDismissible: true,
-          );
+          showSnckbar(head: 'Error', body: error.toString());
         },
       );
     } on FirebaseAuthException catch (error) {
@@ -198,12 +170,7 @@ change(null,status: RxStatus.loading());
         log("Exption $error");
         startTimer();
 
-        Get.snackbar(
-          "error",
-          error.message.toString(),
-          colorText: AppColor.whiteLight,
-          isDismissible: true,
-        );
+        showSnckbar(head: 'Error', body: error.toString());
       },
       codeSent: (String verificationId, int? resendToken) {
         isSendingOTP.value = false;
@@ -232,28 +199,19 @@ change(null,status: RxStatus.loading());
       cancelTimer();
       isOtpSent.value = false;
       statusMessage.value = '';
-  
     } on FirebaseAuthException catch (e) {
       statusMessage.value = "Invalid  OTP";
       statusMessageColor = Colors.red.obs;
-      Get.snackbar(
-        "Invalid  OTP",
-        e.message.toString(),
-        colorText: AppColor.whiteLight,
-        isDismissible: true,
-      );
+
+      showSnckbar(head: 'Invalid OTP', body: e.message.toString());
     }
   }
 
   // function for getCurrentUserInfo .....********************************************///
-
- 
 
   //userSignOut=======================================
   Future<void> signOutUser() async {
     log('firebase request ---------------- signoutUSer called');
     await auth.signOut();
   }
-
-
 }

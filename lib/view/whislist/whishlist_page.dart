@@ -15,7 +15,7 @@ class WhishListPage extends StatefulWidget {
 }
 
 class _WhishListPageState extends State<WhishListPage> {
-  final CourseController _courseController = Get.put(CourseController());
+
 
   int selectedIndex = 10;
 
@@ -24,6 +24,7 @@ class _WhishListPageState extends State<WhishListPage> {
 
   @override
   Widget build(BuildContext context) {
+       CourseController _courseController = Get.put(CourseController());
     return Obx(() {
       if (_courseController.isLoading.value) {
         return const Center(child: CircularProgressIndicator());

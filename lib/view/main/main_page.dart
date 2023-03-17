@@ -20,8 +20,8 @@ class _MainPageState extends State<MainPage> {
     const HomePage(),
 
     const MyLearningPage(),
-    WhishListPage(),
-    // NoResultPage(),
+    //WhishListPage(),
+     NoResultPage(),
 
     const ProfilePage()
   ];
@@ -32,7 +32,7 @@ class _MainPageState extends State<MainPage> {
       valueListenable: selectedIndexNorifier,
       builder: (context, int index, _) {
         return Scaffold(
-          appBar: selectedIndexNorifier.value == 1 ? appBar(context) : null,
+          appBar: selectedIndexNorifier.value == 1 ? appBar(context,'Ongoing Classes','12 Courses') : null,
           body: Center(
             child: _widgetOptions.elementAt(index),
           ),
