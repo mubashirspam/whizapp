@@ -16,7 +16,7 @@ class CoursePlayScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     YtController controller =
-        YtController(videoId: 'https://www.youtube.com/watch?v=c3-Z6XMOxy8');
+        YtController(videoId: '00');
 
     return Scaffold(
       bottomNavigationBar: const CoursePlayBottomButton(),
@@ -37,31 +37,34 @@ class CoursePlayScreen extends StatelessWidget {
                           left: ConstDimensions.appPadding,
                           right: ConstDimensions.appPadding,
                           top: ConstDimensions.appPadding),
-                      child: SizedBox(
-                        height: 80,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                       
+                        children: [
+                          SizedBox(
+                            width: double.maxFinite,
+                            child: Text(
+                              
                               course.name,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: Theme.of(context).textTheme.titleMedium,
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Text(
                                   'Created by ${course.name}',
                                   maxLines: 1,
                                   style: Theme.of(context).textTheme.titleSmall,
                                 ),
-                                SvgPicture.asset(AppICons.arrowDown)
-                              ],
-                            )
-                          ],
-                        ),
+                              ),
+                              SvgPicture.asset(AppICons.arrowDown)
+                            ],
+                          )
+                        ],
                       ),
                     ),
                     ListView.separated(
@@ -69,6 +72,7 @@ class CoursePlayScreen extends StatelessWidget {
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
                           return ListTile(
+                            
                             leading: SvgPicture.asset(
                               index == 0
                                   ? AppICons.inmyLearnings

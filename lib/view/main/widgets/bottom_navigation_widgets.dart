@@ -116,7 +116,7 @@ class _BottomWidgetState extends State<BottomWidget> {
                                     style: selectedIndexNorifier.value == 2
                                         ? textStyle
                                         : intextStyle,
-                                    'Whishlist'),
+                                    'Wishlist'),
                               )
                             ],
                           )),
