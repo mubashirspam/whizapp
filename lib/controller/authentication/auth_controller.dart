@@ -7,12 +7,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:whizapp/core/them/color.dart';
 import 'package:whizapp/model/user/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:whizapp/view/login/login_page.dart';
-import 'package:whizapp/view/login/user_data_collector_page.dart';
-
-import 'package:whizapp/view/main/main_page.dart';
-
-import 'package:whizapp/view/welcom/welcom_page.dart';
 
 class AuthController extends GetxController
     with GetSingleTickerProviderStateMixin, StateMixin<UserModel>{
