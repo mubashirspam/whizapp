@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:whizapp/controller/welcomScreenController/welcome_screen_controller.dart';
 
 import 'package:whizapp/core/asset/image.dart';
-import 'package:whizapp/core/them/color.dart';
+import 'package:whizapp/core/theme/color.dart';
 import 'package:whizapp/view/common_widgets/button_widget.dart';
 import 'package:whizapp/view/login/login_page.dart';
 import 'package:whizapp/view/welcom/widgets/welcome_bottom_bar.dart';

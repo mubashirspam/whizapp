@@ -7,7 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:whizapp/core/asset/icons.dart';
-import 'package:whizapp/core/them/color.dart';
+import 'package:whizapp/core/theme/color.dart';
 import 'package:whizapp/model/course/course_mode.dart';
 import 'package:whizapp/view/CoursePlayScreen/course_play_screen.dart';
 import 'package:whizapp/view/common_widgets/appbar.dart';
