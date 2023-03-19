@@ -9,7 +9,7 @@ import 'package:whizapp/controller/firebase/firebase_controller.dart';
 
 import 'package:whizapp/core/asset/icons.dart';
 import 'package:whizapp/core/asset/image.dart';
-import 'package:whizapp/core/them/color.dart';
+import 'package:whizapp/core/theme/color.dart';
 import 'package:whizapp/view/common_widgets/button_widget.dart';
 import 'package:whizapp/view/constants/const_dimensions.dart';
 import 'package:whizapp/view/login/login_page.dart';

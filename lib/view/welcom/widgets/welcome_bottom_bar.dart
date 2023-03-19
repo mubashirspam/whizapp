@@ -5,7 +5,7 @@ import 'package:whizapp/controller/welcomScreenController/welcome_screen_control
 import 'package:whizapp/view/common_widgets/button_widget.dart';
 import 'package:whizapp/view/login/login_page.dart';
 
-import '../../../core/them/color.dart';
+import '../../../core/theme/color.dart';
 
 class WelcomeBottomBar extends StatelessWidget {
   final int dotCount;
