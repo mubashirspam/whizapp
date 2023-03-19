@@ -1,5 +1,7 @@
 
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -23,7 +25,7 @@ class HomePage extends GetView<HomePageController> {
 
   @override
   Widget build(BuildContext context) {
-    print("building home page ----------------------------");
+    log("building home page ----------------------------");
  
       // AuthController authController = Get.find<AuthController>();
     return Padding(

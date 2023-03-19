@@ -16,7 +16,7 @@ class CoursePlayScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     YtController controller =
-        YtController(videoId: '00');
+        YtController(videoId: 'c3-Z6XMOxy8');
 
     return Scaffold(
       bottomNavigationBar: const CoursePlayBottomButton(),

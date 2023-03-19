@@ -22,17 +22,18 @@ class HomePageController extends GetxController with StateMixin {
   late var myLearningController;
   var isLoading = false.obs;
   @override
-  void onReady()async {
+  void onReady() async {
+    getFeaturedCourses();
     // TODO: implement onReady
-        change(null, status: RxStatus.loading());
+    change(null, status: RxStatus.loading());
     final featuredCo = await getFeaturedCourses();
-   /*  featuredCo.fold((error){change(null, status: RxStatus.error(error))} 
+    /*  featuredCo.fold((error){change(null, status: RxStatus.error(error))} 
         (List<CourseModel> data) => change(data, status: RxStatus.success())); */
-        featuredCo.fold((l) {
+    featuredCo.fold((l) {
       change(null, status: RxStatus.error(l));
-        }, ( data) {
-          change(data, status: RxStatus.success());
-        });
+    }, (data) {
+      change(data, status: RxStatus.success());
+    });
 
     super.onReady();
   }
@@ -125,14 +126,25 @@ class HomePageController extends GetxController with StateMixin {
   }
 
   Future<Either<String, List<CourseModel>>> getFeaturedCourses() async {
-    log("get coursess --------------------------------");
     try {
-      final courses =
-          await firestore.collection('courses').orderBy('createdAt',descending: true).get();
-      final result = courses.docs
-          .map((qds) => CourseModel.fromFirestore(qds))
-          .toList();
-          log(result.length.toString()+"****************");
+      log("get coursess --------------------------------");
+      final QuerySnapshot<Map<String, dynamic>> courses =
+          await firestore.collection('courses').limit(10).get();
+      log(
+        courses.docs.length.toString(),
+      );
+
+      final result =
+          courses.docs.map((qds) => CourseModel.fromFirestore(qds)).toList();
+      log(result.length.toString() + "****************");
+
+      // loadedCourses.assignAll(
+      //   courses.docs
+      //       .map(
+      //         (doc) => CourseModel.fromFirestore(doc),
+      //       )
+      //       .toList(),
+      // );
       return Right(result);
     } catch (e) {
       log(e.toString());

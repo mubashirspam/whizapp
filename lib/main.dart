@@ -13,9 +13,6 @@ import 'package:whizapp/firebase_options.dart';
 import 'package:whizapp/view/common_widgets/course_detail_page.dart';
 import 'package:whizapp/view/main/main_page.dart';
 
-
-
-
 import 'package:whizapp/view/welcom/splash_screen.dart';
 
 Future<void> main() async {
@@ -32,16 +29,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return GetMaterialApp(
-
-        
-            
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: lightTheme(),
-        home: const SplashScreen() //,
-,initialBinding: ControllerBindings(),
-        );
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: lightTheme(),
+      home: const SplashScreen() //,
+      ,
+      initialBinding: ControllerBindings(),
+    );
   }
 }

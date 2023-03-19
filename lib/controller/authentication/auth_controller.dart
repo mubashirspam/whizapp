@@ -69,6 +69,8 @@ class AuthController extends GetxController
     );
   }
 
+  
+
   Future<Either<String, UserModel?>> getCurrentUserModel(User user) async {
     log('get cutrrent User --------------------------- api ');
     try {
