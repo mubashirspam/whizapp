@@ -1,20 +1,31 @@
 import 'package:flutter/material.dart';
 
-PreferredSizeWidget appBar(BuildContext context) {
+PreferredSizeWidget appBar(
+    BuildContext context, String title, String countAndName) {
   return AppBar(
     centerTitle: false,
-    title: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          "Ongoing Classes",
-          style: Theme.of(context).textTheme.headlineLarge,
-        ),
-        Text(
-          "12 Coureses",
-          style: Theme.of(context).textTheme.headlineSmall,
-        ),
+   title:  Text(
+            title,
+            style: Theme.of(context).textTheme.headlineLarge,
+            overflow: TextOverflow.ellipsis,
+          ), 
+    
+    automaticallyImplyLeading: false,
+    actions: [
+     
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14),
+            child: SizedBox(width: 80,
+              child: Text(
+                    countAndName,
+                    //overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.headlineSmall,maxLines: 1,
+              ),
+            ),
+          ),
+        ),SizedBox()
       ],
-    ),
+   
   );
 }

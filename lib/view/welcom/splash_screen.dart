@@ -17,7 +17,7 @@ class SplashScreen extends GetView<AuthController> {
 
   @override
   Widget build(BuildContext context) {
-  log('building splash screen---------------------------');
+  log('building splash screen*****************************');
     return controller.obx(
         onLoading: Scaffold(
           body: Container(

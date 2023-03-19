@@ -3,11 +3,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:whizapp/core/asset/icons.dart';
 import 'package:whizapp/core/them/color.dart';
 import 'package:whizapp/model/course/course.dart';
+import 'package:whizapp/model/course/course_mode.dart';
 
 import 'package:whizapp/view/constants/const_dimensions.dart';
 
 class FeaturedCardWidget extends StatelessWidget {
-  final Course course;
+  final CourseModel course;
 
   const FeaturedCardWidget({
     super.key,
@@ -83,7 +84,7 @@ class FeaturedCardWidget extends StatelessWidget {
                     left: 5,
                   ),
                   child: Text(
-                    course.overallRating.toString(),
+                    course.rating.toString(),
                     style: const TextStyle(
                       color: AppColor.textPrimeryLight,
                       fontSize: 12,
@@ -108,7 +109,7 @@ class FeaturedCardWidget extends StatelessWidget {
               bottom: 15,
             ),
             child: Text(
-              course.courseName,
+              course.name,
               style: Theme.of(context).textTheme.titleLarge,
             ),
           ),
@@ -119,7 +120,7 @@ class FeaturedCardWidget extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 5),
                 child: Text(
                   
-                  "${course.courseEnrollmentCount} Entrolled",
+                  "22 Entrolled",
                   style: Theme.of(context).textTheme.displaySmall,
                 
                 ),
@@ -130,7 +131,7 @@ class FeaturedCardWidget extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 5),
                 child: Text(
                   // total number of lessons in a course
-                  "${course.lessons.length} Lessons",
+                  "${course.modules.length} Lessons",
                   style: Theme.of(context).textTheme.displaySmall,
                 ),
               ),
@@ -146,7 +147,7 @@ class FeaturedCardWidget extends StatelessWidget {
                 
                   // total duration of course
                
-                  "${course.totalDuration.inHours}h ${course.totalDuration.inMinutes % 60}m" ,
+                  "${course.totalDuration}h ${course.totalDuration}m" ,
                   style: Theme.of(context).textTheme.displaySmall,
                   
                 

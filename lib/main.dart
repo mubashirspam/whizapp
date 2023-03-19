@@ -7,11 +7,11 @@ import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 import 'package:whizapp/controller/authentication/auth_controller.dart';
+import 'package:whizapp/controller_bindings.dart';
 import 'package:whizapp/core/them/light_theme.dart';
 import 'package:whizapp/firebase_options.dart';
-
-
-
+import 'package:whizapp/view/common_widgets/course_detail_page.dart';
+import 'package:whizapp/view/main/main_page.dart';
 
 import 'package:whizapp/view/welcom/splash_screen.dart';
 
@@ -29,16 +29,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return GetMaterialApp(
-
-        initialBinding:
-            BindingsBuilder.put(() => AuthController(), permanent: true),
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: lightTheme(),
-        home: const SplashScreen() //,
-
-        );
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: lightTheme(),
+      home: const SplashScreen() //,
+      ,
+      initialBinding: ControllerBindings(),
+    );
   }
 }

@@ -37,7 +37,6 @@ class CourseController extends GetxController {
       final QuerySnapshot<Map<String, dynamic>> coursesQuery = await _firestore
           .collection('courses')
           .where('isPrivate', isEqualTo: false)
-         
           .limit(2)
           .get();
       courses.assignAll(
@@ -54,11 +53,10 @@ class CourseController extends GetxController {
 }
 
 final course = CourseModel(
-  id: 'course4',
-  name: 'Flutter  Tutorials ',
-  description: 'Learn Flutter',
+  id: '',
+  name: 'NLP ',
+  description: 'Learn NLP',
   rating: 4.5,
-
   comments: [
     Comment(author: 'John Doe', text: 'Great course!'),
     Comment(author: 'Jane Smith', text: 'Very helpful'),

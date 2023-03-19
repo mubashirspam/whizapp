@@ -152,7 +152,7 @@ class ProfilePage extends StatelessWidget {
                 ),
                 TextButton(
                     onPressed: () {
-                      FirestoreService().createCourse(course);
+                      //FirestoreService().createCourse(course);
                     },
                     child: Text("upload"))
               ],
