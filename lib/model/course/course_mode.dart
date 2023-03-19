@@ -47,7 +47,7 @@ class CourseModel {
         updatedAt: data['updatedAt'].toDate(), //dateTime
         isPrivate: data['isPrivate'], //bool
         totalDuration: data['totalDuration'], //String
-        thumbnailUrl: data['thubnailUrl']);
+        thumbnailUrl: data['thumbnailUrl']);
   }
   DateTime ts = DateTime.now();
   Timestamp dT = Timestamp.fromDate(DateTime.now());
