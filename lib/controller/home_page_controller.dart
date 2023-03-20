@@ -5,6 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/src/rx_workers/utils/debouncer.dart';
+import 'package:whizapp/core/utils.dart';
 import 'package:whizapp/model/course/course.dart';
 import 'package:whizapp/model/course/course_mode.dart';
 import 'package:whizapp/model/lesson/lesson.dart';
@@ -20,6 +22,15 @@ class HomePageController extends GetxController
   var isLoading = false.obs;
   List<CourseModel> courses = [];
 
+  final searchFieldController = TextEditingController().obs;
+  final Debouncer _debouncer =
+      Debouncer(delay: const Duration(milliseconds: 800));
+  QueryDocumentSnapshot? lastVisible;
+  RxList<CourseModel> searchCourseResult = RxList();
+  RxString query = ''.obs;
+  RxBool isQuerying = false.obs;
+
+
   @override
   void onReady() async {
     change(null, status: RxStatus.loading());
@@ -34,14 +45,51 @@ class HomePageController extends GetxController
 
     super.onReady();
   }
+@override
+onclose(){
+  
+   super.onClose();
+}
+  
 
-  /*  Stream<UserModel> getCurrentUserStream(String uid) async* {
-    yield* firestore.collection('user').doc(uid.trim()).snapshots().map(
-        (qs) => UserModel.fromFirestore(qs.data() as Map<String, dynamic>));
-  } */
-  // api call for more data fetch
+  handleSearch(String queryText) async {
+    _debouncer.cancel();
+    _debouncer.call(
+      () async {
+       
+        query(queryText);
+        if (queryText.isNotEmpty) {
+          isQuerying(true);
+          final result = await searchCourse(queryText);
+          result.fold((l) {
+            isQuerying(false);
+          }, (List<CourseModel> qResult) {
+            searchCourseResult(qResult);
+            isQuerying(false);
+          });
+        }
+      },
+    );
+  }
 
-  QueryDocumentSnapshot? lastVisible;
+  Future<Either<String, List<CourseModel>>> searchCourse(
+      String queryText) async {
+    try {
+      final result = await firestore
+          .collection('courses')
+          .orderBy('name')
+          .startAt([queryText.toPascal()]).endAt(['${queryText[0].toUpperCase()}\uf8ff']).get();
+      final data =
+          result.docs.map((qds) => CourseModel.fromFirestore(qds)).toList();
+      log(data.length.toString() + "+++++++++++++++++++");
+      return Right(data);
+    } catch (e) {
+      log(e.toString() + "XXXXXXXXXXXXXXXXXXXXXXXXXX catch query");
+      return Left('Error');
+    }
+  }
+
+
   Future<Either<String, List<CourseModel>>> getFeaturedCourses() async {
     log("get coursess --------------------------------");
     try {
@@ -65,50 +113,37 @@ class HomePageController extends GetxController
   }
 
   Future<Either<String, List<CourseModel>>> getMoreFeaturedCourses() async {
-    try { 
+    try {
+      log("get more Features --------------------------------");
 
-    log("get more Features --------------------------------");
+      final courses = await firestore
+          .collection('courses')
+          .orderBy('createdAt', descending: true)
+          .startAfterDocument(lastVisible!)
+          .limit(3)
+          .get();
 
-    final courses = await firestore
-        .collection('courses')
-        .orderBy('createdAt', descending: true)
-        .startAfterDocument(lastVisible!)
-        .limit(3)
-        .get();
+      if (courses.docs.isNotEmpty) {
+        lastVisible = courses.docs.last;
+      }
 
-   
-    if(courses.docs.isNotEmpty ){
- lastVisible = courses.docs.last;
-    }
-   
-
-     
       final result =
-        courses.docs.map((qds) => CourseModel.fromFirestore(qds)).toList();
+          courses.docs.map((qds) => CourseModel.fromFirestore(qds)).toList();
 
-    return Right(result);
-    
-    
-
-    
-
-
-   } 
-  
-    
-    catch (e) {
+      return Right(result);
+    } catch (e) {
       log('${e}XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
       //isLoading(false);
       return Left(e.toString());
     }
-  } 
+  }
 
   @override
   Future<void> onEndScroll() async {
-  
-    log("on end ---------------");
-    if (status.isLoadingMore == false ) {
-      log('calling--------------------');
+   
+    _debouncer.call(() async{
+       if (status.isLoadingMore == false && isMoreCoursesToLoad ==true) {
+ 
       change(courses, status: RxStatus.loadingMore());
       final moreCourses = await getMoreFeaturedCourses();
       moreCourses.fold((l) {
@@ -116,11 +151,13 @@ class HomePageController extends GetxController
       }, (List<CourseModel> course) {
         isMoreCoursesToLoad = course.isNotEmpty;
 
-        print(isMoreCoursesToLoad.toString() + "****************");
+      
         courses.addAll(course);
         change(courses, status: RxStatus.success());
       });
     }
+     });
+   
   }
 
   @override

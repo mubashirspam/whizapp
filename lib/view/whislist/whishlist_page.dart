@@ -5,7 +5,7 @@ import 'package:whizapp/controller/firebase/firebase_controller.dart';
 import 'package:whizapp/core/asset/icons.dart';
 import 'package:whizapp/core/theme/color.dart';
 import 'package:whizapp/view/constants/const_dimensions.dart';
-import 'package:whizapp/view/CoursePlayScreen/course_play_screen.dart';
+
 
 class WhishListPage extends StatefulWidget {
   const WhishListPage({super.key});

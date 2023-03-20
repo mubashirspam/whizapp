@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -8,14 +10,13 @@ import 'package:whizapp/core/asset/icons.dart';
 import 'package:whizapp/core/asset/image.dart';
 import 'package:whizapp/core/theme/color.dart';
 import 'package:whizapp/model/course/course_mode.dart';
-import 'package:whizapp/view/CoursePlayScreen/course_play_screen.dart';
-import 'package:whizapp/view/common_widgets/course_detail_page.dart';
+
+import 'package:whizapp/view/CoursePlayScreen/course_detail_page.dart';
 import 'package:whizapp/view/constants/const_dimensions.dart';
 import 'package:whizapp/view/featured/widget/featurd_card_widget.dart';
 import 'package:whizapp/view/home/widgts/search_widget.dart';
 import 'package:whizapp/view/home/widgts/section_heading.dart';
 import 'package:whizapp/view/main/widgets/bottom_navigation_widgets.dart';
-import 'package:whizapp/view/ongoing/widget/ongoing_card.dart';
 
 class HomePage extends GetView<HomePageController> {
   const HomePage({super.key});
@@ -130,65 +131,126 @@ class HomePage extends GetView<HomePageController> {
                                 bottomRight: Radius.circular(20),
                               ),
                             ),
-                            child: const CustomTextField(),
+                            child: CustomTextField(
+                              onChanged: (queryText) {
+                                controller.handleSearch(queryText);
+                              },
+                            ),
                           ),
                           const SizedBox(
                             height: 15,
                           ),
-                          SectionHeading(
-                            title: "Ongoing Course",
-                            onPressed: () => selectedIndexNorifier.value = 1,
-                          ),
-                          const SizedBox(height: 20),
-                          //shows first ongoing course
-                          //   OngoingCardWidget(ongoingCourse: homePageController.ongoingCourses[0],),
-                          const SizedBox(height: 20),
-                          SectionHeading(
-                            title: "Featured Course",
-                            onPressed: () {},
-                          ),
-                          /*    const FeaturedCardWidget(),
-                            const FeaturedCardWidget(), */
-                          ListView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: courses!.length,
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                  onTap: () => Get.to(() => CourseDetailPage(
-                                        course: courses[index],
-                                      )),
-                                  child: FeaturedCardWidget(
-                                    course: courses[index],
-                                  ));
-                            },
-                          ),
-                          /*  Get.find<HomePageController>().isLoading.value */
-                          controller.status.isLoadingMore
-                              ? const Padding(
-                                  padding: EdgeInsets.all(
-                                      ConstDimensions.appPadding),
-                                  child: SizedBox(
-                                      height: 20,
-                                      width: 20,
-                                      child: CircularProgressIndicator(
-                                        color: AppColor.textVilotLight,
-                                        strokeWidth: 3,
-                                      )))
-                              : (controller.isMoreCoursesToLoad == false)
-                                  ? Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 6),
-                                      child: Text(
-                                        "No More Courses",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall!
-                                            .copyWith(
-                                                color: AppColor.primeryLight),
-                                      ),
-                                    )
-                                  :const SizedBox()
+                          Obx(() {
+                            if (controller.query.value.isNotEmpty) {
+                              if (controller.searchCourseResult.isNotEmpty) {
+                                return  Column(
+                                  children: [
+                                     SectionHeading(
+                                    title: "Search Result",
+                                    onPressed: () =>
+                                        selectedIndexNorifier.value = 1,
+                                  ),
+                                    ListView.builder(
+                                        shrinkWrap: true,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemCount: controller.searchCourseResult.length,
+                                        itemBuilder: (context, index) {
+                                          return InkWell(
+                                              onTap: () =>
+                                                  Get.to(() => CourseDetailPage(
+                                                        course: controller.searchCourseResult[index],
+                                                      )),
+                                              child: FeaturedCardWidget(
+                                                course: controller.searchCourseResult[index],
+                                              ));
+                                        },
+                                      
+                                    ),
+                                  ],
+                                );
+                              } else if(controller.isQuerying.value ==true){
+                                return   const Center(
+                                  child: SizedBox(width: 15,height: 15,
+                                    child: CircularProgressIndicator())
+                                );
+                              }
+                              else {
+                                return const Center(
+                                  child: Text(
+                                    "No Result ",
+                                    style:
+                                        TextStyle(color: AppColor.primeryLight),
+                                  ),
+                                );
+                              }
+                            } else {
+                              return Column(
+                                children: [
+                                  SectionHeading(
+                                    title: "Ongoing Course",
+                                    onPressed: () =>
+                                        selectedIndexNorifier.value = 1,
+                                  ),
+                                  const SizedBox(height: 20),
+                                  //shows first ongoing course
+                                  //   OngoingCardWidget(ongoingCourse: homePageController.ongoingCourses[0],),
+                                  const SizedBox(height: 20),
+                                  SectionHeading(
+                                    title: "Featured Course",
+                                    onPressed: () {},
+                                  ),
+                                  /*    const FeaturedCardWidget(),
+                                        const FeaturedCardWidget(), */
+                                  ListView.builder(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount: courses!.length,
+                                    itemBuilder: (context, index) {
+                                      return InkWell(
+                                          onTap: () =>
+                                              Get.to(() => CourseDetailPage(
+                                                    course: courses[index],
+                                                  )),
+                                          child: FeaturedCardWidget(
+                                            course: courses[index],
+                                          ));
+                                    },
+                                  ),
+                                  /*  Get.find<HomePageController>().isLoading.value */
+                                  controller.status.isLoadingMore
+                                      ? const Padding(
+                                          padding: EdgeInsets.all(
+                                              ConstDimensions.appPadding),
+                                          child: SizedBox(
+                                              height: 20,
+                                              width: 20,
+                                              child: CircularProgressIndicator(
+                                                color: AppColor.textVilotLight,
+                                                strokeWidth: 3,
+                                              )))
+                                      : (controller.isMoreCoursesToLoad ==
+                                              false)
+                                          ? Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 6),
+                                              child: Text(
+                                                "No More Courses",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodySmall!
+                                                    .copyWith(
+                                                        color: AppColor
+                                                            .primeryLight),
+                                              ),
+                                            )
+                                          : const SizedBox()
+                                ],
+                              );
+                            }
+                          }),
                         ],
                       ),
                     ),

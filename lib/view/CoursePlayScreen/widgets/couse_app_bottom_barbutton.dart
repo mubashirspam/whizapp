@@ -10,16 +10,14 @@ final double width;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-            width: width,
-            height: 52,
-            child: ElevatedButton(
-                onPressed:onTap,
-                style: ButtonStyle(
-                    backgroundColor:
-                         MaterialStatePropertyAll(buttonColor),
-                    shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)))),
-                child:child),
-          );  }
+    return ElevatedButton(
+        onPressed:onTap,
+
+        style: ButtonStyle(
+        minimumSize: MaterialStatePropertyAll(Size(width,52)),
+            backgroundColor:
+                 MaterialStatePropertyAll(buttonColor),
+            shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10)))),
+        child:child);  }
 }
