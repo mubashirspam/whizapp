@@ -6,6 +6,7 @@ import 'package:whizapp/controller/mainPageController/main_page_controller.dart'
 import 'package:whizapp/core/theme/color.dart';
 import 'package:whizapp/view/common_widgets/appbar.dart';
 import 'package:whizapp/view/common_widgets/no_result_page.dart';
+import 'package:whizapp/view/common_widgets/shimmer.dart';
 import 'package:whizapp/view/home/home_page.dart';
 
 import 'package:whizapp/view/main/widgets/bottom_navigation_widgets.dart';
@@ -36,15 +37,15 @@ class MainPage extends GetView<HomePageController> {
             style: TextStyle(color: AppColor.redDanger),
           ),
         ),
-        onLoading: const Center(
-          child: CircularProgressIndicator(),
-        ),
-        (tuple) => Scaffold(
-         
-          body: Center(
-            child: _pages[mainPageController.currentIndex.value],
+        onLoading: const ShimmerLoadingScreen(),
+        (tuple) => Obx(
+          ()=> Scaffold(
+           
+            body: Center(
+              child: _pages[mainPageController.currentIndex.value],
+            ),
+            bottomNavigationBar: const BottomWidget(),
           ),
-          bottomNavigationBar: const BottomWidget(),
         ),
       ),
     );

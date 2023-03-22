@@ -26,13 +26,14 @@ class HomePageController extends GetxController
   List<CourseModel> courses = [];
   UserModel? userModel;
 
-  final searchFieldController = TextEditingController().obs;
+
   final Debouncer _debouncer =
       Debouncer(delay: const Duration(milliseconds: 800));
   QueryDocumentSnapshot? lastVisible;
   RxList<CourseModel> searchCourseResult = RxList();
   RxString query = ''.obs;
   RxBool isQuerying = false.obs;
+  bool isSearchDataEmpty = true;
   Rxn<UserModel> rxUser = Rxn<UserModel>();
   StreamSubscription<UserModel>? userStreamsub;
   @override
@@ -72,6 +73,7 @@ class HomePageController extends GetxController
       userModel = data;
       change(Tuple2(courses, data), status: RxStatus.success());
     }, onError: (e) {
+      log(e.toString()+"userStream errorxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
       change(null,
           status: RxStatus.error('Error occured while retriving user data'));
     });
@@ -87,6 +89,7 @@ class HomePageController extends GetxController
       () async {
         query(queryText);
         if (queryText.isNotEmpty) {
+          isSearchDataEmpty = false;
           isQuerying(true);
           final result = await searchCourse(queryText);
           result.fold((l) {
@@ -95,6 +98,9 @@ class HomePageController extends GetxController
             searchCourseResult(qResult);
             isQuerying(false);
           });
+        }
+        else{
+            isSearchDataEmpty = true;
         }
       },
     );
@@ -108,6 +114,10 @@ class HomePageController extends GetxController
     yield* docRef.snapshots().map((docSnp) =>
         UserModel.fromFirestore(docSnp.data() as Map<String, dynamic>));
   }
+
+
+
+
 
   Future<Either<String, List<CourseModel>>> searchCourse(
       String queryText) async {
@@ -177,8 +187,10 @@ class HomePageController extends GetxController
 
   @override
   Future<void> onEndScroll() async {
-    
-      if (status.isLoadingMore == false && isMoreCoursesToLoad == true) {
+    log('on bottom---');
+    if(isSearchDataEmpty){
+
+        if (status.isLoadingMore == false && isMoreCoursesToLoad == true) {
         change(Tuple2(courses, userModel!), status: RxStatus.loadingMore());
         final moreCourses = await getMoreFeaturedCourses();
         moreCourses.fold((l) {
@@ -190,6 +202,8 @@ class HomePageController extends GetxController
           change(Tuple2(courses, userModel!), status: RxStatus.success());
         });
       }
+    }
+    
   
   }
 
