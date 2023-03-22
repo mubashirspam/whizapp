@@ -37,7 +37,8 @@ class UserDataCollectorPage extends GetView<UserDataCollectorController> {
           ),
         ), (userModel) {
       if (userModel != null) {
-        return const MainPage();
+        log('user Not Empty --------------------------------');
+        return  MainPage();
       } else {
         return Scaffold(
           backgroundColor: AppColor.primeryLight,

@@ -1,4 +1,5 @@
-import 'dart:developer';
+
+
 
 import 'package:flutter/material.dart';
 
@@ -13,12 +14,17 @@ import 'package:whizapp/view/CoursePlayScreen/widgets/course_play_bottombutton.d
 
 import 'package:whizapp/view/constants/const_dimensions.dart';
 
+
+
 class CourseDetailPage extends StatelessWidget {
   final CourseModel course;
   const CourseDetailPage({super.key, required this.course});
 
   @override
   Widget build(BuildContext context) {
+
+
+
     return Scaffold(
       backgroundColor: AppColor.backgroundLight,
       bottomNavigationBar: const CoursePlayBottomButton(),
@@ -28,6 +34,8 @@ class CourseDetailPage extends StatelessWidget {
             Container(
               height: 220,
               color: AppColor.primeryLight,
+             
+            
             ),
             Expanded(
               child: SingleChildScrollView(
@@ -38,25 +46,18 @@ class CourseDetailPage extends StatelessWidget {
                       child: SizedBox(
                         height: 60,
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Expanded(
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text(
-                                    'Course Name : HUurse Name : HUurse Name : HUurse Name : HUurse Name : HUurse Name : HUurse Name : HUurse Name : HUurse Name : HUurse Name : HUurse Name : HUSVV',
-                                    maxLines: 2,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleMedium!
-                                        .copyWith(
-                                            color: AppColor.textPrimeryLight,
-                                            fontWeight: FontWeight.normal),
-                                  ),
-                                ],
+                              child: Text(
+                                course.name,
+                                maxLines: 2,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium!
+                                    .copyWith(
+                                        color: AppColor.textPrimeryLight,
+                                        fontWeight: FontWeight.normal),
                               ),
                             ),
                             Container(
@@ -72,19 +73,24 @@ class CourseDetailPage extends StatelessWidget {
                                   IconButton(
                                       onPressed: () {
                                         Get.bottomSheet(
-                                          CommentBottomSheet(),
+                                          CommentBottomSheet(
+                                            comments: course.comments,
+                                          ),
                                           backgroundColor: AppColor.whiteLight,
                                           enableDrag: false,
                                           elevation: 10,
                                           barrierColor: Colors.transparent,
                                         );
                                       },
-                                      icon: Icon(
+                                      icon: const Icon(
                                           Icons.chat_bubble_outline_rounded)),
                                   IconButton(
                                       onPressed: () {
                                         Get.bottomSheet(
-                                          const DescriptionSheetChild(),
+                                          DescriptionSheetChild(
+                                            courseName: course.name,
+                                            description: course.description,
+                                          ),
                                           backgroundColor: AppColor.whiteLight,
                                           enableDrag: false,
                                           elevation: 10,
@@ -129,17 +135,15 @@ class CourseDetailPage extends StatelessWidget {
 }
 
 class CommentBottomSheet extends StatelessWidget {
-  const CommentBottomSheet({
-    super.key,
-  });
+  final List<Comment> comments;
+  const CommentBottomSheet({super.key, required this.comments});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Row(
-          mainAxisAlignment:
-              MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             IconButton(
                 onPressed: () {
@@ -148,98 +152,88 @@ class CommentBottomSheet extends StatelessWidget {
                 icon: const Icon(
                   Icons.cancel_rounded,
                   size: 34,
-                  color: AppColor
-                      .iconPrimeryLight,
+                  color: AppColor.iconPrimeryLight,
                 ))
           ],
         ),
         const Text(
           'Comments',
-          style: TextStyle(
-              color: Colors.black),
+          style: TextStyle(color: Colors.black),
         ),
         const Divider(
-          thickness: ConstDimensions
-              .dividerThickness,
+          thickness: ConstDimensions.dividerThickness,
         ),
-      Expanded(
-        child: ListView.builder(
-          itemBuilder:(context, index) {
-          
-         return Container(
-         
-          padding: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
-          margin: EdgeInsets.symmetric(vertical: 10,horizontal: 10),
-          decoration: BoxDecoration(
-            color: AppColor.backgroundLight,
-            borderRadius: BorderRadius.circular(10)
+        Expanded(
+          child: comments.isEmpty
+              ? const Text(
+                  'No Comments ',
+                  style: TextStyle(color: AppColor.primeryLight),
+                )
+              : ListView.builder(
+                  itemBuilder: (context, index) {
+                    return Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 10),
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 10),
+                        decoration: BoxDecoration(
+                            color: AppColor.backgroundLight,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              comments[index].text,
+                              style: const TextStyle(
+                                color: Colors.black,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 7),
+                              child: Text(
+                                comments[index].author,
+                                maxLines: 2,
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ));
+                  },
+                  itemCount: comments.length,
+                ),
+        ),
+        SizedBox(
+          width: double.maxFinite,
+          child: TextFormField(
+            onChanged: (val) {},
+            decoration: const InputDecoration(
+              filled: true,
+              fillColor: AppColor.primeryLight,
+              suffixIcon: Icon(
+                Icons.send_rounded,
+                color: AppColor.iconSecondaryLight,
+                size: 18,
+              ),
+              hintText: 'Type here...',
+              hintStyle: TextStyle(
+                  color: AppColor.textwhiteLight,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w200),
+            ),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                flex: 3,
-                child: Text("MessaMessaMessaessMessagegeMessaMese",
-                style: TextStyle(
-                  
-                  color: Colors.black,
-                ),),
-              ),
-               Text("name",
-               maxLines: 2,
-               
-                style: TextStyle(
-                  fontSize: 13,
-                  
-                  color: Colors.black,
-                ),),
-            ],
-          ));
-           },
-           itemCount: 10,
-           ),
-      ) ,
-                                        
-           SizedBox(
-            width: 300,
-      
-             child: TextFormField(
-              
-              style:const TextStyle(
-                height: 1,
-                fontSize: 18
-              ) ,
-              
-              onChanged: (val) {},
-              
-             
-              decoration:
-                   const InputDecoration(
-                   contentPadding: EdgeInsets.all(4),
-                   suffixIcon: Icon(Icons.send_rounded,size: 18,),
-                   
-                
-                border:OutlineInputBorder(),
-                isDense: true,
-                hintText: 'Type here...',
-                hintStyle: TextStyle(
-                    color: AppColor
-                        .textSecondaryLight,fontSize: 18,
-                    fontWeight:
-                        FontWeight.w200),
-              ),
-                                                           ),
-           ),
-        
+        ),
       ],
     );
   }
 }
 
 class DescriptionSheetChild extends StatelessWidget {
-  const DescriptionSheetChild({
-    super.key,
-  });
+  final String courseName, description;
+  const DescriptionSheetChild(
+      {super.key, required this.courseName, required this.description});
 
   @override
   Widget build(BuildContext context) {
@@ -267,7 +261,7 @@ class DescriptionSheetChild extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
             child: Text(
-              "HSHSHSHSHHHSHSHSHSHHHSHSHSHSHHHSHSHSHSHHHSHSHSHSHHHSHSHSHSHHHSHSHSHSHHHSHSHSHSHHHSHSHSHSHHHSHSHSHSHHHSHSHSHSHHHSHSHSHSHH",
+              courseName,
               style: Theme.of(context)
                   .textTheme
                   .titleMedium!
@@ -282,7 +276,7 @@ class DescriptionSheetChild extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
             child: Text(
-              "HSHSHSHSHHHSHSHSHSHHHSHSHSHSHHHSHSHSHSHHHSHSHSHSHHHSHSHSHSHHHSHSHSHSHHHSHSHSHSHHHSHSHSHSHHHSHSHSHSHHHSHSHSHSHHHSHSHSHSHH",
+              description,
               style: Theme.of(context)
                   .textTheme
                   .bodySmall!

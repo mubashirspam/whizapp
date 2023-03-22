@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
@@ -6,21 +7,24 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_workers/utils/debouncer.dart';
+import 'package:whizapp/controller/authentication/auth_controller.dart';
 import 'package:whizapp/core/utils.dart';
-import 'package:whizapp/model/course/course.dart';
+
 import 'package:whizapp/model/course/course_mode.dart';
-import 'package:whizapp/model/lesson/lesson.dart';
+
 import 'package:whizapp/model/ongoingCourse/ongoing_course.dart';
 import 'package:whizapp/model/user/user_model.dart';
 
 class HomePageController extends GetxController
-    with StateMixin<List<CourseModel>>, ScrollMixin {
+    with StateMixin<Tuple2<List<CourseModel>, UserModel>>, ScrollMixin {
+  late AuthController authController;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   RxList<OngoingCourse> ongoingCourses = RxList<OngoingCourse>();
   bool isMoreCoursesToLoad = true;
-  late Rx<UserModel> userModel;
+
   var isLoading = false.obs;
   List<CourseModel> courses = [];
+  UserModel? userModel;
 
   final searchFieldController = TextEditingController().obs;
   final Debouncer _debouncer =
@@ -29,7 +33,20 @@ class HomePageController extends GetxController
   RxList<CourseModel> searchCourseResult = RxList();
   RxString query = ''.obs;
   RxBool isQuerying = false.obs;
-
+  Rxn<UserModel> rxUser = Rxn<UserModel>();
+  StreamSubscription<UserModel>? userStreamsub;
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    authController = Get.find<AuthController>();
+    super.onInit();
+  }
+  @override
+  void onClose() {
+    // TODO: implement 
+    userStreamsub?.cancel();
+    super.onClose();
+  }
 
   @override
   void onReady() async {
@@ -38,25 +55,36 @@ class HomePageController extends GetxController
 
     featuredCo.fold((l) {
       change(null, status: RxStatus.error(l));
-    }, (data) {
+    }, (data) async {
       courses.addAll(data);
-      change(data, status: RxStatus.success());
+
+      handleUserStream();
     });
 
     super.onReady();
   }
-@override
-onclose(){
+
+  handleUserStream() {
+    userStreamsub?.cancel();
   
-   super.onClose();
-}
-  
+ userStreamsub = getUserDataStream(authController.firebaseUser.value!.uid)
+        .listen((data) {
+      userModel = data;
+      change(Tuple2(courses, data), status: RxStatus.success());
+    }, onError: (e) {
+      change(null,
+          status: RxStatus.error('Error occured while retriving user data'));
+    });
+    
+   
+    
+   
+  }
 
   handleSearch(String queryText) async {
     _debouncer.cancel();
     _debouncer.call(
       () async {
-       
         query(queryText);
         if (queryText.isNotEmpty) {
           isQuerying(true);
@@ -72,23 +100,32 @@ onclose(){
     );
   }
 
+  Stream<UserModel> getUserDataStream(String uid) async* {
+    log("calling getuserStream ----------------------------");
+
+    final docRef =
+        firestore.collection('user').doc(uid.trim());
+    yield* docRef.snapshots().map((docSnp) =>
+        UserModel.fromFirestore(docSnp.data() as Map<String, dynamic>));
+  }
+
   Future<Either<String, List<CourseModel>>> searchCourse(
       String queryText) async {
     try {
       final result = await firestore
           .collection('courses')
           .orderBy('name')
-          .startAt([queryText.toPascal()]).endAt(['${queryText[0].toUpperCase()}\uf8ff']).get();
+          .startAt([queryText.toPascal()]).endAt(
+              ['${queryText[0].toUpperCase()}\uf8ff']).get();
       final data =
           result.docs.map((qds) => CourseModel.fromFirestore(qds)).toList();
-      log(data.length.toString() + "+++++++++++++++++++");
+
       return Right(data);
     } catch (e) {
       log(e.toString() + "XXXXXXXXXXXXXXXXXXXXXXXXXX catch query");
-      return Left('Error');
+      return const Left('Error');
     }
   }
-
 
   Future<Either<String, List<CourseModel>>> getFeaturedCourses() async {
     log("get coursess --------------------------------");
@@ -140,59 +177,25 @@ onclose(){
 
   @override
   Future<void> onEndScroll() async {
-   
-    _debouncer.call(() async{
-       if (status.isLoadingMore == false && isMoreCoursesToLoad ==true) {
- 
-      change(courses, status: RxStatus.loadingMore());
-      final moreCourses = await getMoreFeaturedCourses();
-      moreCourses.fold((l) {
-        change(courses, status: RxStatus.success());
-      }, (List<CourseModel> course) {
-        isMoreCoursesToLoad = course.isNotEmpty;
+    
+      if (status.isLoadingMore == false && isMoreCoursesToLoad == true) {
+        change(Tuple2(courses, userModel!), status: RxStatus.loadingMore());
+        final moreCourses = await getMoreFeaturedCourses();
+        moreCourses.fold((l) {
+          change(Tuple2(courses, userModel!), status: RxStatus.success());
+        }, (List<CourseModel> course) {
+          isMoreCoursesToLoad = course.isNotEmpty;
 
-      
-        courses.addAll(course);
-        change(courses, status: RxStatus.success());
-      });
-    }
-     });
-   
+          courses.addAll(course);
+          change(Tuple2(courses, userModel!), status: RxStatus.success());
+        });
+      }
+  
   }
 
   @override
   Future<void> onTopScroll() async {
     // TODO: implement onTopScroll
     log("on top ---------------");
-  }
-
-  getMoreOngoingCourse() async {
-    print("api fetch-get more ongoing course---------");
-    isLoading.value = true;
-    await Future.delayed(Duration(seconds: 5));
-    var ii = ongoingCourses.value;
-    ongoingCourses.value = ongoingCourses.value + ii;
-    isLoading.value = false;
-  }
-
-  void getOngoingCourse() {
-    Lesson lesson = const Lesson(
-        LessonId: 23,
-        LessonUrl: 'https://youtu.be/EngW7tLk6R8',
-        viewCounts: 500,
-        LessonName: 'Sample Lesson ',
-        LessonDescription: 'Lesson - ',
-        LessonRating: 4.2,
-        LessonDuration: Duration(minutes: 30, hours: 1));
-    Course course = Course(
-        lessons: [lesson],
-        courseCreator: "Bisher",
-        courseName: "Spoken ",
-        overallRating: 4.7,
-        totalDuration: const Duration(hours: 10, minutes: 56),
-        courseEnrollmentCount: 300);
-    for (int x = 1; x < 10; x++) {
-      ongoingCourses.add(OngoingCourse(course: course, courseProgress: .7));
-    }
   }
 }

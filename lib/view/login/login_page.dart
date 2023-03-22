@@ -45,7 +45,7 @@ class LoginPage extends GetView<AuthController> {
     return controller.obx(
       (userModel) {
         if (userModel != null) {
-          return const MainPage();
+          return  MainPage();
         } else {
           return UserDataCollectorPage(
               user: authController.firebaseUser.value as User);

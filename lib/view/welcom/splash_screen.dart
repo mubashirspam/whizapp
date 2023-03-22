@@ -43,7 +43,7 @@ class SplashScreen extends GetView<AuthController> {
         ),
         onEmpty: const WelcomPage(), (userModel) {
       if (userModel != null) {
-        return const MainPage();
+        return  MainPage();
       } else {
         return UserDataCollectorPage(
             user: Get.find<AuthController>().firebaseUser.value as User);
