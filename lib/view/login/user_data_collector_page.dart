@@ -11,7 +11,7 @@ import 'package:get/get.dart';
 import 'package:whizapp/controller/authentication/user_data_collection_controller.dart';
 import 'package:whizapp/core/asset/icons.dart';
 import 'package:whizapp/core/asset/image.dart';
-import 'package:whizapp/core/them/color.dart';
+import 'package:whizapp/core/theme/color.dart';
 
 import 'package:whizapp/view/common_widgets/button_widget.dart';
 
@@ -37,7 +37,8 @@ class UserDataCollectorPage extends GetView<UserDataCollectorController> {
           ),
         ), (userModel) {
       if (userModel != null) {
-        return const MainPage();
+        log('user Not Empty --------------------------------');
+        return  MainPage();
       } else {
         return Scaffold(
           backgroundColor: AppColor.primeryLight,

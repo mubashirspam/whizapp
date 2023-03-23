@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:whizapp/core/them/color.dart';
+import 'package:whizapp/core/theme/color.dart';
 
 class ButtonWidget extends StatelessWidget {
   final String name;

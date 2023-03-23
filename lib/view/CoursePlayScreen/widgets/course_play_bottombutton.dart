@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/svg.dart';
 import 'package:whizapp/core/asset/icons.dart';
-import 'package:whizapp/core/them/color.dart';
+import 'package:whizapp/core/theme/color.dart';
 import 'package:whizapp/view/CoursePlayScreen/widgets/couse_app_bottom_barbutton.dart';
 
 class CoursePlayBottomButton extends StatelessWidget {
@@ -24,9 +24,8 @@ class CoursePlayBottomButton extends StatelessWidget {
               buttonColor: AppColor.yellowLight,
               onTap: () {},
               width: 52,
-              child: SvgPicture.asset(
-                AppICons.whishlist,
-                colorFilter: const ColorFilter.mode(Colors.white, BlendMode.dstIn),
+              child:Icon(
+              Icons.help,size: 30,
               ),
             ),
             CourseAppBottomBarButton(

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/instance_manager.dart';
 
-import 'package:whizapp/controller/home_page_controller.dart';
-import 'package:whizapp/core/them/color.dart';
+import 'package:whizapp/controller/homePageController/home_page_controller.dart';
+import 'package:whizapp/core/theme/color.dart';
 import 'package:whizapp/view/constants/const_dimensions.dart';
 import 'package:whizapp/view/ongoing/widget/ongoing_card.dart';
 
@@ -14,13 +14,14 @@ class MyLearningPage extends StatelessWidget {
   Widget build(BuildContext context) {
     HomePageController homePageController = Get.find<HomePageController>();
     return SingleChildScrollView(
-      controller: homePageController.myLearningController,
+     // controller: homePageController.myLearningController,
       physics: const BouncingScrollPhysics(),
       key: const PageStorageKey<String>('myLearningStorageKey'),
       child: Obx(
         () => Column(
           children: [
             ListView.builder(
+            
               shrinkWrap: true,
               itemCount: homePageController.ongoingCourses.length,
               physics: const NeverScrollableScrollPhysics(),

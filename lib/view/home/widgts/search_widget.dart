@@ -1,30 +1,17 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:whizapp/core/asset/icons.dart';
-import 'package:whizapp/core/them/color.dart';
+import 'package:whizapp/core/theme/color.dart';
 
-class CustomTextField extends StatefulWidget {
+class CustomTextField extends StatelessWidget {
+final  void Function(String)? onChanged;
   const CustomTextField({
-    Key? key,
+    Key? key,required this.onChanged
   }) : super(key: key);
 
-  @override
-  _CustomTextFieldState createState() => _CustomTextFieldState();
-}
 
-class _CustomTextFieldState extends State<CustomTextField> {
-  final _focusNode = FocusNode();
-  bool _isFocused = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _focusNode.addListener(() {
-      setState(() {
-        _isFocused = _focusNode.hasFocus;
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +22,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         color: AppColor.whiteLight,
         borderRadius: BorderRadius.circular(100),
         border: Border.all(
-          color: _isFocused ? AppColor.secondaryLight : AppColor.primeryLight,
+          color:  AppColor.secondaryLight 
         ),
       ),
       child: Row(
@@ -51,9 +38,13 @@ class _CustomTextFieldState extends State<CustomTextField> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: TextFormField(
-                focusNode: _focusNode,
+             onChanged:onChanged,
+           onTapOutside: (event) {
+             FocusManager.instance.primaryFocus?.unfocus();
+           },
                 decoration: const InputDecoration(
                   border: InputBorder.none,
+                  
                   hintText: 'search..',
                   hintStyle: TextStyle(
                       color: AppColor.textSecondaryLight,

@@ -35,7 +35,7 @@ class UserModel {
       uid: data['uid'] ?? '',
       profileImageUrl: data['profileImageUrl'] ?? '',
       phoneNumber: data['phoneNumber'] ?? '',
-      courseId: List<String>.from(data['courseId']), dob: data['dob'], studentClass: data['studentClass'],
+      courseId:  List<String>.from(data['courseId']) , dob: data['dob']??'', studentClass: data['studentClass']??'',
     );
   }
 }
