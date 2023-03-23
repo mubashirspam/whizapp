@@ -24,6 +24,7 @@ dependencies:
   yt_player:
     path: ../yt_player_flutter
   dartz: ^0.10.1
+  youtube_player_flutter: ^8.1.2
 
 
 
