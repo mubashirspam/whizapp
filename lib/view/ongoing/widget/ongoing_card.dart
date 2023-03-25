@@ -3,12 +3,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:whizapp/core/asset/icons.dart';
 import 'package:whizapp/core/asset/image.dart';
 import 'package:whizapp/core/theme/color.dart';
-import 'package:whizapp/model/ongoingCourse/ongoing_course.dart';
+
 import 'package:whizapp/view/constants/const_dimensions.dart';
 
 class OngoingCardWidget extends StatelessWidget {
-  final OngoingCourse ongoingCourse;
-  const OngoingCardWidget({super.key, required this.ongoingCourse});
+  //final OngoingCourse ongoingCourse;
+  const OngoingCardWidget({super.key, });
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class OngoingCardWidget extends StatelessWidget {
                     SizedBox(
                       child: Text(
                         // course name
-                        ongoingCourse.course.courseName,
+                        '',
                         maxLines: 2,
                         overflow: TextOverflow.clip,
                         style: Theme.of(context).textTheme.titleMedium,
@@ -63,7 +63,7 @@ class OngoingCardWidget extends StatelessWidget {
                     ),
                     Text(
                       //course creator
-                      ongoingCourse.course.courseCreator,
+                   '',
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
                   ],
@@ -83,7 +83,7 @@ class OngoingCardWidget extends StatelessWidget {
                 ),
                 Text(
                   //progress of the course
-                  "${(ongoingCourse.courseProgress * 100).toInt()}%",
+                  '',
                   style: const TextStyle(
                     color: AppColor.textVilotLight,
                     fontSize: 14,
@@ -101,7 +101,7 @@ class OngoingCardWidget extends StatelessWidget {
               minHeight: 9,
               color: AppColor.secondaryLight,
               valueColor: const AlwaysStoppedAnimation(AppColor.primeryLight),
-              value: ongoingCourse.courseProgress,
+              value: 30,
             ),
           ),
           Padding(
@@ -112,7 +112,7 @@ class OngoingCardWidget extends StatelessWidget {
               children: [
                 Text(
                   //total number of lessons in the course
-                  "${ongoingCourse.course.lessons.length} Lessons",
+                  " Lessons",
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
                 SvgPicture.asset(

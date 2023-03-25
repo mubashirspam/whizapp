@@ -9,19 +9,14 @@ import 'package:whizapp/model/user/user_model.dart';
 
 import '../../model/course/comments.dart';
 
-class CoursePlayController extends GetxController {
+class CommentController extends GetxController {
   @override
   void onInit() {
     _firebaseFirestore = FirebaseFirestore.instance;
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    // TODO: implement onReady
 
-    super.onReady();
-  }
 
   @override
   void onClose() {
@@ -72,7 +67,13 @@ sucessOrFailure.value = await deleteComment(messageId, courseId);
 isDeleting(false);
   }
 
+
+
+
+  /* Api calls =================================================================*/
+
   Stream<List<MessageId>> getSingleCommentStream(String courseId) async* {
+    log("getCommentStream ------------------------------------");
     yield* _firebaseFirestore
         .collection('comments')
         .doc(courseId.trim())
@@ -82,6 +83,7 @@ isDeleting(false);
   }
 
   Future<Option<String>> deleteComment(MessageId messageId,String courseId) async {
+     log("delete comment ------------------------------------");
     try {
       final field ={
       messageId.messageId!: FieldValue.delete()
@@ -102,6 +104,7 @@ field
   Future<Option<String>> sendMessage(
       String courseId, MessageId commentId) async {
     try {
+       log("send message ------------------------------------");
       await _firebaseFirestore
           .collection('comments')
           .doc(courseId.trim())

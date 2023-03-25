@@ -12,14 +12,14 @@ import 'package:whizapp/core/utils.dart';
 
 import 'package:whizapp/model/course/course_mode.dart';
 
-import 'package:whizapp/model/ongoingCourse/ongoing_course.dart';
+
 import 'package:whizapp/model/user/user_model.dart';
 
 class HomePageController extends GetxController
     with StateMixin<Tuple2<List<CourseModel>, UserModel>>, ScrollMixin {
   late AuthController authController;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  RxList<OngoingCourse> ongoingCourses = RxList<OngoingCourse>();
+/*   RxList<OngoingCourse> ongoingCourses = RxList<OngoingCourse>(); */
   bool isMoreCoursesToLoad = true;
 
   var isLoading = false.obs;

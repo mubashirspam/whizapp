@@ -57,10 +57,7 @@ final course = CourseModel(
   name: 'NLP ',
   description: 'Learn NLP',
   rating: 4.5,
-  comments: [
-    Comment(author: 'John Doe', text: 'Great course!'),
-    Comment(author: 'Jane Smith', text: 'Very helpful'),
-  ],
+ 
   modules: [
     Module(
       title: 'Getting Started Class and Objects',

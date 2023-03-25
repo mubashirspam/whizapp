@@ -6,7 +6,7 @@ class CourseModel {
   final String name;
   final String description;
   final double rating;
-  final List<Comment> comments;
+  
   final List<Module> modules;
   final String createdBy;
   final DateTime createdAt;
@@ -20,7 +20,7 @@ class CourseModel {
       required this.name,
       required this.description,
       required this.rating,
-      required this.comments,
+     
       required this.modules,
       required this.createdBy,
       required this.createdAt,
@@ -36,9 +36,8 @@ class CourseModel {
         name: data['name'],
         description: data['description'],
         rating: data['rating'].toDouble(),
-        comments: (data['comments'] as List<dynamic>)
-            .map((e) => Comment.fromMap(e))
-            .toList(),
+     
+           
         modules: (data['modules'] as List<dynamic>)
             .map((e) => Module.fromMap(e))
             .toList(),
@@ -55,7 +54,7 @@ class CourseModel {
       'name': name,
       'description': description,
       'rating': rating,
-      'comments': comments.map((e) => e.toMap()).toList(),
+ 
       'modules': modules.map((e) => e.toMap()).toList(),
       'createdBy': createdBy,
       'createdAt': Timestamp.fromDate(createdAt),
@@ -67,26 +66,7 @@ class CourseModel {
   }
 }
 
-class Comment {
-  final String author;
-  final String text;
 
-  Comment({required this.author, required this.text});
-
-  factory Comment.fromMap(Map<String, dynamic> data) {
-    return Comment(
-      author: data['author'],
-      text: data['text'],
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'author': author,
-      'text': text,
-    };
-  }
-}
 
 class Module {
   final String title;

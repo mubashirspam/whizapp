@@ -45,7 +45,7 @@ class Message {
   Message({this.userId, this.userName, this.timestamp, this.messageText});
 
   Message.fromJson(Map<String, dynamic> json) {
-    log(json.toString()+"___________________");
+    
     userId = json['userId'];
     userName = json['userName'];
     timestamp = json['timeStamp'].toDate();
