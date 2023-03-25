@@ -23,7 +23,8 @@ class UserDataCollectorController extends GetxController
   Future setAndGetUser(User user) async {
     final result = await navigateUser(user);
     result.fold((e) {
-      change(null, status: RxStatus.success());//for showing user data collection page
+      change(null,
+          status: RxStatus.success()); //for showing user data collection page
       Get.snackbar(
         "error",
         e.toString(),
@@ -32,7 +33,7 @@ class UserDataCollectorController extends GetxController
       );
     }, (UserModel? userModel) {
       if (userModel != null) {
-        change(userModel, status: RxStatus.success());//shows mainpage
+        change(userModel, status: RxStatus.success()); //shows mainpage
       } else {
         change(null, status: RxStatus.success());
       }
@@ -60,8 +61,6 @@ class UserDataCollectorController extends GetxController
       final userModelStatus = await authController.getCurrentUserModel(user);
       return userModelStatus;
     } catch (e) {
-     
-        
       log(e.toString() + "getCurrentUsermodel ===== exception");
       return Left(e.toString());
     }

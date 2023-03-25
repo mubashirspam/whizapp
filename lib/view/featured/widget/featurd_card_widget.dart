@@ -119,10 +119,8 @@ class FeaturedCardWidget extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 5),
                 child: Text(
-                  
                   "22 Entrolled",
                   style: Theme.of(context).textTheme.displaySmall,
-                
                 ),
               ),
               const Spacer(),
@@ -143,14 +141,10 @@ class FeaturedCardWidget extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 5),
                 child: Text(
-                  
-                
                   // total duration of course
-               
-                  "${course.totalDuration}h ${course.totalDuration}m" ,
+
+                  "${course.totalDuration}h ${course.totalDuration}m",
                   style: Theme.of(context).textTheme.displaySmall,
-                  
-                
                 ),
               ),
             ],

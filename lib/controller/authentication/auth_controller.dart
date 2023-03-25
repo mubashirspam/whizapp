@@ -14,7 +14,7 @@ class AuthController extends GetxController
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-   Rx<UserModel>? userModel;
+  Rx<UserModel>? userModel;
   late Rx<User?> firebaseUser;
   RxString phoneNo = "".obs;
   RxString otp = "".obs;
@@ -32,15 +32,11 @@ class AuthController extends GetxController
   void onInit() {
     super.onInit();
     firebaseUser = Rx<User?>(auth.currentUser);
-   
+
     firebaseUser.bindStream(auth.authStateChanges().handleError((error) {}));
     log('doc read bind stream -----------------------');
     ever(firebaseUser, initUser);
   }
-
-
-
-
 
   void initUser(User? user) async {
     if (user != null) {
@@ -71,15 +67,11 @@ class AuthController extends GetxController
     );
   }
 
-  
-
   Future<Either<String, UserModel?>> getCurrentUserModel(User user) async {
     log('get cutrrent User --------------------------- api ');
     try {
-      final docSnap = await firestore
-          .collection('user')
-          .doc(user.uid.trim())
-          .get();
+      final docSnap =
+          await firestore.collection('user').doc(user.uid.trim()).get();
 
       if (docSnap.exists) {
         return right(
@@ -88,13 +80,11 @@ class AuthController extends GetxController
         return right(null);
       }
     } on FirebaseException catch (e) {
-      log(e.code.toString()+'firebase exception XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
+      log(e.code.toString() +
+          'firebase exception XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
       return Left(e.code.toString());
-
-    }
-    
-    catch (e) {
-      log(e.toString()+"catche xeeee");
+    } catch (e) {
+      log(e.toString() + "catche xeeee");
       return left(e.toString());
     }
   }
@@ -146,7 +136,7 @@ class AuthController extends GetxController
         },
         verificationFailed: (FirebaseAuthException error) {
           isSendingOTP.value = false;
-          
+
           log("Exption ${error.code}");
           showSnckbar(head: 'Error', body: error.code.toString());
         },
@@ -168,7 +158,7 @@ class AuthController extends GetxController
       phoneNumber: phoneNo.value,
       verificationCompleted: (PhoneAuthCredential credential) async {
         isSendingOTP.value = false;
-isVerifyButtonStatus(false);
+        isVerifyButtonStatus(false);
         log('verification sucess ResendOtp ----------------------------------------');
 
         await auth.signInWithCredential(PhoneAuthProvider.credential(
@@ -181,12 +171,12 @@ isVerifyButtonStatus(false);
         statusMessage.value = '';
         log("Exption $error");
         startTimer();
-isVerifyButtonStatus(false);
+        isVerifyButtonStatus(false);
         showSnckbar(head: 'Error', body: error.code.toString());
       },
       codeSent: (String verificationId, int? resendToken) {
         isSendingOTP.value = false;
-isVerifyButtonStatus(false);
+        isVerifyButtonStatus(false);
         firebaseVerificationId = verificationId;
         isOtpSent.value = true;
         statusMessage.value = "OTP re-sent to ${phoneNo.value}";
@@ -201,7 +191,7 @@ isVerifyButtonStatus(false);
 
   Future<void> verifyOTP() async {
     log('firebase request ---------------- verify otp');
-     isVerifyButtonStatus(true);
+    isVerifyButtonStatus(true);
     try {
       statusMessage.value = "Verifying... ${otp.value}";
 
@@ -219,6 +209,13 @@ isVerifyButtonStatus(false);
       statusMessageColor = Colors.red.obs;
 
       showSnckbar(head: 'Invalid OTP', body: e.code.toString());
+    }
+    catch(e){
+        isVerifyButtonStatus(false);
+      statusMessage.value = "Invalid  OTP";
+      statusMessageColor = Colors.red.obs;
+
+      showSnckbar(head: 'Invalid OTP', body: 'Error occured');
     }
   }
 

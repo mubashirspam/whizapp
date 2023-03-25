@@ -63,7 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '276396897896',
     projectId: 'whizapp-153fd',
     storageBucket: 'whizapp-153fd.appspot.com',
-    iosClientId: '276396897896-1rrpv607g7q65lqt8ie0lt1r85ksal4s.apps.googleusercontent.com',
+    iosClientId:
+        '276396897896-1rrpv607g7q65lqt8ie0lt1r85ksal4s.apps.googleusercontent.com',
     iosBundleId: 'com.example.whizapp',
   );
 }

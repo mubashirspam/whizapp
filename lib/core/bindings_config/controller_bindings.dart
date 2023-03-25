@@ -6,15 +6,12 @@ import 'package:whizapp/controller/mainPageController/main_page_controller.dart'
 
 import '../../controller/authentication/auth_controller.dart';
 
-
-
-class ControllerBindings implements Bindings{
+class ControllerBindings implements Bindings {
   @override
   void dependencies() {
-   Get.put( AuthController(), permanent: true);
-   Get.lazyPut(() => HomePageController(),fenix: true);
-    Get.lazyPut(() => MainPageController(),fenix: true);
-    Get.lazyPut(() => CoursePlayController(),fenix: true);
+    Get.put(AuthController(), permanent: true);
+    Get.lazyPut(() => HomePageController(), fenix: true);
+    Get.lazyPut(() => MainPageController(), fenix: true);
+    Get.lazyPut(() => CoursePlayController(), fenix: true);
   }
-
 }

@@ -3,7 +3,7 @@ import 'package:whizapp/core/theme/color.dart';
 
 class ButtonWidget extends StatelessWidget {
   final String name;
-  final VoidCallback ? onPressed;
+  final VoidCallback? onPressed;
 
   final Color? bgColor;
   final Color? bgInColor;
@@ -23,7 +23,6 @@ class ButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-
       style: ButtonStyle(
         padding: MaterialStateProperty.resolveWith<EdgeInsetsGeometry>(
           (Set<MaterialState> states) => const EdgeInsets.symmetric(
@@ -36,14 +35,14 @@ class ButtonWidget extends StatelessWidget {
           if (states.contains(MaterialState.pressed)) {
             return bgInColor ?? AppColor.whiteLight;
           }
-          return bgColor?? AppColor.primeryLight;
+          return bgColor ?? AppColor.primeryLight;
         }),
         foregroundColor: MaterialStateProperty.resolveWith<Color>(
             (Set<MaterialState> states) {
           if (states.contains(MaterialState.pressed)) {
-            return fgIColor?? AppColor.textVilotLight;
+            return fgIColor ?? AppColor.textVilotLight;
           }
-          return fgColor?? AppColor.textwhiteLight;
+          return fgColor ?? AppColor.textwhiteLight;
         }),
         shape: MaterialStateProperty.resolveWith<OutlinedBorder>((states) {
           // if(states.contains(MaterialState.pressed)){
@@ -64,7 +63,6 @@ class ButtonWidget extends StatelessWidget {
             ),
           );
         }),
-        
         elevation: MaterialStateProperty.resolveWith((states) => 4),
         animationDuration: const Duration(milliseconds: 30),
         shadowColor: MaterialStateProperty.resolveWith((states) {
@@ -74,7 +72,6 @@ class ButtonWidget extends StatelessWidget {
           return AppColor.primeryLight.withOpacity(0.5);
         }),
       ),
-
       onPressed: onPressed,
       child: Text(
         name,

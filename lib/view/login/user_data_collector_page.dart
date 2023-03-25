@@ -1,5 +1,3 @@
-
-
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,14 +29,12 @@ class UserDataCollectorPage extends GetView<UserDataCollectorController> {
     return controller.obx(
         onLoading: const Scaffold(
           body: Center(
-            child: CircularProgressIndicator(
-              
-            ),
+            child: CircularProgressIndicator(),
           ),
         ), (userModel) {
       if (userModel != null) {
         log('user Not Empty --------------------------------');
-        return  MainPage();
+        return MainPage();
       } else {
         return Scaffold(
           backgroundColor: AppColor.primeryLight,
@@ -91,7 +87,7 @@ class UserDataCollectorPage extends GetView<UserDataCollectorController> {
                         name: "Submit",
                         onPressed: () async {
                           bool isValid = formGlobalKey.currentState!.validate();
-            
+
                           if (isValid) {
                             await userDataController.setAndGetUser(user);
                           }

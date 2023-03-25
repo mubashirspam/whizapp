@@ -10,7 +10,8 @@ import '../../../core/theme/color.dart';
 class WelcomeBottomBar extends StatelessWidget {
   final int dotCount;
   final int dotIndex;
-  const WelcomeBottomBar({super.key, required this.dotCount, required this.dotIndex});
+  const WelcomeBottomBar(
+      {super.key, required this.dotCount, required this.dotIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,6 @@ class WelcomeBottomBar extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 10),
       child: SizedBox(
         child: Row(
-    
           children: [
             ButtonWidget(
                 name: 'Skip',
@@ -30,7 +30,7 @@ class WelcomeBottomBar extends StatelessWidget {
                       duration: const Duration(milliseconds: 200),
                       curve: Curves.easeIn);
                 }),
-                const Spacer(),
+            const Spacer(),
             SizedBox(
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -59,8 +59,7 @@ class WelcomeBottomBar extends StatelessWidget {
                 onPressed: () {
                   if (welcomeScreenController.currentIndex.value ==
                       dotCount - 1) {
-
-                   Get.offAll(() => LoginPage());
+                    Get.offAll(() => LoginPage());
                   } else {
                     welcomeScreenController.pageViewController.nextPage(
                         duration: const Duration(milliseconds: 200),

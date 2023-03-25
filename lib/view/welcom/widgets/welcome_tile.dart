@@ -26,7 +26,7 @@ class WelcomeTile extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(
-      height: 300,
+              height: 300,
               child: Stack(
                 children: [
                   SvgPicture.asset(AppImg.ill),
@@ -46,7 +46,6 @@ class WelcomeTile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  
                   Text(
                     "Discover your next skill Learn anything you want!",
                     textAlign: TextAlign.center,
@@ -59,8 +58,6 @@ class WelcomeTile extends StatelessWidget {
                     style: Theme.of(context).textTheme.displaySmall,
                   ),
                   const Spacer(),
-                 
-                 
                 ],
               ),
             ),

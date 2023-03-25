@@ -3,23 +3,19 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:whizapp/core/theme/color.dart';
 
-
-
 class OtpWidget extends StatefulWidget {
   final ValueChanged<String>? onCompleted;
   final List<TextEditingController> controllers;
 
-  const OtpWidget({Key? key, this.onCompleted , required this.controllers}) : super(key: key);
+  const OtpWidget({Key? key, this.onCompleted, required this.controllers})
+      : super(key: key);
 
   @override
   State<OtpWidget> createState() => _OtpWidgetState();
 }
 
 class _OtpWidgetState extends State<OtpWidget> {
-
   final List<FocusNode> _focusNodes = List.generate(6, (index) => FocusNode());
- 
-
 
   @override
   void initState() {
@@ -28,10 +24,12 @@ class _OtpWidgetState extends State<OtpWidget> {
     _focusNodes[0].requestFocus();
     for (var i = 0; i < _focusNodes.length; i++) {
       widget.controllers[i].addListener(() {
-        if (widget.controllers[i].text.isNotEmpty && i < widget.controllers.length - 1) {
+        if (widget.controllers[i].text.isNotEmpty &&
+            i < widget.controllers.length - 1) {
           _focusNodes[i + 1].requestFocus();
         }
-        if (widget.controllers[i].text.isNotEmpty && i == widget.controllers.length - 1) {
+        if (widget.controllers[i].text.isNotEmpty &&
+            i == widget.controllers.length - 1) {
           var otp = "";
           for (var controller in widget.controllers) {
             otp += controller.text;
@@ -41,7 +39,6 @@ class _OtpWidgetState extends State<OtpWidget> {
       });
     }
     //// Timer ==========================
-  
   }
 
   @override
@@ -85,8 +82,8 @@ class _OtpWidgetState extends State<OtpWidget> {
                                 enabled: true,
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                      color:
-                                          AppColor.textwhiteLight.withOpacity(0.3),
+                                      color: AppColor.textwhiteLight
+                                          .withOpacity(0.3),
                                       width: 1),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
@@ -104,7 +101,6 @@ class _OtpWidgetState extends State<OtpWidget> {
                     ),
                   )),
         ),
-    
       ],
     );
   }

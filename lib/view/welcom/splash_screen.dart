@@ -19,12 +19,12 @@ class SplashScreen extends GetView<AuthController> {
 
   @override
   Widget build(BuildContext context) {
-  log('building splash screen*****************************');
+    log('building splash screen*****************************');
     return controller.obx(
         onLoading: const Material(child: ShimmerLoadingScreen()),
         onEmpty: const WelcomPage(), (userModel) {
       if (userModel != null) {
-        return  MainPage();
+        return MainPage();
       } else {
         return UserDataCollectorPage(
             user: Get.find<AuthController>().firebaseUser.value as User);

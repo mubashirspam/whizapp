@@ -45,7 +45,3 @@ class WelcomPage extends StatelessWidget {
     );
   }
 }
-
-
-
-

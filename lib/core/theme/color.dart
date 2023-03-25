@@ -4,7 +4,7 @@ class AppColor {
   AppColor._();
 
   static const Color primeryLight = Color(0xFF6F57ED);
-    static const Color redDanger = Colors.red;
+  static const Color redDanger = Colors.red;
   static const Color secondaryLight = Color(0xFFE3DEF9);
   static const Color whiteLight = Color(0xFFFFFFFF);
   static const Color backgroundLight = Color(0xFFF7F6FA);
@@ -17,11 +17,10 @@ class AppColor {
   static const Color textVilotLight = Color(0xFF6F57ED);
   static const Color textwhiteLight = Color(0xFFFFFFFF);
 
-   // icons...
-  static const Color iconPrimeryLight =  Color(0xFF6F57ED);
+  // icons...
+  static const Color iconPrimeryLight = Color(0xFF6F57ED);
   static const Color iconSecondaryLight = Color(0xFFA3A6AB);
-   static const Color iconyellowLight = Color(0xFFEEB14B);
-
+  static const Color iconyellowLight = Color(0xFFEEB14B);
 
 //   // dark
 

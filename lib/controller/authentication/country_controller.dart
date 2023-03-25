@@ -22,6 +22,4 @@ class CountryController extends GetxController {
       ),
     );
   }
-
-  
 }

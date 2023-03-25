@@ -26,7 +26,6 @@ class HomePageController extends GetxController
   List<CourseModel> courses = [];
   UserModel? userModel;
 
-
   final Debouncer _debouncer =
       Debouncer(delay: const Duration(milliseconds: 800));
   QueryDocumentSnapshot? lastVisible;
@@ -42,9 +41,10 @@ class HomePageController extends GetxController
     authController = Get.find<AuthController>();
     super.onInit();
   }
+
   @override
   void onClose() {
-    // TODO: implement 
+    // TODO: implement
     userStreamsub?.cancel();
     super.onClose();
   }
@@ -59,28 +59,27 @@ class HomePageController extends GetxController
     }, (data) async {
       courses.addAll(data);
 
-      handleUserStream();
+     await handleUserStream();
     });
 
     super.onReady();
   }
+  cancelUserStreamWhenLogOut()async{
+   await userStreamsub?.cancel();
+  }
 
-  handleUserStream() {
-    userStreamsub?.cancel();
-  
- userStreamsub = getUserDataStream(authController.firebaseUser.value!.uid)
+  Future handleUserStream()async {
+   await userStreamsub?.cancel();
+
+    userStreamsub = getUserDataStream(authController.firebaseUser.value!.uid)
         .listen((data) {
       userModel = data;
       change(Tuple2(courses, data), status: RxStatus.success());
     }, onError: (e) {
-      log(e.toString()+"userStream errorxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+      log(e.toString() + "userStream errorxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
       change(null,
           status: RxStatus.error('Error occured while retriving user data'));
     });
-    
-   
-    
-   
   }
 
   handleSearch(String queryText) async {
@@ -98,9 +97,8 @@ class HomePageController extends GetxController
             searchCourseResult(qResult);
             isQuerying(false);
           });
-        }
-        else{
-            isSearchDataEmpty = true;
+        } else {
+          isSearchDataEmpty = true;
         }
       },
     );
@@ -109,15 +107,10 @@ class HomePageController extends GetxController
   Stream<UserModel> getUserDataStream(String uid) async* {
     log("calling getuserStream ----------------------------");
 
-    final docRef =
-        firestore.collection('user').doc(uid.trim());
+    final docRef = firestore.collection('user').doc(uid.trim());
     yield* docRef.snapshots().map((docSnp) =>
         UserModel.fromFirestore(docSnp.data() as Map<String, dynamic>));
   }
-
-
-
-
 
   Future<Either<String, List<CourseModel>>> searchCourse(
       String queryText) async {
@@ -188,9 +181,8 @@ class HomePageController extends GetxController
   @override
   Future<void> onEndScroll() async {
     log('on bottom---');
-    if(isSearchDataEmpty){
-
-        if (status.isLoadingMore == false && isMoreCoursesToLoad == true) {
+    if (isSearchDataEmpty) {
+      if (status.isLoadingMore == false && isMoreCoursesToLoad == true) {
         change(Tuple2(courses, userModel!), status: RxStatus.loadingMore());
         final moreCourses = await getMoreFeaturedCourses();
         moreCourses.fold((l) {
@@ -203,8 +195,6 @@ class HomePageController extends GetxController
         });
       }
     }
-    
-  
   }
 
   @override

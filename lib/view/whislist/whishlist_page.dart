@@ -6,7 +6,6 @@ import 'package:whizapp/core/asset/icons.dart';
 import 'package:whizapp/core/theme/color.dart';
 import 'package:whizapp/view/constants/const_dimensions.dart';
 
-
 class WhishListPage extends StatefulWidget {
   const WhishListPage({super.key});
 
@@ -15,8 +14,6 @@ class WhishListPage extends StatefulWidget {
 }
 
 class _WhishListPageState extends State<WhishListPage> {
-
-
   int selectedIndex = 10;
 
   int selectedContainerIndex = 0;
@@ -24,7 +21,7 @@ class _WhishListPageState extends State<WhishListPage> {
 
   @override
   Widget build(BuildContext context) {
-       CourseController _courseController = Get.put(CourseController());
+    CourseController _courseController = Get.put(CourseController());
     return Obx(() {
       if (_courseController.isLoading.value) {
         return const Center(child: CircularProgressIndicator());

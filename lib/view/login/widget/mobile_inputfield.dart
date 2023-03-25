@@ -8,11 +8,11 @@ class TextFieldWidget extends StatelessWidget {
   final TextEditingController? textEditingController;
   final Function(String value) onChanged;
   final Function(dynamic value) onSaved;
-final Function()? onTap;
+  final Function()? onTap;
   final String? Function(String?)? validate;
-final AutovalidateMode? autoValidateMode;
+  final AutovalidateMode? autoValidateMode;
   final Widget? prefix;
-final String labelText;
+  final String labelText;
   // final void Function (String value) onSaved;
 
   const TextFieldWidget({
@@ -22,7 +22,7 @@ final String labelText;
     this.prefixIcon,
     required this.hintText,
     required this.keyboardType,
-     this.textEditingController,
+    this.textEditingController,
     required this.onChanged,
     required this.onSaved,
     required this.validate,
@@ -40,20 +40,17 @@ final String labelText;
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: TextFormField(
-          controller: textEditingController,
-          autovalidateMode: autoValidateMode,
+              controller: textEditingController,
+              autovalidateMode: autoValidateMode,
               onTap: onTap,
               cursorColor: AppColor.whiteLight,
               keyboardType: keyboardType,
               decoration: InputDecoration(
-        
                 labelText: labelText,
-                
                 labelStyle: const TextStyle(
                   color: AppColor.whiteLight,
                 ),
                 prefix: prefix,
-                
                 prefixIcon: prefixIcon,
                 filled: true,
                 fillColor: AppColor.whiteLight.withOpacity(0.1),
@@ -78,11 +75,11 @@ final String labelText;
                       const BorderSide(color: AppColor.whiteLight, width: 1),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                
                 hintText: hintText,
                 hintStyle: const TextStyle(
-                    color: AppColor.textwhiteLight,
-                   /*  fontWeight: FontWeight.w200 */),
+                  color: AppColor
+                      .textwhiteLight, /*  fontWeight: FontWeight.w200 */
+                ),
               ),
               onChanged: onChanged,
               onSaved: onSaved,

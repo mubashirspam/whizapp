@@ -16,19 +16,13 @@ import 'package:whizapp/view/login/login_page.dart';
 
 import 'package:whizapp/view/main/widgets/bottom_navigation_widgets.dart';
 
-
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     AuthController authController = Get.find<AuthController>();
-    ever(authController.firebaseUser, (firebaseUser) {
-      if (firebaseUser == null) {
-        Get.offAll(() => LoginPage());
-        log("user is null");
-      }
-    });
+   
     return SingleChildScrollView(
       padding: const EdgeInsets.all(20),
       child: Column(

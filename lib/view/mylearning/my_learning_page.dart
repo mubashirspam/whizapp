@@ -14,14 +14,13 @@ class MyLearningPage extends StatelessWidget {
   Widget build(BuildContext context) {
     HomePageController homePageController = Get.find<HomePageController>();
     return SingleChildScrollView(
-     // controller: homePageController.myLearningController,
+      // controller: homePageController.myLearningController,
       physics: const BouncingScrollPhysics(),
       key: const PageStorageKey<String>('myLearningStorageKey'),
       child: Obx(
         () => Column(
           children: [
             ListView.builder(
-            
               shrinkWrap: true,
               itemCount: homePageController.ongoingCourses.length,
               physics: const NeverScrollableScrollPhysics(),
@@ -38,7 +37,6 @@ class MyLearningPage extends StatelessWidget {
                 ),
               ),
             ),
-
             homePageController.isLoading.value
                 ? const Padding(
                     padding: EdgeInsets.all(ConstDimensions.appPadding),
@@ -50,9 +48,6 @@ class MyLearningPage extends StatelessWidget {
                           strokeWidth: 3,
                         )))
                 : const SizedBox()
-
-            
-      
           ],
         ),
       ),

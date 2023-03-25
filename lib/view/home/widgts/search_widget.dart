@@ -6,24 +6,18 @@ import 'package:whizapp/core/asset/icons.dart';
 import 'package:whizapp/core/theme/color.dart';
 
 class CustomTextField extends StatelessWidget {
-final  void Function(String)? onChanged;
-  const CustomTextField({
-    Key? key,required this.onChanged
-  }) : super(key: key);
-
-
+  final void Function(String)? onChanged;
+  const CustomTextField({Key? key, required this.onChanged}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 10),
-      padding:const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
         color: AppColor.whiteLight,
         borderRadius: BorderRadius.circular(100),
-        border: Border.all(
-          color:  AppColor.secondaryLight 
-        ),
+        border: Border.all(color: AppColor.secondaryLight),
       ),
       child: Row(
         children: [
@@ -38,13 +32,12 @@ final  void Function(String)? onChanged;
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: TextFormField(
-             onChanged:onChanged,
-           onTapOutside: (event) {
-             FocusManager.instance.primaryFocus?.unfocus();
-           },
+                onChanged: onChanged,
+                onTapOutside: (event) {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                },
                 decoration: const InputDecoration(
                   border: InputBorder.none,
-                  
                   hintText: 'search..',
                   hintStyle: TextStyle(
                       color: AppColor.textSecondaryLight,

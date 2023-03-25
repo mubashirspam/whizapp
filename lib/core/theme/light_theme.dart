@@ -69,7 +69,6 @@ ThemeData lightTheme() {
     ),
 
     textTheme: const TextTheme(
- 
       displayLarge: TextStyle(
         color: AppColor.textPrimeryLight,
         fontSize: 18,

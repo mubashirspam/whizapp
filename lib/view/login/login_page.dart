@@ -45,7 +45,7 @@ class LoginPage extends GetView<AuthController> {
     return controller.obx(
       (userModel) {
         if (userModel != null) {
-          return  MainPage();
+          return MainPage();
         } else {
           return UserDataCollectorPage(
               user: authController.firebaseUser.value as User);
@@ -175,8 +175,8 @@ class LoginPage extends GetView<AuthController> {
                                             name: 'Resend otp',
                                             bgColor: AppColor.backgroundLight,
                                             fgColor: AppColor.primeryLight,
-                                            onPressed: () async{
-                                            await  authController.resendOtp();
+                                            onPressed: () async {
+                                              await authController.resendOtp();
                                             },
                                           )
                                         : Text(

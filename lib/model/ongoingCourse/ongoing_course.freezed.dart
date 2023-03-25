@@ -16,7 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$OngoingCourse {
-  Course get course => throw _privateConstructorUsedError;
+  Course get course =>
+      throw _privateConstructorUsedError; //indicates  overall progress of the course
   double get courseProgress => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -120,6 +121,7 @@ class _$_OngoingCourse implements _OngoingCourse {
 
   @override
   final Course course;
+//indicates  overall progress of the course
   @override
   final double courseProgress;
 
@@ -155,7 +157,7 @@ abstract class _OngoingCourse implements OngoingCourse {
 
   @override
   Course get course;
-  @override
+  @override //indicates  overall progress of the course
   double get courseProgress;
   @override
   @JsonKey(ignore: true)

@@ -24,8 +24,9 @@ class CoursePlayBottomButton extends StatelessWidget {
               buttonColor: AppColor.yellowLight,
               onTap: () {},
               width: 52,
-              child:Icon(
-              Icons.help,size: 30,
+              child: Icon(
+                Icons.help,
+                size: 30,
               ),
             ),
             CourseAppBottomBarButton(

@@ -27,15 +27,11 @@ class CourseModel {
       required this.updatedAt,
       required this.isPrivate,
       required this.totalDuration,
-      required this.thumbnailUrl
-      
-      
-      });
+      required this.thumbnailUrl});
 
   factory CourseModel.fromFirestore(DocumentSnapshot doc) {
     Map data = doc.data() as Map;
-    return
-     CourseModel(
+    return CourseModel(
         id: doc.id,
         name: data['name'],
         description: data['description'],
@@ -53,8 +49,7 @@ class CourseModel {
         totalDuration: data['totalDuration'], //String
         thumbnailUrl: data['thumbnailUrl']);
   }
-  DateTime ts = DateTime.now();
-  Timestamp dT = Timestamp.fromDate(DateTime.now());
+
   Map<String, dynamic> toMap() {
     return {
       'name': name,

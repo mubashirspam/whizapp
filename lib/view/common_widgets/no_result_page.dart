@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:whizapp/core/asset/image.dart';
 import 'package:whizapp/view/common_widgets/button_widget.dart';
 
-
 class NoResultPage extends StatelessWidget {
   const NoResultPage({super.key});
 
@@ -15,8 +14,8 @@ class NoResultPage extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Image.asset(
-            
-            AppImg.charactor2,fit: BoxFit.cover,
+            AppImg.charactor2,
+            fit: BoxFit.cover,
             width: 300,
             height: 300,
           ),
@@ -28,7 +27,7 @@ class NoResultPage extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom:20,left: 20,right: 20),
+            padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
             child: Text('Hit the  button down below to Create an Wishlist',
                 style: Theme.of(context).textTheme.titleSmall),
           ),
