@@ -68,8 +68,10 @@ class ExpansionWidget extends StatelessWidget {
                     (pdfIndex) => ListTile(
                           onTap: () {
                             Get.to(() => PdfPage(
+                              pdfName:course.modules[currentModuleIndex]
+                                    .pdfs[pdfIndex].title ,
                                 pdfUrl: course.modules[currentModuleIndex]
-                                    .pdfs[pdfIndex].url));
+                                    .pdfs[pdfIndex].url),transition: Transition.rightToLeft,duration: const Duration(milliseconds: 450));
                           },
                           leading: const RotatedBox(
                             quarterTurns: 2,

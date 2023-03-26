@@ -34,21 +34,24 @@ class CommentController extends GetxController {
   late FirebaseFirestore _firebaseFirestore;
   StreamSubscription? _streamSubscription;
   RxList<MessageId> comments = RxList.empty();
-  String textFieldValue = '';
+  RxString textFieldValue = ''.obs;
   Rx<Option<String>> sucessOrFailure = Rx(none());
 
   handleSendMessage(UserModel user, String courseId) async {
-    final time = DateTime.now();
+    if(textFieldValue.isNotEmpty){
+final time = DateTime.now();
     final commentId = MessageId(
         messageId: time.millisecondsSinceEpoch.toString(),
         message: Message(
             userId: user.uid,
             userName: user.name,
             timestamp: time,
-            messageText: textFieldValue));
+            messageText: textFieldValue.value));
             isSending(true);
     sucessOrFailure.value = await sendMessage(courseId, commentId);
      isSending(false);
+    }
+    
   }
 
   handleCommentsStream(String courseId) {

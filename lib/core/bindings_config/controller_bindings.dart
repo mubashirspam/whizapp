@@ -10,7 +10,7 @@ class ControllerBindings implements Bindings {
   @override
   void dependencies() {
     Get.put(AuthController(), permanent: true);
-    Get.lazyPut(() => HomePageController(), fenix: true);
+    Get.lazyPut(() => HomePageController(), fenix: true,);
     Get.lazyPut(() => MainPageController(), fenix: true);
     Get.lazyPut(() => CommentController(), fenix: true);
   }

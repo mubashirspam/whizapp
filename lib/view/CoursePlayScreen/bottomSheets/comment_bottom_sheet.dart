@@ -143,9 +143,9 @@ class CommentBottomSheet extends StatelessWidget {
             controller: _messageFieldController,
             onChanged: (val) async {
               if (val.isNotEmpty) {
-                coursePlayController.textFieldValue = val;
+                coursePlayController.textFieldValue.value = val;
               } else {
-                coursePlayController.textFieldValue = '';
+                coursePlayController.textFieldValue.value = '';
               }
             },
             decoration: InputDecoration(
@@ -155,7 +155,7 @@ class CommentBottomSheet extends StatelessWidget {
                 onPressed: () async {
                   await coursePlayController.handleSendMessage(
                       homePageController.userModel!, courseId);
-                  coursePlayController.textFieldValue = '';
+                  coursePlayController.textFieldValue.value = '';
                   _messageFieldController.clear();
                 },
                 icon: Obx(
@@ -167,11 +167,11 @@ class CommentBottomSheet extends StatelessWidget {
                             color: AppColor.backgroundLight,
                           ),
                         )
-                      : const Icon(
+                      :coursePlayController.textFieldValue.isNotEmpty? const Icon(
                           Icons.send_rounded,
                           color: AppColor.backgroundLight,
                           size: 18,
-                        ),
+                        ):const SizedBox(),
                 ),
               ),
               hintText: 'Type here...',
