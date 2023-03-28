@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:whizapp/controller/authentication/auth_controller.dart';
 import 'package:whizapp/core/theme/color.dart';
-import 'package:whizapp/model/user/user_model.dart';
+
+import 'package:whizapp/model/UserModel/user_model.dart';
 
 //controller  for collecting user data after register
 class UserDataCollectorController extends GetxController
@@ -16,10 +17,12 @@ class UserDataCollectorController extends GetxController
   TextEditingController nameController = TextEditingController();
 
   RxString currentStandard = ''.obs;
-  RxString currentDob = ''.obs;
+  Rxn<DateTime>currentDob = Rxn();
   List<String> classes = List.generate(10, (index) => "Class ${index + 1}");
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  late FirebaseFirestore firestore ;
   AuthController authController = Get.find<AuthController>();
+
+
   Future setAndGetUser(User user) async {
     final result = await navigateUser(user);
     result.fold((e) {
@@ -40,6 +43,9 @@ class UserDataCollectorController extends GetxController
     });
   }
 
+
+
+
   Future<Either<String, UserModel?>> navigateUser(User user) async {
     log('firebase request ---------------- setUserDatatofi');
     UserModel userModel = UserModel(
@@ -47,9 +53,9 @@ class UserDataCollectorController extends GetxController
         phoneNumber: user.phoneNumber.toString(),
         profileImageUrl: '',
         uid: user.uid,
-        courseId: [],
-        dob: currentDob.value,
-        studentClass: currentStandard.value);
+       
+        dob: currentDob.value!,
+        studentClass: currentStandard.value, myLearnings: [], notifications: []);
 
     change(null, status: RxStatus.loading());
     try {
@@ -66,8 +72,13 @@ class UserDataCollectorController extends GetxController
     }
   }
 
+
+
+  
+
   @override
   void onInit() {
+   firestore = FirebaseFirestore.instance;
     // TODO: implement onInit
     change(null, status: RxStatus.success());
     super.onInit();

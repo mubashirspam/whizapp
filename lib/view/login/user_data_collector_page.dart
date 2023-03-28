@@ -188,6 +188,12 @@ class CupertinoDobPickerField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String convertDateTimeToString(DateTime dateTime){
+      final day = dateTime.day.toString();
+      final month = dateTime.month.toString().length<2?'0${dateTime.month}':dateTime.month.toString();
+      final year = dateTime.year.toString();
+      return "$day-$month-$year";
+    }
     UserDataCollectorController userDataController =
         Get.find<UserDataCollectorController>();
     return Padding(
@@ -195,8 +201,8 @@ class CupertinoDobPickerField extends StatelessWidget {
       child: Obx(
         () => TextFormField(
           validator: (value) {
-            if (userDataController.currentDob.isEmpty) {
-              return "Please Select Student class";
+            if (userDataController.currentDob.value == null) {
+              return "Please Select Student Date of Birth";
             } else {
               return null;
             }
@@ -207,7 +213,7 @@ class CupertinoDobPickerField extends StatelessWidget {
             builder: (context) {
               return CupertinoActionSheet(
                 title: Obx(
-                  () => Text(userDataController.currentDob.value,
+                  () => Text(userDataController.currentDob.value == null?"Not Selected":convertDateTimeToString(userDataController.currentDob.value!),
                       style: Theme.of(context).textTheme.titleLarge),
                 ),
                 actions: [
@@ -225,7 +231,7 @@ class CupertinoDobPickerField extends StatelessWidget {
                       mode: CupertinoDatePickerMode.date,
                       onDateTimeChanged: (DateTime value) {
                         userDataController.currentDob(
-                            "${value.day.toString().length < 2 ? "0${value.day}" : value.day}-${value.month.toString().length < 2 ? "0${value.month}" : value.month}-${value.year}");
+                       value);
                         formGlobalKey.currentState!.validate();
                       },
                     ),
@@ -236,9 +242,9 @@ class CupertinoDobPickerField extends StatelessWidget {
           ),
           decoration: InputDecoration(
               filled: true,
-              hintText: userDataController.currentDob.value.isEmpty
+              hintText: userDataController.currentDob.value == null
                   ? "Tap to select student Date of birth"
-                  : userDataController.currentDob.value,
+                  :convertDateTimeToString(userDataController.currentDob.value!) ,
               hintStyle: const TextStyle(color: AppColor.backgroundLight),
               fillColor: AppColor.whiteLight.withOpacity(0.1),
               enabled: true,

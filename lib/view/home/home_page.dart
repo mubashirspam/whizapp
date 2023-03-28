@@ -208,11 +208,15 @@ class HomePage extends GetView<HomePageController> {
                                         homePageController.courses.length,
                                     itemBuilder: (context, index) {
                                       return InkWell(
-                                          onTap: () =>
-                                              Get.to(() => CourseDetailPage(
+                                          onTap: () => Get.to(
+                                              () => CourseDetailPage(
                                                     course: homePageController
                                                         .courses[index],
-                                                  ),transition: Transition.rightToLeft,duration: const Duration(milliseconds: 450)),
+                                                  ),
+                                              transition:
+                                                  Transition.rightToLeft,
+                                              duration: const Duration(
+                                                  milliseconds: 450)),
                                           child: FeaturedCardWidget(
                                             course: homePageController
                                                 .courses[index],
@@ -229,8 +233,10 @@ class HomePage extends GetView<HomePageController> {
                                             child: SizedBox(
                                                 height: 20,
                                                 width: 20,
-                                                child: CircularProgressIndicator(
-                                                  color: AppColor.textVilotLight,
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color:
+                                                      AppColor.textVilotLight,
                                                   strokeWidth: 3,
                                                 )),
                                           ))

@@ -37,7 +37,7 @@ class MainPage extends GetView<HomePageController> {
     AuthController authController = Get.find<AuthController>();
     ever(authController.firebaseUser, (firebaseUser) async {
       if (firebaseUser == null) {
-         Get.find<HomePageController>().dispose();
+       Get.find<HomePageController>().dispose();
         Get.offAll(() => LoginPage());
         log("user is null --- logout called");
       }

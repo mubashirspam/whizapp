@@ -3,9 +3,10 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:get/get.dart';
-import 'package:whizapp/model/user/user_model.dart';
+
+import 'package:whizapp/model/UserModel/user_model.dart';
 
 import '../../model/course/comments.dart';
 
@@ -16,21 +17,19 @@ class CommentController extends GetxController {
     super.onInit();
   }
 
-
-
   @override
   void onClose() {
     // TODO: implement onClose
     _streamSubscription?.cancel();
     super.onClose();
   }
- bool getStreamStatus(){
-  return  _streamSubscription != null ? true:false;
+
+  bool getStreamStatus() {
+    return _streamSubscription != null ? true : false;
   }
 
- 
   RxBool isSending = false.obs;
-    RxBool isDeleting = false.obs;
+  RxBool isDeleting = false.obs;
   late FirebaseFirestore _firebaseFirestore;
   StreamSubscription? _streamSubscription;
   RxList<MessageId> comments = RxList.empty();
@@ -38,40 +37,35 @@ class CommentController extends GetxController {
   Rx<Option<String>> sucessOrFailure = Rx(none());
 
   handleSendMessage(UserModel user, String courseId) async {
-    if(textFieldValue.isNotEmpty){
-final time = DateTime.now();
-    final commentId = MessageId(
-        messageId: time.millisecondsSinceEpoch.toString(),
-        message: Message(
-            userId: user.uid,
-            userName: user.name,
-            timestamp: time,
-            messageText: textFieldValue.value));
-            isSending(true);
-    sucessOrFailure.value = await sendMessage(courseId, commentId);
-     isSending(false);
+    if (textFieldValue.isNotEmpty) {
+      final time = DateTime.now();
+      final commentId = MessageId(
+          messageId: time.millisecondsSinceEpoch.toString(),
+          message: Message(
+              userId: user.uid,
+              userName: user.name,
+              timestamp: time,
+              messageText: textFieldValue.value));
+      isSending(true);
+      sucessOrFailure.value = await sendMessage(courseId, commentId);
+      isSending(false);
     }
-    
   }
 
   handleCommentsStream(String courseId) {
     _streamSubscription?.cancel();
     _streamSubscription = getSingleCommentStream(courseId).listen((commentIds) {
-      
-        
       comments(commentIds);
     }, onError: (e) {
       log(e.toString() + "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     });
   }
-  handleDeleteMessage(MessageId messageId,String courseId)async{
+
+  handleDeleteMessage(MessageId messageId, String courseId) async {
     isDeleting(true);
-sucessOrFailure.value = await deleteComment(messageId, courseId);
-isDeleting(false);
+    sucessOrFailure.value = await deleteComment(messageId, courseId);
+    isDeleting(false);
   }
-
-
-
 
   /* Api calls =================================================================*/
 
@@ -85,21 +79,19 @@ isDeleting(false);
             docSnap.data() as Map<String, dynamic>));
   }
 
-  Future<Option<String>> deleteComment(MessageId messageId,String courseId) async {
-     log("delete comment ------------------------------------");
+  Future<Option<String>> deleteComment(
+      MessageId messageId, String courseId) async {
+    log("delete comment ------------------------------------");
     try {
-      final field ={
-      messageId.messageId!: FieldValue.delete()
-      };
+      final field = {messageId.messageId!: FieldValue.delete()};
       await _firebaseFirestore
           .collection('comments')
-          .doc(courseId.trim()).update(
-field
-          );
-          
+          .doc(courseId.trim())
+          .update(field);
+
       return none();
     } catch (e) {
-      log(e.toString()+" Excep delete Message xxxxxxxxxxxxxxxxxxxxxxxxxxx");
+      log(e.toString() + " Excep delete Message xxxxxxxxxxxxxxxxxxxxxxxxxxx");
       return Some(e.toString());
     }
   }
@@ -107,7 +99,7 @@ field
   Future<Option<String>> sendMessage(
       String courseId, MessageId commentId) async {
     try {
-       log("send message ------------------------------------");
+      log("send message ------------------------------------");
       await _firebaseFirestore
           .collection('comments')
           .doc(courseId.trim())

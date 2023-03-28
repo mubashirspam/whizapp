@@ -8,7 +8,9 @@ import 'package:whizapp/view/constants/const_dimensions.dart';
 
 class OngoingCardWidget extends StatelessWidget {
   //final OngoingCourse ongoingCourse;
-  const OngoingCardWidget({super.key, });
+  const OngoingCardWidget({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +65,7 @@ class OngoingCardWidget extends StatelessWidget {
                     ),
                     Text(
                       //course creator
-                   '',
+                      '',
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
                   ],

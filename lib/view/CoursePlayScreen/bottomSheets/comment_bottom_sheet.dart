@@ -14,8 +14,7 @@ class CommentBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final homePageController = Get.find<HomePageController>();
-    CommentController coursePlayController =
-        Get.find<CommentController>();
+    CommentController coursePlayController = Get.find<CommentController>();
     if (coursePlayController.getStreamStatus() == false) {
       coursePlayController.handleCommentsStream(courseId);
     }
@@ -60,14 +59,13 @@ class CommentBottomSheet extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final comments = coursePlayController.comments;
 
-                     /*  comments.sort((a, b) => a.message!.timestamp!
+                      /*  comments.sort((a, b) => a.message!.timestamp!
                           .compareTo(b.message!.timestamp!)); */
                       return GestureDetector(
                         onLongPress: comments.value[index].message!.userId ==
                                 homePageController.userModel!.uid
                             ? () async {
                                 await Get.defaultDialog(
-                                  
                                     contentPadding: const EdgeInsets.all(
                                         ConstDimensions.appPadding),
                                     title: "Are you sure?",
@@ -86,12 +84,11 @@ class CommentBottomSheet extends StatelessWidget {
                                       ButtonWidget(
                                           name: 'Yes Delete',
                                           onPressed: () async {
-                                             Get.back();
+                                            Get.back();
                                             await coursePlayController
                                                 .handleDeleteMessage(
                                                     comments.value[index],
                                                     courseId);
-                                           
                                           }),
                                     ]);
                               }
@@ -167,11 +164,13 @@ class CommentBottomSheet extends StatelessWidget {
                             color: AppColor.backgroundLight,
                           ),
                         )
-                      :coursePlayController.textFieldValue.isNotEmpty? const Icon(
-                          Icons.send_rounded,
-                          color: AppColor.backgroundLight,
-                          size: 18,
-                        ):const SizedBox(),
+                      : coursePlayController.textFieldValue.isNotEmpty
+                          ? const Icon(
+                              Icons.send_rounded,
+                              color: AppColor.backgroundLight,
+                              size: 18,
+                            )
+                          : const SizedBox(),
                 ),
               ),
               hintText: 'Type here...',

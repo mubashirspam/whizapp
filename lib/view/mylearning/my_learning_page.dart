@@ -22,7 +22,7 @@ class MyLearningPage extends StatelessWidget {
           children: [
             ListView.builder(
               shrinkWrap: true,
-              itemCount:12 /* homePageController.ongoingCourses.length */,
+              itemCount: 12 /* homePageController.ongoingCourses.length */,
               physics: const NeverScrollableScrollPhysics(),
               padding: const EdgeInsets.only(
                 left: 15,
@@ -33,8 +33,8 @@ class MyLearningPage extends StatelessWidget {
                   top: 15,
                 ),
                 child: OngoingCardWidget(
-               /*    ongoingCourse: homePageController.ongoingCourses[index], */
-                ),
+                    /*    ongoingCourse: homePageController.ongoingCourses[index], */
+                    ),
               ),
             ),
             homePageController.isLoading.value

@@ -6,10 +6,9 @@ import 'package:get/get.dart';
 
 import 'package:whizapp/controller/authentication/auth_controller.dart';
 
-import 'package:whizapp/core/theme/color.dart';
-import 'package:whizapp/model/user/user_model.dart';
+
 import 'package:whizapp/view/common_widgets/shimmer.dart';
-import 'package:whizapp/view/login/login_page.dart';
+
 import 'package:whizapp/view/login/user_data_collector_page.dart';
 import 'package:whizapp/view/main/main_page.dart';
 import 'package:whizapp/view/welcom/welcom_page.dart';

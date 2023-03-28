@@ -13,7 +13,7 @@ import 'package:whizapp/core/utils.dart';
 import 'package:whizapp/model/course/course_mode.dart';
 
 
-import 'package:whizapp/model/user/user_model.dart';
+import 'package:whizapp/model/UserModel/user_model.dart';
 
 class HomePageController extends GetxController
     with StateMixin<Tuple2<List<CourseModel>, UserModel>>, ScrollMixin {
@@ -59,17 +59,18 @@ class HomePageController extends GetxController
     }, (data) async {
       courses.addAll(data);
 
-     await handleUserStream();
+      await handleUserStream();
     });
 
     super.onReady();
   }
-  cancelUserStreamWhenLogOut()async{
-   await userStreamsub?.cancel();
+
+  cancelUserStreamWhenLogOut() async {
+    await userStreamsub?.cancel();
   }
 
-  Future handleUserStream()async {
-   await userStreamsub?.cancel();
+  Future handleUserStream() async {
+    await userStreamsub?.cancel();
 
     userStreamsub = getUserDataStream(authController.firebaseUser.value!.uid)
         .listen((data) {
@@ -109,7 +110,7 @@ class HomePageController extends GetxController
 
     final docRef = firestore.collection('user').doc(uid.trim());
     yield* docRef.snapshots().map((docSnp) =>
-        UserModel.fromFirestore(docSnp.data() as Map<String, dynamic>));
+        UserModel.fromJson(docSnp.data() as Map<String, dynamic>));
   }
 
   Future<Either<String, List<CourseModel>>> searchCourse(

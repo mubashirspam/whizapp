@@ -21,8 +21,9 @@ class WelcomeBottomBar extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 10),
       child: SizedBox(
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            ButtonWidget(
+           dotIndex ==dotCount-1?SizedBox(): ButtonWidget(
                 name: 'Skip',
                 onPressed: () {
                   welcomeScreenController.pageViewController.animateToPage(
@@ -30,28 +31,9 @@ class WelcomeBottomBar extends StatelessWidget {
                       duration: const Duration(milliseconds: 200),
                       curve: Curves.easeIn);
                 }),
-            const Spacer(),
-            SizedBox(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: List.generate(
-                  dotCount,
-                  (index) => AnimatedContainer(
-                    duration: const Duration(milliseconds: 300),
-                    margin: const EdgeInsets.only(right: 5, top: 15),
-                    height: index == dotIndex ? 15 : 8,
-                    width: 8,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      color: index == dotIndex
-                          ? AppColor.secondaryLight
-                          : AppColor.textPrimeryLight,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            const Spacer(),
+         
+          
+          
             ButtonWidget(
                 name: welcomeScreenController.currentIndex.value == dotCount - 1
                     ? 'Get Started'

@@ -26,6 +26,7 @@ dependencies:
   dartz: ^0.10.1
   youtube_player_flutter: ^8.1.2
   flutter_cached_pdfview: ^0.4.1
+  pod_player: ^0.1.0
 
 
 

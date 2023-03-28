@@ -4,7 +4,7 @@ import 'package:whizapp/core/theme/color.dart';
 class ButtonWidget extends StatelessWidget {
   final String name;
   final VoidCallback? onPressed;
-
+final double boderRadius;
   final Color? bgColor;
   final Color? bgInColor;
   final Color? fgColor;
@@ -12,6 +12,7 @@ class ButtonWidget extends StatelessWidget {
 
   const ButtonWidget({
     super.key,
+    this.boderRadius =100,
     required this.name,
     required this.onPressed,
     this.bgColor,
@@ -56,7 +57,7 @@ class ButtonWidget extends StatelessWidget {
           //   );
           // }
           return RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(100),
+            borderRadius: BorderRadius.circular(boderRadius),
             side: const BorderSide(
               color: AppColor.primeryLight,
               width: 2,

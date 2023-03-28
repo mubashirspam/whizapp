@@ -6,7 +6,7 @@ class CourseModel {
   final String name;
   final String description;
   final double rating;
-  
+
   final List<Module> modules;
   final String createdBy;
   final DateTime createdAt;
@@ -20,7 +20,6 @@ class CourseModel {
       required this.name,
       required this.description,
       required this.rating,
-     
       required this.modules,
       required this.createdBy,
       required this.createdAt,
@@ -36,8 +35,6 @@ class CourseModel {
         name: data['name'],
         description: data['description'],
         rating: data['rating'].toDouble(),
-     
-           
         modules: (data['modules'] as List<dynamic>)
             .map((e) => Module.fromMap(e))
             .toList(),
@@ -54,7 +51,6 @@ class CourseModel {
       'name': name,
       'description': description,
       'rating': rating,
- 
       'modules': modules.map((e) => e.toMap()).toList(),
       'createdBy': createdBy,
       'createdAt': Timestamp.fromDate(createdAt),
@@ -65,8 +61,6 @@ class CourseModel {
     };
   }
 }
-
-
 
 class Module {
   final String title;

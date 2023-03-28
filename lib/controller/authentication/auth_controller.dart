@@ -2,12 +2,13 @@ import 'dart:async';
 import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:whizapp/core/theme/color.dart';
-import 'package:whizapp/model/user/user_model.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:whizapp/model/UserModel/user_model.dart';
 
 class AuthController extends GetxController
     with GetSingleTickerProviderStateMixin, StateMixin<UserModel> {
@@ -75,7 +76,7 @@ class AuthController extends GetxController
 
       if (docSnap.exists) {
         return right(
-            UserModel.fromFirestore(docSnap.data() as Map<String, dynamic>));
+            UserModel.fromJson(docSnap.data() as Map<String, dynamic>));
       } else {
         return right(null);
       }
@@ -209,9 +210,8 @@ class AuthController extends GetxController
       statusMessageColor = Colors.red.obs;
 
       showSnckbar(head: 'Invalid OTP', body: e.code.toString());
-    }
-    catch(e){
-        isVerifyButtonStatus(false);
+    } catch (e) {
+      isVerifyButtonStatus(false);
       statusMessage.value = "Invalid  OTP";
       statusMessageColor = Colors.red.obs;
 

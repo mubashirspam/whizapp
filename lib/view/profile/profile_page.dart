@@ -22,7 +22,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AuthController authController = Get.find<AuthController>();
-   
+
     return SingleChildScrollView(
       padding: const EdgeInsets.all(20),
       child: Column(

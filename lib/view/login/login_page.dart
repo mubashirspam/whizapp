@@ -15,7 +15,7 @@ import 'package:whizapp/view/login/widget/mobile_inputfield.dart';
 import 'package:whizapp/view/login/widget/otp_widget.dart';
 import 'package:whizapp/view/main/main_page.dart';
 
-import '../../model/user/user_model.dart';
+
 
 class LoginPage extends GetView<AuthController> {
   LoginPage({super.key});
