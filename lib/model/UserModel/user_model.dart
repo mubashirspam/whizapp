@@ -10,15 +10,17 @@ class UserModel {
   String uid;
   List<Notification> notifications;
   List<MyLearning> myLearnings;
+  String profileImageUrl ;
 
   UserModel({
    required this.name,
+  
   required  this.dob,
   required  this.phoneNumber,
   required  this.studentClass,
    required this.uid,
  required   this.notifications,
-  required  this.myLearnings, required String profileImageUrl,
+  required  this.myLearnings, required this. profileImageUrl,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
@@ -43,6 +45,7 @@ class UserModel {
         'uid': uid,
         'notifications': notifications.map((e) => e.toJson()).toList(),
         'myLearnings': myLearnings.map((e) => e.toJson()).toList(),
+        'profileImageUrl':profileImageUrl
       };
 
 

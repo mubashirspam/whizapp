@@ -75,10 +75,10 @@ class AuthController extends GetxController
           await firestore.collection('user').doc(user.uid.trim()).get();
 
       if (docSnap.exists) {
-        return right(
+        return Right(
             UserModel.fromJson(docSnap.data() as Map<String, dynamic>));
       } else {
-        return right(null);
+        return const Right(null);
       }
     } on FirebaseException catch (e) {
       log(e.code.toString() +
