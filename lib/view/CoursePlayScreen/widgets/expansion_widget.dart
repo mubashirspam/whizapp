@@ -12,12 +12,16 @@ import '../../../model/course/course_mode.dart';
 class ExpansionWidget extends StatelessWidget {
   final int currentModuleIndex;
   final CourseModel course;
+  final Color expansionColor, collapseColor;
   const ExpansionWidget(
-      {super.key, required this.currentModuleIndex, required this.course});
+      {super.key,
+      required this.currentModuleIndex,
+      required this.course,
+      required this.expansionColor,
+      required this.collapseColor});
 
   @override
   Widget build(BuildContext context) {
-
     CoursePlayerController coursePlayerController =
         Get.find<CoursePlayerController>();
     return IntrinsicHeight(
@@ -46,7 +50,8 @@ class ExpansionWidget extends StatelessWidget {
             ),
           ),
           Expanded(
-            child:  ExpansionTile(
+            child: Obx(
+              () => ExpansionTile(
                 subtitle: Text(
                   'Module ${currentModuleIndex + 1} ',
                   style: Theme.of(context).textTheme.displaySmall,
@@ -56,10 +61,8 @@ class ExpansionWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10)),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
-                collapsedBackgroundColor: AppColor.whiteLight,
-                backgroundColor
-                    :
-                     AppColor.whiteLight,
+                collapsedBackgroundColor: collapseColor,
+                backgroundColor: expansionColor,
                 title: Text(
                   course.modules[currentModuleIndex].title.toString(),
                   overflow: TextOverflow.ellipsis,
@@ -68,11 +71,21 @@ class ExpansionWidget extends StatelessWidget {
                 children: List.generate(
                     course.modules[currentModuleIndex].videos.length,
                     (index) => ListTile(
-                          onTap: () {},
-                          leading: SvgPicture.asset(
-                            AppICons.inmyLearnings,
-                            width: ConstDimensions.iconWidthSmall,
-                          ),
+                          onTap: () {
+                            coursePlayerController.changeVideo(course
+                                .modules[currentModuleIndex].videos[index].url);
+                          },
+                          leading: course.modules[currentModuleIndex]
+                                      .videos[index].url ==
+                                  coursePlayerController.currentVideo.value!.url
+                              ? SvgPicture.asset(
+                                  AppICons.inmyLearnings,
+                                  width: ConstDimensions.iconWidthSmall,
+                                )
+                              : SvgPicture.asset(
+                                  AppICons.myLearnings,
+                                  width: ConstDimensions.iconWidthSmall,
+                                ),
                           title: Text(
                             course.modules[currentModuleIndex].videos[index]
                                 .title,
@@ -111,7 +124,7 @@ class ExpansionWidget extends StatelessWidget {
                             ),
                           ))),
               ),
-          
+            ),
           ),
         ],
       ),

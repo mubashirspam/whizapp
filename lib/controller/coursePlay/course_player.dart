@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pod_player/pod_player.dart';
 import 'package:whizapp/model/course/course_mode.dart';
@@ -11,7 +12,8 @@ class CoursePlayerController extends GetxController {
   int currenVideoIndex = 0;
 
 bool isFinished = false;
-Rx<Video> ? currentVideo ;
+Rxn<Video>  currentVideo = Rxn() ;
+Rxn<Module> currentModule = Rxn();
   void initializeYtPlay() {
     if (videos.isNotEmpty) {
       log('initialize called -----------!!!!!!!!!!!!!!!!!!!');
@@ -24,6 +26,12 @@ Rx<Video> ? currentVideo ;
     }
   }
 
+  RxBool checkForVideoContain(List<Video> videos ,Video video ){
+
+    return videos.any((element) => element.url == video.url).obs;
+
+  }
+
   extractVideosFromCourse(CourseModel course) {
     for (Module module in course.modules) {
       for (Video video in module.videos) {
@@ -34,9 +42,11 @@ Rx<Video> ? currentVideo ;
   }
 
   listenVideoStatus() {
+       currentVideo.value = videos[currenVideoIndex];
+    
     podcontroller.addListener(() {
       log('listening @@@@@@@@@@@@@@@@@@@@@@@@@@');
-     currentVideo!.value = videos[currenVideoIndex];
+  
       if ((podcontroller.currentVideoPosition.inSeconds ==
           podcontroller.totalVideoLength.inSeconds)&& isFinished == false) {
         //checking the duration and position every time
@@ -62,5 +72,27 @@ podcontroller.changeVideo(
     }
     
        
+  }
+  int getCurrentVideoIndex(String url){
+    return
+ videos.indexWhere((element) => element.url == url);
+  }
+
+  void changeVideo(String url){
+    currenVideoIndex = getCurrentVideoIndex(url);
+
+    podcontroller.changeVideo(
+        playVideoFrom: PlayVideoFrom.youtube(videos[currenVideoIndex].url),
+       ).then((value) {
+         isFinished = false;
+         listenVideoStatus();
+       });
+  }
+
+  enableFullScreen(){
+    podcontroller.enableFullScreen();
+  }
+  disableFullScreen(BuildContext context){
+    podcontroller.disableFullScreen(context);
   }
 }
