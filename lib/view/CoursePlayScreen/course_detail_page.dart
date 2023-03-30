@@ -33,7 +33,7 @@ class CourseDetailPage extends StatelessWidget {
     videoPlayerController.initializeYtPlay();
 
     videoPlayerController.listenVideoStatus();
-   
+
     return Scaffold(
       backgroundColor: AppColor.backgroundLight,
       bottomNavigationBar: const CoursePlayBottomButton(),
@@ -41,11 +41,16 @@ class CourseDetailPage extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(
+              width: context.width,
               height: 220,
               child: PodVideoPlayer(
+                frameAspectRatio: context.width / 220,
+                matchVideoAspectRatioToFrame: true,
                 controller: videoPlayerController.podcontroller,
                 podProgressBarConfig: const PodProgressBarConfig(
                     playingBarColor: AppColor.primeryLight,
+                    height: 4.5,
+                    padding: EdgeInsets.symmetric(horizontal: 6),
                     circleHandlerColor: AppColor.primeryLight),
               ),
             ),
@@ -54,96 +59,101 @@ class CourseDetailPage extends StatelessWidget {
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: ConstDimensions.appPadding),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                           Padding(
+                             padding: const EdgeInsets.only(bottom: ConstDimensions.appPadding/3, top: ConstDimensions.appPadding),
+                             child: Obx(() => videoPlayerController
+                                         .currentVideo.value !=
+                                     null
+                                 ? Text(
+                                     videoPlayerController
+                                         .currentVideo.value!.title,
+                                     maxLines: 2,
+                                     overflow: TextOverflow.ellipsis,
+                                     style: Theme.of(context)
+                                         .textTheme
+                                         .titleMedium!
+                                         .copyWith(
+                                             color:
+                                                 AppColor.textPrimeryLight,
+                                             fontWeight: FontWeight.normal),
+                                   )
+                                 : const SizedBox()),
+                             
+                           
+                           ),
+                            const Divider(
+                            thickness: ConstDimensions.dividerThickness,
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Expanded(
-                                child: Text(
-                                  course.name,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium!
-                                      .copyWith(
-                                          color: AppColor.textPrimeryLight,
-                                          fontWeight: FontWeight.normal),
-                                ),
+                                child:   Text(
+                              course.name,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium!
+                                  .copyWith(
+                                      color: AppColor.textPrimeryLight,
+                                      fontWeight: FontWeight.normal),
+                                                     ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(
                                     left: ConstDimensions.appPadding,
-                                    top: ConstDimensions.appPadding / 2),
-                                child: Material(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: AppColor.whiteLight,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      IconButton(
-                                          onPressed: () {
-                                            Get.bottomSheet(
-                                              CommentBottomSheet(
-                                                courseId: course.id,
-                                              ),
-                                              backgroundColor:
-                                                  AppColor.whiteLight,
-                                              enableDrag: false,
-                                              elevation: 10,
-                                              barrierColor: Colors.transparent,
-                                            );
-                                          },
-                                          icon: const Icon(Icons
-                                              .chat_bubble_outline_rounded)),
-                                      IconButton(
-                                          onPressed: () {
-                                            Get.bottomSheet(
-                                              DescriptionSheetChild(
-                                                courseName: course.name,
-                                                description: course.description,
-                                              ),
-                                              backgroundColor:
-                                                  AppColor.whiteLight,
-                                              enableDrag: false,
-                                              elevation: 10,
-                                              barrierColor: Colors.transparent,
-                                            );
-                                          },
-                                          icon: SvgPicture.asset(
-                                            AppICons.arrowDown,
-                                          )),
-                                    ],
-                                  ),
+                                    top: ConstDimensions.appPadding / 3),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    IconButton(
+                                        onPressed: () {
+                                          Get.bottomSheet(
+                                            CommentBottomSheet(
+                                              courseId: course.id,
+                                            ),
+                                            backgroundColor:
+                                                AppColor.whiteLight,
+                                            enableDrag: false,
+                                            elevation: 10,
+                                            barrierColor: Colors.transparent,
+                                          );
+                                        },
+                                        icon: const Icon(
+                                            Icons.chat_bubble_outline_rounded)),
+                                    IconButton(
+                                        onPressed: () {
+                                          Get.bottomSheet(
+                                            DescriptionSheetChild(
+                                              courseName: course.name,
+                                              auther: course.createdBy,
+                                              description: course.description,
+                                            ),
+                                            backgroundColor:
+                                                AppColor.whiteLight,
+                                            enableDrag: false,
+                                            elevation: 10,
+                                            barrierColor: Colors.transparent,
+                                          );
+                                        },
+                                        icon: SvgPicture.asset(
+                                          AppICons.arrowDown,
+                                        )),
+                                  ],
                                 ),
                               )
                             ],
                           ),
-                          const Divider(
-                            thickness: ConstDimensions.dividerThickness,
-                          ),
-                          Obx(() =>
-                              videoPlayerController.currentVideo.value != null
-                                  ? Text(
-                                      videoPlayerController
-                                          .currentVideo.value!.title,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium!
-                                          .copyWith(
-                                              color: AppColor.textPrimeryLight,
-                                              fontWeight: FontWeight.normal),
-                                    )
-                                  : const SizedBox()),
+                        
+                         
                         ],
                       ),
                     ),
-                  
                     ListView.separated(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
@@ -153,33 +163,17 @@ class CourseDetailPage extends StatelessWidget {
                         height: 20,
                       ),
                       itemCount: course.modules.length,
-                      itemBuilder: (context, index) {
-                        return Obx(() {
-                          if (videoPlayerController
-                              .checkForVideoContain(
-                                  course.modules[index].videos,
-                                  videoPlayerController.currentVideo.value!)
-                              .value == true) {
-                            log(index.toString() + "!!!!!!!!!!!!!!!!!!!!!!");
-                            return ExpansionWidget(
-                              currentModuleIndex: index,
-                              course: course,
-                              collapseColor:
-                                  AppColor.primeryLight.withOpacity(.1),
-                              expansionColor:
-                                  AppColor.primeryLight.withOpacity(.1),
-                            );
-                          } else {
-                            return ExpansionWidget(
-                              currentModuleIndex: index,
-                              course: course,
-                              collapseColor: AppColor.whiteLight,
-                              expansionColor: AppColor.whiteLight,
-                            );
-                          }
-                        });
+                      itemBuilder: (context, moduleIndex) {
+                
+
+                        return ExpansionWidget(
+                          currentModuleIndex: moduleIndex,
+                          course: course,
+                          collapseColor: AppColor.whiteLight,
+                          expansionColor: AppColor.whiteLight,
+                        );
                       },
-                    )
+                    ),
                   ],
                 ),
               ),

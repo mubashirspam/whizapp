@@ -32,17 +32,42 @@ class ExpansionWidget extends StatelessWidget {
             width: 60,
             child: Column(
               children: [
-                SvgPicture.asset(
-                  AppICons.lockYello,
-                  width: ConstDimensions.iconWidthSmall,
-                ),
-                const Expanded(
-                  child: SizedBox(
-                    height: 30,
-                    child: VerticalDivider(
-                      color: AppColor.yellowLight,
-                      width: 6,
-                      thickness: 1,
+                Obx(() {
+                  if (coursePlayerController.currentModuleIndex.value >=
+                      currentModuleIndex) {
+                    if (coursePlayerController.isVideoPlaying.isTrue &&
+                        coursePlayerController.currentModuleIndex.value ==
+                            currentModuleIndex) {
+                      return SvgPicture.asset(
+                        AppICons.inmyLearnings,
+                        width: ConstDimensions.iconWidthSmall,
+                      );
+                    } else {
+                      return SvgPicture.asset(
+                        AppICons.tickSquare,
+                        width: ConstDimensions.iconWidthSmall,
+                      );
+                    }
+                  } else {
+                    return SvgPicture.asset(
+                      AppICons.lockYello,
+                      width: ConstDimensions.iconWidthSmall,
+                    );
+                  }
+                }),
+                Expanded(
+                  child: Obx(
+                    () => SizedBox(
+                      height: 30,
+                      child: VerticalDivider(
+                        color:
+                            coursePlayerController.currentModuleIndex.value ==
+                                    currentModuleIndex
+                                ? AppColor.primeryLight
+                                : AppColor.yellowLight,
+                        width: 6,
+                        thickness: 1,
+                      ),
                     ),
                   ),
                 )
@@ -72,6 +97,8 @@ class ExpansionWidget extends StatelessWidget {
                     course.modules[currentModuleIndex].videos.length,
                     (index) => ListTile(
                           onTap: () {
+                            /*    coursePlayerController.currentModuleIndex.value =
+                                currentModuleIndex; */
                             coursePlayerController.changeVideo(course
                                 .modules[currentModuleIndex].videos[index].url);
                           },

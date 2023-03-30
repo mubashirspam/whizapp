@@ -1,19 +1,42 @@
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
 import 'package:pod_player/pod_player.dart';
 import 'package:whizapp/model/course/course_mode.dart';
 
 class CoursePlayerController extends GetxController {
+
+  
   late PodPlayerController podcontroller;
 
   List<Video> videos = [];
   int currenVideoIndex = 0;
+  RxInt currentModuleIndex = 0.obs;
+  RxBool isVideoPlaying = false.obs;
 
-bool isFinished = false;
-Rxn<Video>  currentVideo = Rxn() ;
-Rxn<Module> currentModule = Rxn();
+  Rxn<CourseModel> courseModel = Rxn();
+  bool isFinished = false;
+  Rxn<Video> currentVideo = Rxn();
+  Rxn<Module> currentModule = Rxn();
+//super methods=================
+ @override
+  void dispose() {
+    // TODO: implement dispose
+    podcontroller.removeListener(() {
+      log('remove listner called ==================');
+     });
+    podcontroller.dispose();
+    
+    super.dispose();
+  }
+
+
+
+
+
+
+//methods ==========================
   void initializeYtPlay() {
     if (videos.isNotEmpty) {
       log('initialize called -----------!!!!!!!!!!!!!!!!!!!');
@@ -21,18 +44,18 @@ Rxn<Module> currentModule = Rxn();
           playVideoFrom: PlayVideoFrom.youtube(videos[currenVideoIndex].url),
           podPlayerConfig: const PodPlayerConfig(
               autoPlay: false,
-              videoQualityPriority: [144, 360, 480, 720, 1080]))
-        ..initialise().then((value) => listenVideoStatus());
+              videoQualityPriority: [240, 360, 480, 720, 1080]))
+        ..initialise().then((value) {
+          listenVideoStatus();
+          checksforQualityChange();
+        });
     }
   }
 
-  RxBool checkForVideoContain(List<Video> videos ,Video video ){
 
-    return videos.any((element) => element.url == video.url).obs;
 
-  }
-
-  extractVideosFromCourse(CourseModel course) {
+  void extractVideosFromCourse(CourseModel course) {
+    courseModel(course);
     for (Module module in course.modules) {
       for (Video video in module.videos) {
         videos.add(video);
@@ -41,58 +64,79 @@ Rxn<Module> currentModule = Rxn();
     log(videos.length.toString() + "------------");
   }
 
-  listenVideoStatus() {
-       currentVideo.value = videos[currenVideoIndex];
-    
+ void  listenVideoStatus() {
+    currentVideo.value = videos[currenVideoIndex];
+
     podcontroller.addListener(() {
-      log('listening @@@@@@@@@@@@@@@@@@@@@@@@@@');
-  
+      log('listening =====================');
+      isVideoPlaying(podcontroller.isVideoPlaying);
       if ((podcontroller.currentVideoPosition.inSeconds ==
-          podcontroller.totalVideoLength.inSeconds)&& isFinished == false) {
+              podcontroller.totalVideoLength.inSeconds) &&
+          isFinished == false) {
         //checking the duration and position every time
         isFinished = true;
-    
 
-      
         playNext();
       }
     });
   }
 
-  void playNext() {
-    
-    currenVideoIndex = currenVideoIndex + 1;
-    if(videos.length > currenVideoIndex){
-podcontroller.changeVideo(
-        playVideoFrom: PlayVideoFrom.youtube(videos[currenVideoIndex].url),
-       ).then((value) {
-         isFinished = false;
-         listenVideoStatus();
-       });
+  void checksforQualityChange() {
+    podcontroller.onVideoQualityChanged(() {
+      listenVideoStatus();
+      log('quality changed -----------------');
+    });
+  }
+
+ 
+
+ void findModuleIndex() {
+    log('find module index============');
+    for (int i = 0; i < courseModel.value!.modules.length; i++) {
+      for (int j = 0; j < courseModel.value!.modules[i].videos.length; j++) {
+        if (courseModel.value!.modules[i].videos[j].url ==
+            videos[currenVideoIndex].url) {
+          log('index =============$i');
+          currentModuleIndex(i);
+        }
+      }
     }
-    
-       
-  }
-  int getCurrentVideoIndex(String url){
-    return
- videos.indexWhere((element) => element.url == url);
   }
 
-  void changeVideo(String url){
+  void playNext() {
+    log('playnext -----------------------------');
+    currenVideoIndex = currenVideoIndex + 1;
+    if (videos.length > currenVideoIndex) {
+      findModuleIndex();
+      podcontroller
+          .changeVideo(
+              playVideoFrom:
+                  PlayVideoFrom.youtube(videos[currenVideoIndex].url),
+              playerConfig: const PodPlayerConfig(
+                  autoPlay: false,
+                  videoQualityPriority: [144, 360, 480, 720, 1080]))
+          .then((value) {
+        isFinished = false;
+        listenVideoStatus();
+      });
+    }
+  }
+
+  int getCurrentVideoIndex(String url) {
+    return videos.indexWhere((element) => element.url == url);
+  }
+
+  void changeVideo(String url) {
     currenVideoIndex = getCurrentVideoIndex(url);
+    findModuleIndex();
 
-    podcontroller.changeVideo(
-        playVideoFrom: PlayVideoFrom.youtube(videos[currenVideoIndex].url),
-       ).then((value) {
-         isFinished = false;
-         listenVideoStatus();
-       });
-  }
-
-  enableFullScreen(){
-    podcontroller.enableFullScreen();
-  }
-  disableFullScreen(BuildContext context){
-    podcontroller.disableFullScreen(context);
+    podcontroller
+        .changeVideo(
+      playVideoFrom: PlayVideoFrom.youtube(videos[currenVideoIndex].url),
+    )
+        .then((value) {
+      isFinished = false;
+      listenVideoStatus();
+    });
   }
 }
