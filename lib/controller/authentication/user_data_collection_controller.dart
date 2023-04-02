@@ -17,11 +17,10 @@ class UserDataCollectorController extends GetxController
   TextEditingController nameController = TextEditingController();
 
   RxString currentStandard = ''.obs;
-  Rxn<DateTime>currentDob = Rxn();
+  Rxn<DateTime> currentDob = Rxn();
   List<String> classes = List.generate(10, (index) => "Class ${index + 1}");
-  late FirebaseFirestore firestore ;
+  late FirebaseFirestore firestore;
   AuthController authController = Get.find<AuthController>();
-
 
   Future setAndGetUser(User user) async {
     final result = await navigateUser(user);
@@ -43,9 +42,6 @@ class UserDataCollectorController extends GetxController
     });
   }
 
-
-
-
   Future<Either<String, UserModel?>> navigateUser(User user) async {
     log('firebase request ---------------- setUserDatatofi');
     UserModel userModel = UserModel(
@@ -53,9 +49,10 @@ class UserDataCollectorController extends GetxController
         phoneNumber: user.phoneNumber.toString(),
         profileImageUrl: '',
         uid: user.uid,
-       
         dob: currentDob.value!,
-        studentClass: currentStandard.value, myLearnings: [], notifications: []);
+        studentClass: currentStandard.value,
+        myLearnings: [],
+        notifications: []);
 
     change(null, status: RxStatus.loading());
     try {
@@ -72,13 +69,9 @@ class UserDataCollectorController extends GetxController
     }
   }
 
-
-
-  
-
   @override
   void onInit() {
-   firestore = FirebaseFirestore.instance;
+    firestore = FirebaseFirestore.instance;
     // TODO: implement onInit
     change(null, status: RxStatus.success());
     super.onInit();

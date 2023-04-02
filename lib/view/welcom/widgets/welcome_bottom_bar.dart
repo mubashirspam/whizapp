@@ -23,17 +23,16 @@ class WelcomeBottomBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-           dotIndex ==dotCount-1?SizedBox(): ButtonWidget(
-                name: 'Skip',
-                onPressed: () {
-                  welcomeScreenController.pageViewController.animateToPage(
-                      dotCount - 1,
-                      duration: const Duration(milliseconds: 200),
-                      curve: Curves.easeIn);
-                }),
-         
-          
-          
+            dotIndex == dotCount - 1
+                ? SizedBox()
+                : ButtonWidget(
+                    name: 'Skip',
+                    onPressed: () {
+                      welcomeScreenController.pageViewController.animateToPage(
+                          dotCount - 1,
+                          duration: const Duration(milliseconds: 200),
+                          curve: Curves.easeIn);
+                    }),
             ButtonWidget(
                 name: welcomeScreenController.currentIndex.value == dotCount - 1
                     ? 'Get Started'

@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:whizapp/core/asset/icons.dart';
 import 'package:whizapp/core/theme/color.dart';
 
@@ -69,39 +72,42 @@ class FeaturedCardWidget extends StatelessWidget {
           const SizedBox(height: 10),
           SizedBox(
             height: 20,
-            child: Wrap(
-              alignment: WrapAlignment.start,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: [
-                const Icon(
-                  Icons.star,
-                  color: AppColor.iconyellowLight,
-                  size: 15,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    right: 5,
-                    left: 5,
-                  ),
-                  child: Text(
-                    course.rating.toString(),
-                    style: const TextStyle(
-                      color: AppColor.textPrimeryLight,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
-                Text(
-                  "(129 reviews)",
-                  style: TextStyle(
-                    color: AppColor.textSecondaryLight,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w300,
-                  ),
-                )
-              ],
-            ),
+            child: course.ratings.totalRating != null &&
+                    course.ratings.totalCount != null
+                ? Wrap(
+                    alignment: WrapAlignment.start,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.star,
+                        color: AppColor.iconyellowLight,
+                        size: 15,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          right: 5,
+                          left: 5,
+                        ),
+                        child: Text(
+                          "${course.ratings.totalRating!}/5",
+                          style: const TextStyle(
+                            color: AppColor.textPrimeryLight,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        "${course.ratings.totalCount} Ratings",
+                        style: const TextStyle(
+                          color: AppColor.textSecondaryLight,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      )
+                    ],
+                  )
+                : const SizedBox(),
           ),
           Padding(
             padding: const EdgeInsets.only(

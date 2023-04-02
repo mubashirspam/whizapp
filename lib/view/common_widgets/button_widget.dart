@@ -4,7 +4,7 @@ import 'package:whizapp/core/theme/color.dart';
 class ButtonWidget extends StatelessWidget {
   final String name;
   final VoidCallback? onPressed;
-final double boderRadius;
+  final double boderRadius;
   final Color? bgColor;
   final Color? bgInColor;
   final Color? fgColor;
@@ -12,7 +12,7 @@ final double boderRadius;
 
   const ButtonWidget({
     super.key,
-    this.boderRadius =100,
+    this.boderRadius = 100,
     required this.name,
     required this.onPressed,
     this.bgColor,

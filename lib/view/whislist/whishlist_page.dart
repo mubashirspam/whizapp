@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+/* import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:whizapp/controller/firebase/firebase_controller.dart';
+
 import 'package:whizapp/core/asset/icons.dart';
 import 'package:whizapp/core/theme/color.dart';
 import 'package:whizapp/view/constants/const_dimensions.dart';
@@ -21,7 +21,7 @@ class _WhishListPageState extends State<WhishListPage> {
 
   @override
   Widget build(BuildContext context) {
-    CourseController _courseController = Get.put(CourseController());
+   
     return Obx(() {
       if (_courseController.isLoading.value) {
         return const Center(child: CircularProgressIndicator());
@@ -237,3 +237,4 @@ class _WhishListPageState extends State<WhishListPage> {
     });
   }
 }
+ */

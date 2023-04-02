@@ -1,12 +1,15 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:whizapp/model/course/ratings.dart';
 
 class CourseModel {
   String id;
   final String name;
   final String description;
-  final double rating;
 
+  final Ratings ratings;
   final List<Module> modules;
   final String createdBy;
   final DateTime createdAt;
@@ -17,9 +20,9 @@ class CourseModel {
 
   CourseModel(
       {required this.id,
+      required this.ratings,
       required this.name,
       required this.description,
-      required this.rating,
       required this.modules,
       required this.createdBy,
       required this.createdAt,
@@ -30,11 +33,12 @@ class CourseModel {
 
   factory CourseModel.fromFirestore(DocumentSnapshot doc) {
     Map data = doc.data() as Map;
+
     return CourseModel(
         id: doc.id,
+        ratings: Ratings.fromJson(data['ratings']),
         name: data['name'],
         description: data['description'],
-        rating: data['rating'].toDouble(),
         modules: (data['modules'] as List<dynamic>)
             .map((e) => Module.fromMap(e))
             .toList(),
@@ -49,8 +53,8 @@ class CourseModel {
   Map<String, dynamic> toMap() {
     return {
       'name': name,
+      'ratings': ratings,
       'description': description,
-      'rating': rating,
       'modules': modules.map((e) => e.toMap()).toList(),
       'createdBy': createdBy,
       'createdAt': Timestamp.fromDate(createdAt),

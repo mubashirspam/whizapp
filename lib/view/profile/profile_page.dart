@@ -5,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import 'package:whizapp/controller/authentication/auth_controller.dart';
-import 'package:whizapp/controller/firebase/firebase_controller.dart';
 
 import 'package:whizapp/core/asset/icons.dart';
 import 'package:whizapp/core/asset/image.dart';

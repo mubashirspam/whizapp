@@ -7,6 +7,7 @@ import 'package:whizapp/controller/homePageController/home_page_controller.dart'
 import 'package:whizapp/controller/mainPageController/main_page_controller.dart';
 import 'package:whizapp/core/theme/color.dart';
 import 'package:whizapp/view/common_widgets/appbar.dart';
+import 'package:whizapp/view/common_widgets/button_widget.dart';
 import 'package:whizapp/view/common_widgets/no_result_page.dart';
 import 'package:whizapp/view/common_widgets/shimmer.dart';
 import 'package:whizapp/view/home/home_page.dart';
@@ -37,18 +38,17 @@ class MainPage extends GetView<HomePageController> {
     AuthController authController = Get.find<AuthController>();
     ever(authController.firebaseUser, (firebaseUser) async {
       if (firebaseUser == null) {
-       Get.find<HomePageController>().dispose();
+        Get.find<HomePageController>().dispose();
         Get.offAll(() => LoginPage());
         log("user is null --- logout called");
       }
     });
     return Material(
       child: controller.obx(
-        onError: (error) => const Center(
-          child: Text(
-            "Error Occured",
-            style: TextStyle(color: AppColor.redDanger),
-          ),
+        onError: (error) => NoResultPage(
+          body: error.toString(),
+          title: 'Error Occurred',
+          bottomWidget: ButtonWidget(name: "Retry", onPressed: () {}),
         ),
         onLoading: const ShimmerLoadingScreen(),
         (tuple) => Obx(

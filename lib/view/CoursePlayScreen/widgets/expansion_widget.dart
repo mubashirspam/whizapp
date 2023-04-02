@@ -97,8 +97,6 @@ class ExpansionWidget extends StatelessWidget {
                     course.modules[currentModuleIndex].videos.length,
                     (index) => ListTile(
                           onTap: () {
-                            /*    coursePlayerController.currentModuleIndex.value =
-                                currentModuleIndex; */
                             coursePlayerController.changeVideo(course
                                 .modules[currentModuleIndex].videos[index].url);
                           },

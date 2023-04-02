@@ -12,7 +12,6 @@ import 'package:whizapp/core/utils.dart';
 
 import 'package:whizapp/model/course/course_mode.dart';
 
-
 import 'package:whizapp/model/UserModel/user_model.dart';
 
 class HomePageController extends GetxController
@@ -77,7 +76,8 @@ class HomePageController extends GetxController
       userModel = data;
       change(Tuple2(courses, data), status: RxStatus.success());
     }, onError: (e) {
-      log(e.toString() + "userStream errorxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+      log(e.toString() +
+          "userStream homePage Controller errorxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
       change(null,
           status: RxStatus.error('Error occured while retriving user data'));
     });
@@ -109,8 +109,8 @@ class HomePageController extends GetxController
     log("calling getuserStream ----------------------------");
 
     final docRef = firestore.collection('user').doc(uid.trim());
-    yield* docRef.snapshots().map((docSnp) =>
-        UserModel.fromJson(docSnp.data() as Map<String, dynamic>));
+    yield* docRef.snapshots().map(
+        (docSnp) => UserModel.fromJson(docSnp.data() as Map<String, dynamic>));
   }
 
   Future<Either<String, List<CourseModel>>> searchCourse(
@@ -146,10 +146,14 @@ class HomePageController extends GetxController
           courses.docs.map((qds) => CourseModel.fromFirestore(qds)).toList();
 
       return Right(result);
+    } on FirebaseException catch (e) {
+      log('getfeatured course homepage controllerXXXXXXXXXXXXXXXXXX');
+      return Left(e.code);
     } catch (e) {
-      log(e.toString());
+      log(e.toString() +
+          'getfeatured course homepage controllerXXXXXXXXXXXXXXXXXX');
 
-      return Left(e.toString());
+      return const Left(" Error Occurred");
     }
   }
 

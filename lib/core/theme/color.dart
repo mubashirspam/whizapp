@@ -5,6 +5,7 @@ class AppColor {
 
   static const Color primeryLight = Color(0xFF6F57ED);
   static const Color redDanger = Colors.red;
+  static const Color success = Colors.green;
   static const Color secondaryLight = Color(0xFFE3DEF9);
   static const Color whiteLight = Color(0xFFFFFFFF);
   static const Color backgroundLight = Color(0xFFF7F6FA);

@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 
 import 'package:whizapp/controller/authentication/auth_controller.dart';
 
-
 import 'package:whizapp/view/common_widgets/shimmer.dart';
 
 import 'package:whizapp/view/login/user_data_collector_page.dart';

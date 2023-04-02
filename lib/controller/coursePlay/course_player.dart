@@ -1,14 +1,11 @@
 import 'dart:developer';
 
-
 import 'package:get/get.dart';
 import 'package:pod_player/pod_player.dart';
 import 'package:whizapp/model/course/course_mode.dart';
 
 class CoursePlayerController extends GetxController {
-
-  
-  late PodPlayerController podcontroller;
+  PodPlayerController? podcontroller;
 
   List<Video> videos = [];
   int currenVideoIndex = 0;
@@ -20,21 +17,14 @@ class CoursePlayerController extends GetxController {
   Rxn<Video> currentVideo = Rxn();
   Rxn<Module> currentModule = Rxn();
 //super methods=================
- @override
-  void dispose() {
-    // TODO: implement dispose
-    podcontroller.removeListener(() {
-      log('remove listner called ==================');
-     });
-    podcontroller.dispose();
-    
-    super.dispose();
+
+  @override
+  void onClose() {
+    log('remove listner called ==================');
+    podcontroller?.dispose();
+
+    super.onClose();
   }
-
-
-
-
-
 
 //methods ==========================
   void initializeYtPlay() {
@@ -46,13 +36,11 @@ class CoursePlayerController extends GetxController {
               autoPlay: false,
               videoQualityPriority: [240, 360, 480, 720, 1080]))
         ..initialise().then((value) {
-          listenVideoStatus();
+          //  listenVideoStatus();
           checksforQualityChange();
         });
     }
   }
-
-
 
   void extractVideosFromCourse(CourseModel course) {
     courseModel(course);
@@ -64,33 +52,33 @@ class CoursePlayerController extends GetxController {
     log(videos.length.toString() + "------------");
   }
 
- void  listenVideoStatus() {
-    currentVideo.value = videos[currenVideoIndex];
+  void listenVideoStatus() {
+    if (videos.isNotEmpty) {
+      currentVideo.value = videos[currenVideoIndex];
 
-    podcontroller.addListener(() {
-      log('listening =====================');
-      isVideoPlaying(podcontroller.isVideoPlaying);
-      if ((podcontroller.currentVideoPosition.inSeconds ==
-              podcontroller.totalVideoLength.inSeconds) &&
-          isFinished == false) {
-        //checking the duration and position every time
-        isFinished = true;
+      podcontroller?.addListener(() {
+        log('listening =====================');
+        isVideoPlaying(podcontroller?.isVideoPlaying);
+        if ((podcontroller?.currentVideoPosition.inSeconds ==
+                podcontroller?.totalVideoLength.inSeconds) &&
+            isFinished == false) {
+          //checking the duration and position every time
+          isFinished = true;
 
-        playNext();
-      }
-    });
+          playNext();
+        }
+      });
+    }
   }
 
   void checksforQualityChange() {
-    podcontroller.onVideoQualityChanged(() {
+    podcontroller?.onVideoQualityChanged(() {
       listenVideoStatus();
       log('quality changed -----------------');
     });
   }
 
- 
-
- void findModuleIndex() {
+  void findModuleIndex() {
     log('find module index============');
     for (int i = 0; i < courseModel.value!.modules.length; i++) {
       for (int j = 0; j < courseModel.value!.modules[i].videos.length; j++) {
@@ -109,12 +97,12 @@ class CoursePlayerController extends GetxController {
     if (videos.length > currenVideoIndex) {
       findModuleIndex();
       podcontroller
-          .changeVideo(
+          ?.changeVideo(
               playVideoFrom:
                   PlayVideoFrom.youtube(videos[currenVideoIndex].url),
               playerConfig: const PodPlayerConfig(
                   autoPlay: false,
-                  videoQualityPriority: [144, 360, 480, 720, 1080]))
+                  videoQualityPriority: [240, 360, 480, 720, 1080]))
           .then((value) {
         isFinished = false;
         listenVideoStatus();
@@ -131,7 +119,7 @@ class CoursePlayerController extends GetxController {
     findModuleIndex();
 
     podcontroller
-        .changeVideo(
+        ?.changeVideo(
       playVideoFrom: PlayVideoFrom.youtube(videos[currenVideoIndex].url),
     )
         .then((value) {

@@ -1,12 +1,12 @@
 class MyLearning {
   String? courseId;
-  String? progress;
+  int? progress;
 
   MyLearning({this.courseId, this.progress});
 
   factory MyLearning.fromJson(Map<String, dynamic> json) => MyLearning(
-        courseId: json['courseId'] as String?,
-        progress: json['progress'] as String?,
+        courseId: json['courseId'].toString(),
+        progress: json['progress'] as int?,
       );
 
   Map<String, dynamic> toJson() => {

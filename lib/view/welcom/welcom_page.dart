@@ -38,29 +38,34 @@ class WelcomPage extends StatelessWidget {
             ),
           ),
           Obx(() => Column(
-            children: [  Row(
-              mainAxisSize: MainAxisSize.min,
-              children: List.generate(
-                3,
-                (index) => AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  margin: const EdgeInsets.only(right: 5, top: 15),
-                  height: index == welcomeScreenController.currentIndex.value ? 15 : 8,
-                  width: 8,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    color: index == welcomeScreenController.currentIndex.value
-                        ? AppColor.secondaryLight
-                        : AppColor.textPrimeryLight,
+                children: [
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: List.generate(
+                      3,
+                      (index) => AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        margin: const EdgeInsets.only(right: 5, top: 15),
+                        height:
+                            index == welcomeScreenController.currentIndex.value
+                                ? 15
+                                : 8,
+                        width: 8,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: index ==
+                                  welcomeScreenController.currentIndex.value
+                              ? AppColor.secondaryLight
+                              : AppColor.textPrimeryLight,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
-              WelcomeBottomBar(
-                  dotCount: 3,
-                  dotIndex: welcomeScreenController.currentIndex.value),
-            ],
-          ))
+                  WelcomeBottomBar(
+                      dotCount: 3,
+                      dotIndex: welcomeScreenController.currentIndex.value),
+                ],
+              ))
         ],
       ),
     );

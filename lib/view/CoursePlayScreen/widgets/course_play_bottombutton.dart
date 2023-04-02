@@ -6,7 +6,9 @@ import 'package:whizapp/core/theme/color.dart';
 import 'package:whizapp/view/CoursePlayScreen/widgets/couse_app_bottom_barbutton.dart';
 
 class CoursePlayBottomButton extends StatelessWidget {
-  const CoursePlayBottomButton({super.key});
+  final bool isVisible ;
+ final  Function() onTap;
+  const CoursePlayBottomButton({super.key, this.isVisible = true ,required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,7 @@ class CoursePlayBottomButton extends StatelessWidget {
             ),
             CourseAppBottomBarButton(
               buttonColor: AppColor.primeryLight,
-              onTap: () {},
+              onTap:onTap,
               width: 258,
               child: const Text('Enroll Now '),
             ),
