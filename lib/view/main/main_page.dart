@@ -36,13 +36,13 @@ class MainPage extends GetView<HomePageController> {
   Widget build(BuildContext context) {
     MainPageController mainPageController = Get.find<MainPageController>();
     AuthController authController = Get.find<AuthController>();
-    ever(authController.firebaseUser, (firebaseUser) async {
+     ever(authController.firebaseUser, (firebaseUser) async {
       if (firebaseUser == null) {
-        Get.find<HomePageController>().dispose();
+      //  Get.find<HomePageController>().dispose();
         Get.offAll(() => LoginPage());
         log("user is null --- logout called");
       }
-    });
+    }); 
     return Material(
       child: controller.obx(
         onError: (error) => NoResultPage(

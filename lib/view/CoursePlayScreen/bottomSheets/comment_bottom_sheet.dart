@@ -9,7 +9,9 @@ import 'package:whizapp/view/constants/const_dimensions.dart';
 
 class CommentBottomSheet extends StatelessWidget {
   final String courseId;
-  const CommentBottomSheet({super.key, required this.courseId});
+  final bool showTextField;
+  const CommentBottomSheet(
+      {super.key, required this.courseId, this.showTextField = true});
 
   @override
   Widget build(BuildContext context) {
@@ -59,11 +61,9 @@ class CommentBottomSheet extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final comments = coursePlayController.comments;
 
-                      /*  comments.sort((a, b) => a.message!.timestamp!
-                          .compareTo(b.message!.timestamp!)); */
                       return GestureDetector(
                         onLongPress: comments.value[index].message!.userId ==
-                                homePageController.userModel!.uid
+                                homePageController.userModel.value!.uid
                             ? () async {
                                 await Get.defaultDialog(
                                     contentPadding: const EdgeInsets.all(
@@ -115,7 +115,8 @@ class CommentBottomSheet extends StatelessWidget {
                                   padding: const EdgeInsets.only(top: 7),
                                   child: Text(
                                     comments.value[index].message!.userId ==
-                                            homePageController.userModel!.uid
+                                            homePageController
+                                                .userModel.value!.uid
                                         ? "You"
                                         : comments.value[index].message!
                                             .userName as String,
@@ -134,50 +135,53 @@ class CommentBottomSheet extends StatelessWidget {
                   ),
           ),
         ),
-        SizedBox(
-          width: double.maxFinite,
-          child: TextFormField(
-            controller: _messageFieldController,
-            onChanged: (val) async {
-              if (val.isNotEmpty) {
-                coursePlayController.textFieldValue.value = val;
-              } else {
-                coursePlayController.textFieldValue.value = '';
-              }
-            },
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: AppColor.primeryLight,
-              suffixIcon: IconButton(
-                onPressed: () async {
-                  await coursePlayController.handleSendMessage(
-                      homePageController.userModel!, courseId);
+        Visibility(
+          visible: showTextField,
+          child: SizedBox(
+            width: double.maxFinite,
+            child: TextFormField(
+              controller: _messageFieldController,
+              onChanged: (val) async {
+                if (val.isNotEmpty) {
+                  coursePlayController.textFieldValue.value = val;
+                } else {
                   coursePlayController.textFieldValue.value = '';
-                  _messageFieldController.clear();
-                },
-                icon: Obx(
-                  () => coursePlayController.isSending.isTrue
-                      ? const SizedBox(
-                          width: 15,
-                          height: 15,
-                          child: CircularProgressIndicator(
-                            color: AppColor.backgroundLight,
-                          ),
-                        )
-                      : coursePlayController.textFieldValue.isNotEmpty
-                          ? const Icon(
-                              Icons.send_rounded,
+                }
+              },
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: AppColor.primeryLight,
+                suffixIcon: IconButton(
+                  onPressed: () async {
+                    await coursePlayController.handleSendMessage(
+                        homePageController.userModel.value!, courseId);
+                    coursePlayController.textFieldValue.value = '';
+                    _messageFieldController.clear();
+                  },
+                  icon: Obx(
+                    () => coursePlayController.isSending.isTrue
+                        ? const SizedBox(
+                            width: 15,
+                            height: 15,
+                            child: CircularProgressIndicator(
                               color: AppColor.backgroundLight,
-                              size: 18,
-                            )
-                          : const SizedBox(),
+                            ),
+                          )
+                        : coursePlayController.textFieldValue.isNotEmpty
+                            ? const Icon(
+                                Icons.send_rounded,
+                                color: AppColor.backgroundLight,
+                                size: 18,
+                              )
+                            : const SizedBox(),
+                  ),
                 ),
+                hintText: 'Type here...',
+                hintStyle: TextStyle(
+                    color: AppColor.textwhiteLight,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w200),
               ),
-              hintText: 'Type here...',
-              hintStyle: TextStyle(
-                  color: AppColor.textwhiteLight,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w200),
             ),
           ),
         ),

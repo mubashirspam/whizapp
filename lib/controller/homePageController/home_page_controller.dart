@@ -15,7 +15,7 @@ import 'package:whizapp/model/course/course_mode.dart';
 import 'package:whizapp/model/UserModel/user_model.dart';
 
 class HomePageController extends GetxController
-    with StateMixin<Tuple2<List<CourseModel>, UserModel>>, ScrollMixin {
+    with StateMixin<List<CourseModel>>, ScrollMixin {
   late AuthController authController;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 /*   RxList<OngoingCourse> ongoingCourses = RxList<OngoingCourse>(); */
@@ -23,7 +23,7 @@ class HomePageController extends GetxController
 
   var isLoading = false.obs;
   List<CourseModel> courses = [];
-  UserModel? userModel;
+ // UserModel? userModel;
 
   final Debouncer _debouncer =
       Debouncer(delay: const Duration(milliseconds: 800));
@@ -32,7 +32,7 @@ class HomePageController extends GetxController
   RxString query = ''.obs;
   RxBool isQuerying = false.obs;
   bool isSearchDataEmpty = true;
-  Rxn<UserModel> rxUser = Rxn<UserModel>();
+  Rxn<UserModel> userModel= Rxn<UserModel>();
   StreamSubscription<UserModel>? userStreamsub;
   @override
   void onInit() {
@@ -73,9 +73,10 @@ class HomePageController extends GetxController
 
     userStreamsub = getUserDataStream(authController.firebaseUser.value!.uid)
         .listen((data) {
-      userModel = data;
-      change(Tuple2(courses, data), status: RxStatus.success());
+      userModel(data);
+      change(courses, status: RxStatus.success());
     }, onError: (e) {
+      userModel(null);
       log(e.toString() +
           "userStream homePage Controller errorxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
       change(null,
@@ -188,15 +189,15 @@ class HomePageController extends GetxController
     log('on bottom---');
     if (isSearchDataEmpty) {
       if (status.isLoadingMore == false && isMoreCoursesToLoad == true) {
-        change(Tuple2(courses, userModel!), status: RxStatus.loadingMore());
+        change(courses, status: RxStatus.loadingMore());
         final moreCourses = await getMoreFeaturedCourses();
         moreCourses.fold((l) {
-          change(Tuple2(courses, userModel!), status: RxStatus.success());
+          change(courses, status: RxStatus.success());
         }, (List<CourseModel> course) {
           isMoreCoursesToLoad = course.isNotEmpty;
 
           courses.addAll(course);
-          change(Tuple2(courses, userModel!), status: RxStatus.success());
+          change(courses, status: RxStatus.success());
         });
       }
     }

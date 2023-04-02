@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
 import 'package:whizapp/controller/coursePlay/main_controller.dart';
+import 'package:whizapp/controller/homePageController/home_page_controller.dart';
 import 'package:whizapp/core/theme/color.dart';
 import 'package:whizapp/model/course/course_mode.dart';
 import 'package:whizapp/view/CoursePlayScreen/playerScreens/course_detail_page.dart';
@@ -22,10 +23,11 @@ class MainPlayerScreen extends StatelessWidget {
     ever(mainController.optionSuccessOrFailure, (option) {
       option.fold(
           () => Get.showSnackbar(GetSnackBar(
-            duration: Duration(seconds: 2),
+                duration: Duration(seconds: 2),
                 title: "Enrollment Status",
                 message: "Enrollment Success",
                 backgroundColor: AppColor.success,
+                
               )),
           (a) => Get.showSnackbar(GetSnackBar(
                 duration: Duration(seconds: 2),
@@ -34,14 +36,21 @@ class MainPlayerScreen extends StatelessWidget {
                 message: "Enrollment Failed",
               )));
     });
-    bool isSubscribed = authController.userModel.value!.fold(
-        (l) => false,
-        (userModel) => userModel.myLearnings.any(
-            (myLearning) => myLearning.courseId!.trim() == course.id.trim()));
-    if (isSubscribed == true) {
-      return CourseDetailPage(course: course);
-    } else {
-      return CoursePreview(course: course, uid: authController.firebaseUser.value!.uid,);
-    }
+
+    HomePageController homePageController = Get.find<HomePageController>();
+
+    return Obx(() {
+      bool isSubscribed = (homePageController.userModel.value != null &&
+          homePageController.userModel.value!.myLearnings.any(
+              (myLearning) => myLearning.courseId!.trim() == course.id.trim()));
+      if (isSubscribed == true) {
+        return CourseDetailPage(course: course);
+      } else {
+        return CoursePreview(
+          course: course,
+          uid: authController.firebaseUser.value!.uid,
+        );
+      }
+    });
   }
 }

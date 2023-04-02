@@ -8,9 +8,11 @@ import 'package:whizapp/view/constants/const_dimensions.dart';
 
 class DescriptionSheetChild extends StatelessWidget {
   final String courseName, description, auther;
+  final bool showRatingBar;
   const DescriptionSheetChild(
       {super.key,
       required this.courseName,
+      this.showRatingBar =true,
       required this.description,
       required this.auther});
 
@@ -80,54 +82,61 @@ class DescriptionSheetChild extends StatelessWidget {
                   .copyWith(color: AppColor.textPrimeryLight),
             ),
           ),
-          Divider(
-            thickness: ConstDimensions.dividerThickness,
-          ),
-          Center(
-            child: Text(
-              "How would you rate our course ?",
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(color: AppColor.textPrimeryLight),
-              maxLines: 5,
-            ),
-          ),
-          Divider(
-            thickness: ConstDimensions.dividerThickness,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              RatingBar.builder(
-                initialRating: 0,
-                minRating: 1,
-                direction: Axis.horizontal,
-                allowHalfRating: true,
-                itemCount: 5,
-                itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                itemBuilder: (context, _) => SizedBox(
-                  width: ConstDimensions.iconWidth,
-                  child: Icon(
-                    Icons.star,
-                    color: Colors.amber,
+          Visibility
+          (visible: showRatingBar,
+            child: Column(
+              children: [
+                Divider(
+                  thickness: ConstDimensions.dividerThickness,
+                ),
+                Center(
+                  child: Text(
+                    "How would you rate our course ?",
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium!
+                        .copyWith(color: AppColor.textPrimeryLight),
+                    maxLines: 5,
                   ),
                 ),
-                onRatingUpdate: (rating) {
-                  ratingController.currentRating(rating);
-                },
-              ),
-              Obx(
-                () => ratingController.currentRating.value > 0
-                    ? IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.check,
-                          color: AppColor.success,
-                        ))
-                    : SizedBox(),
-              )
-            ],
+                Divider(
+                  thickness: ConstDimensions.dividerThickness,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    RatingBar.builder(
+                      initialRating: 0,
+                      minRating: 1,
+                      direction: Axis.horizontal,
+                      allowHalfRating: true,
+                      itemCount: 5,
+                      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                      itemBuilder: (context, _) => SizedBox(
+                        width: ConstDimensions.iconWidth,
+                        child: Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                      ),
+                      onRatingUpdate: (rating) {
+                        ratingController.currentRating(rating);
+                      },
+                    ),
+                    Obx(
+                      () => ratingController.currentRating.value > 0
+                          ? IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.check,
+                                color: AppColor.success,
+                              ))
+                          : SizedBox(),
+                    )
+                  ],
+                ),
+              ],
+            ),
           ),
         ],
       ),

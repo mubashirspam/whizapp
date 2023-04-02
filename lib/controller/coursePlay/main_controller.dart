@@ -41,20 +41,30 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
+import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:whizapp/controller/homePageController/home_page_controller.dart';
+import 'package:whizapp/model/UserModel/user_model.dart';
 
 class CoursePlayMainController extends GetxController {
   @override
   void onInit() {
     // TODO: implement onInit
     firebaseFirestore = FirebaseFirestore.instance;
+ 
     super.onInit();
   }
 
+  
+  
   RxBool isLoading = false.obs;
   Rx<Option<String>> optionSuccessOrFailure = Rx(none());
   late FirebaseFirestore firebaseFirestore;
+
+
+
+
   handleCourseSubcription(String courseId, String uid) async {
     isLoading(true);
     final result = await subscribeCourse(courseId, uid);
@@ -71,11 +81,13 @@ class CoursePlayMainController extends GetxController {
       String courseId, String uid) async {
     try {
       log('subscribing course --------------');
-      await firebaseFirestore.collection('user').doc(uid.trim()).set({
-        "myLearnings": [
-          {"courseId": courseId, "progress": 0}
-        ]
-      }, SetOptions(merge: true));
+      await firebaseFirestore.collection('user').doc(uid.trim()).update(
+        {
+          "myLearnings": FieldValue.arrayUnion([
+            {"courseId": courseId, "progress": 0}
+          ]) 
+        },
+      );
       return const Right(null);
     } catch (e) {
       log('exception subscribe course XXXXXXXXXXXXXXXXXXXXXXXXXXX');

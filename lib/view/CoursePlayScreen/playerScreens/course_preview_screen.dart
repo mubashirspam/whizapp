@@ -35,11 +35,6 @@ class CoursePreview extends StatelessWidget {
     CommentController messageController = Get.find<CommentController>();
     CoursePlayMainController mainController =
         Get.find<CoursePlayMainController>();
-    AuthController authController = Get.find<AuthController>();
-    bool isSubscribed = authController.userModel.value!.fold(
-        (l) => false,
-        (userModel) => userModel.myLearnings.any(
-            (myLearning) => myLearning.courseId!.trim() == course.id.trim()));
 
     CoursePlayerController videoPlayerController =
         Get.find<CoursePlayerController>();
@@ -94,24 +89,21 @@ class CoursePreview extends StatelessWidget {
                                                   ConstDimensions.appPadding /
                                                       3,
                                               top: ConstDimensions.appPadding),
-                                          child: Obx(() => videoPlayerController
-                                                      .currentVideo.value !=
-                                                  null
-                                              ? Text(
-                                                  'Course Preview',
-                                                  maxLines: 2,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .titleMedium!
-                                                      .copyWith(
-                                                          color: AppColor
-                                                              .textPrimeryLight,
-                                                          fontWeight: FontWeight
-                                                              .normal),
-                                                )
-                                              : const SizedBox()),
+                                          child: Obx(
+                                            () => Text(
+                                              'Course Preview',
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleMedium!
+                                                  .copyWith(
+                                                      color: AppColor
+                                                          .textPrimeryLight,
+                                                      fontWeight:
+                                                          FontWeight.normal),
+                                            ),
+                                          ),
                                         ),
                                         const Divider(
                                           thickness:
@@ -149,17 +141,20 @@ class CoursePreview extends StatelessWidget {
                                                 children: [
                                                   IconButton(
                                                       onPressed: () {
-                                                        /* Get.bottomSheet(
-                                                    CommentBottomSheet(
-                                                      courseId: course.id,
-                                                    ),
-                                                    backgroundColor:
-                                                        AppColor.whiteLight,
-                                                    enableDrag: false,
-                                                    elevation: 10,
-                                                    barrierColor:
-                                                        Colors.transparent,
-                                                  ); */
+                                                        Get.bottomSheet(
+                                                          CommentBottomSheet(
+                                                            courseId: course.id,
+                                                            showTextField:
+                                                                false,
+                                                          ),
+                                                          backgroundColor:
+                                                              AppColor
+                                                                  .whiteLight,
+                                                          enableDrag: false,
+                                                          elevation: 10,
+                                                          barrierColor: Colors
+                                                              .transparent,
+                                                        );
                                                       },
                                                       icon: const Icon(Icons
                                                           .chat_bubble_outline_rounded)),
@@ -167,6 +162,8 @@ class CoursePreview extends StatelessWidget {
                                                       onPressed: () {
                                                         Get.bottomSheet(
                                                           DescriptionSheetChild(
+                                                            showRatingBar:
+                                                                false,
                                                             courseName:
                                                                 course.name,
                                                             auther: course
