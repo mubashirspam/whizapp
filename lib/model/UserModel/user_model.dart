@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'my_learning.dart';
 import 'notification.dart';
 
 class UserModel {
@@ -9,8 +8,9 @@ class UserModel {
   String phoneNumber;
   String studentClass;
   String uid;
+  List<String> myLearnings;
   List<Notification> notifications;
-  List<MyLearning> myLearnings;
+
   String profileImageUrl;
 
   UserModel({
@@ -25,7 +25,7 @@ class UserModel {
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
-   
+    log(json.toString());
     return UserModel(
       name: json['name'],
       dob: json['dob'].toDate(),
@@ -37,8 +37,7 @@ class UserModel {
               (e) => Notification.fromJson(e as Map<String, dynamic>))
           .toList(),
       myLearnings: json['myLearnings']
-          .map<MyLearning>(
-              (e) => MyLearning.fromJson(e as Map<String, dynamic>))
+          .map<String>((courseId) => courseId.toString())
           .toList(),
       profileImageUrl: json['profileImageUrl'],
     );
@@ -51,7 +50,7 @@ class UserModel {
         'StudentClass': studentClass,
         'uid': uid,
         'notifications': notifications.map((e) => e.toJson()).toList(),
-        'myLearnings': myLearnings.map((e) => e.toJson()).toList(),
+        'myLearnings': myLearnings.map((e) => e).toList(),
         'profileImageUrl': profileImageUrl
       };
 }

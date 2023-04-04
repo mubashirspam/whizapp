@@ -28,6 +28,7 @@ dependencies:
   flutter_cached_pdfview: ^0.4.1
   pod_player: ^0.1.0
   flutter_rating_bar: ^4.0.1
+  url_launcher: ^6.1.10
 
 
 

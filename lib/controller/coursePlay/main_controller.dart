@@ -1,69 +1,27 @@
-/* import 'package:dartz/dartz.dart';
-import 'package:get/get.dart';
 
-import '../../model/UserModel/user_model.dart';
-import '../authentication/auth_controller.dart';
-
-class CoursePlayMainController extends GetxController{
-   late AuthController authController ;
-   Rxn<Either<String, UserModel>> userModel =Rxn();
-   RxBool isSubScribed = false.obs;
-   @override
-  void onInit() {
-    // TODO: implement onInit
-    authController  = Get.find<AuthController>();
-    super.onInit();
-  }
-@override
-  void onReady() {
-    // TODO: implement onReady
-    userModel.bindStream(authController.userModel.stream);
-    super.onReady();
-  }
-  
-  void listenUserModel(){
-    userModel.listen((either) { 
-      either!.fold((l) {
-        isSubScribed(false);
-      }, (userModel) {
-
-      });
-    });
-  }
-    bool isSubscribed = authController.userModel.value!.fold(
-        (l) => false,
-        (userModel) => userModel.myLearnings.any(
-            (myLearning) => myLearning.courseId!.trim() == course.id.trim()));
-}
- */
 
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
-import 'package:whizapp/controller/homePageController/home_page_controller.dart';
-import 'package:whizapp/model/UserModel/user_model.dart';
+
+
+
+import '../../model/course/progress/course_id.dart';
 
 class CoursePlayMainController extends GetxController {
   @override
   void onInit() {
     // TODO: implement onInit
     firebaseFirestore = FirebaseFirestore.instance;
- 
+
     super.onInit();
   }
 
-  
-  
   RxBool isLoading = false.obs;
   Rx<Option<String>> optionSuccessOrFailure = Rx(none());
   late FirebaseFirestore firebaseFirestore;
-
-
-
 
   handleCourseSubcription(String courseId, String uid) async {
     isLoading(true);
@@ -80,14 +38,28 @@ class CoursePlayMainController extends GetxController {
   Future<Either<String, void>> subscribeCourse(
       String courseId, String uid) async {
     try {
+      WriteBatch writeBatch = firebaseFirestore.batch();
       log('subscribing course --------------');
-      await firebaseFirestore.collection('user').doc(uid.trim()).update(
+      writeBatch.update(
+        firebaseFirestore.collection('user').doc(uid.trim()),
         {
-          "myLearnings": FieldValue.arrayUnion([
-            {"courseId": courseId, "progress": 0}
-          ]) 
+          "myLearnings": FieldValue.arrayUnion([courseId])
         },
       );
+      final docRef = firebaseFirestore
+          .collection('user')
+          .doc(uid.trim())
+          .collection('progress')
+          .doc(uid.trim());
+      writeBatch.set(
+          docRef,
+          CourseId(
+                  courseId: courseId,
+                  progress: CourseProgress(
+                      progress: 0, courseId: courseId, myRating: null))
+              .toFirestore(),
+          SetOptions(merge: true));
+      await writeBatch.commit();
       return const Right(null);
     } catch (e) {
       log('exception subscribe course XXXXXXXXXXXXXXXXXXXXXXXXXXX');

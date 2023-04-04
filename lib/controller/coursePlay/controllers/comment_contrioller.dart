@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 
 import 'package:whizapp/model/UserModel/user_model.dart';
 
-import '../../model/course/comments.dart';
+import '../../../model/course/comments.dart';
 
 class CommentController extends GetxController {
   @override

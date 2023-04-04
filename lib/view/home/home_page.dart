@@ -13,8 +13,8 @@ import 'package:whizapp/core/asset/image.dart';
 import 'package:whizapp/core/theme/color.dart';
 import 'package:whizapp/model/course/course_mode.dart';
 
-import 'package:whizapp/view/CoursePlayScreen/playerScreens/course_detail_page.dart';
-import 'package:whizapp/view/CoursePlayScreen/playerScreens/main_player_screen.dart';
+import 'package:whizapp/view/CoursePlayScreen/playerScreens/course_Enrolled_page.dart';
+import 'package:whizapp/view/CoursePlayScreen/playerScreens/player_root.dart';
 import 'package:whizapp/view/constants/const_dimensions.dart';
 import 'package:whizapp/view/featured/widget/featurd_card_widget.dart';
 import 'package:whizapp/view/home/widgts/search_widget.dart';
@@ -154,7 +154,7 @@ class HomePage extends GetView<HomePageController> {
                                       itemBuilder: (context, index) {
                                         return InkWell(
                                             onTap: () =>
-                                                Get.to(() => MainPlayerScreen(
+                                                Get.to(() => PlayerRoot(
                                                       course: controller
                                                               .searchCourseResult[
                                                           index],
@@ -210,7 +210,7 @@ class HomePage extends GetView<HomePageController> {
                                     itemBuilder: (context, index) {
                                       return InkWell(
                                           onTap: () => Get.to(
-                                              () => MainPlayerScreen(
+                                              () => PlayerRoot(
                                                     course: homePageController
                                                         .courses[index],
                                                   ),

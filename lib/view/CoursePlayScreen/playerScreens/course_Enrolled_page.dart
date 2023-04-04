@@ -1,10 +1,12 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pod_player/pod_player.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:whizapp/controller/authentication/auth_controller.dart';
 import 'package:whizapp/controller/coursePlay/course_player.dart';
 
@@ -17,48 +19,67 @@ import 'package:whizapp/model/course/course_mode.dart';
 import 'package:whizapp/view/CoursePlayScreen/bottomSheets/comment_bottom_sheet.dart';
 import 'package:whizapp/view/CoursePlayScreen/bottomSheets/description_bottom_sheet.dart';
 
-import 'package:whizapp/view/CoursePlayScreen/widgets/course_play_bottombutton.dart';
+
 import 'package:whizapp/view/CoursePlayScreen/widgets/couse_app_bottom_barbutton.dart';
 import 'package:whizapp/view/CoursePlayScreen/widgets/expansion_widget.dart';
 import 'package:whizapp/view/common_widgets/no_result_page.dart';
 import 'package:whizapp/view/constants/const_dimensions.dart';
 
-import '../../../controller/coursePlay/comment_contrioller.dart';
+import '../../../controller/coursePlay/controllers/comment_contrioller.dart';
 
-class CourseDetailPage extends StatelessWidget {
+class CourseEnrolledPage extends StatelessWidget {
   final CourseModel course;
-  const CourseDetailPage({super.key, required this.course});
+  final String uid;
+  const CourseEnrolledPage({super.key, required this.course, required this.uid});
 
   @override
   Widget build(BuildContext context) {
     CommentController messageController = Get.find<CommentController>();
 
-    
-
     CoursePlayerController videoPlayerController =
         Get.find<CoursePlayerController>();
-     videoPlayerController.extractVideosFromCourse(course);
+    videoPlayerController.extractVideosFromCourse(course);
     videoPlayerController.initializeYtPlay();
 
-    videoPlayerController.listenVideoStatus(); 
+    videoPlayerController.listenVideoStatus();
 
     return Scaffold(
       backgroundColor: AppColor.backgroundLight,
-    floatingActionButton: CourseAppBottomBarButton(
-              buttonColor: AppColor.yellowLight,
-              onTap: () {},
-              width: 52,
-              child: const Icon(
-                Icons.help,
-                size: 30,
-              ),
-            ), 
+      floatingActionButton: CourseAppBottomBarButton(
+        buttonColor: AppColor.yellowLight,
+        onTap: () {
+
+        whatsapp() async{
+   var contact = "+91xxxxxxxxxx";
+   var androidUrl = "whatsapp://send?phone=$contact&text=Hi, I need some help";
+   var iosUrl = "https://wa.me/$contact?text=${Uri.parse('Hi, I need some help')}";
+   
+   try{
+      if(Platform.isIOS){
+         await launchUrl(Uri.parse(iosUrl));
+      }
+      else{
+        log('is android ===================');
+         await launchUrl(Uri.parse(androidUrl));
+      }
+   } on Exception{
+    log('WhatsApp is not installed.');
+  }
+}
+whatsapp();
+        },
+        width: 52,
+        child: const Icon(
+          Icons.help,
+          size: 30,
+        ),
+      ),
       body: SafeArea(
         child: videoPlayerController.podcontroller != null &&
                 videoPlayerController.currentVideo.value != null
             ? Column(
                 children: [
-                   SizedBox(
+                  SizedBox(
                       width: context.width,
                       height: 220,
                       child: PodVideoPlayer(
@@ -68,7 +89,7 @@ class CourseDetailPage extends StatelessWidget {
                             playingBarColor: AppColor.primeryLight,
                             height: 4.5,
                             circleHandlerColor: AppColor.primeryLight),
-                      )), 
+                      )),
                   Expanded(
                     child: SingleChildScrollView(
                       child: Column(
@@ -150,6 +171,8 @@ class CourseDetailPage extends StatelessWidget {
                                               onPressed: () {
                                                 Get.bottomSheet(
                                                   DescriptionSheetChild(
+                                                    courseId: course.id,
+                                                    uid: uid,
                                                     courseName: course.name,
                                                     auther: course.createdBy,
                                                     description:

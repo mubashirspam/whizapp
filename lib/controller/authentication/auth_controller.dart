@@ -15,7 +15,6 @@ class AuthController extends GetxController
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-
   late Rx<User?> firebaseUser;
   RxString phoneNo = "".obs;
   RxString otp = "".obs;
@@ -45,14 +44,11 @@ class AuthController extends GetxController
 
       final result = await getCurrentUserModel(user);
       result.fold((error) {
-      
         showSnckbar(head: 'Error', body: error.toString());
       }, (userModel) {
         if (userModel != null) {
-
           change(userModel, status: RxStatus.success());
         } else {
-         
           change(null, status: RxStatus.success());
         }
       });

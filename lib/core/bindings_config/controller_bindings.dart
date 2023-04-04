@@ -1,9 +1,10 @@
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
-import 'package:whizapp/controller/coursePlay/comment_contrioller.dart';
+import 'package:whizapp/controller/coursePlay/controllers/comment_contrioller.dart';
 import 'package:whizapp/controller/coursePlay/course_player.dart';
 import 'package:whizapp/controller/coursePlay/main_controller.dart';
-import 'package:whizapp/controller/coursePlay/rating_controller.dart';
+import 'package:whizapp/controller/coursePlay/controllers/progress_controller.dart';
+
 import 'package:whizapp/controller/homePageController/home_page_controller.dart';
 import 'package:whizapp/controller/mainPageController/main_page_controller.dart';
 
@@ -20,7 +21,8 @@ class ControllerBindings implements Bindings {
     Get.lazyPut(() => MainPageController(), fenix: true);
     Get.lazyPut(() => CommentController(), fenix: true);
     Get.lazyPut(() => CoursePlayerController(), fenix: true);
-    Get.lazyPut(() => RatingController(), fenix: true);
-     Get.lazyPut(() => CoursePlayMainController(), fenix: true);
+   
+    Get.lazyPut(() => CoursePlayMainController(), fenix: true);
+      Get.lazyPut(() => ProgressController(), fenix: true);
   }
 }

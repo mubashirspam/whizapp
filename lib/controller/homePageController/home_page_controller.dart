@@ -23,7 +23,7 @@ class HomePageController extends GetxController
 
   var isLoading = false.obs;
   List<CourseModel> courses = [];
- // UserModel? userModel;
+  // UserModel? userModel;
 
   final Debouncer _debouncer =
       Debouncer(delay: const Duration(milliseconds: 800));
@@ -32,7 +32,7 @@ class HomePageController extends GetxController
   RxString query = ''.obs;
   RxBool isQuerying = false.obs;
   bool isSearchDataEmpty = true;
-  Rxn<UserModel> userModel= Rxn<UserModel>();
+  Rxn<UserModel> userModel = Rxn<UserModel>();
   StreamSubscription<UserModel>? userStreamsub;
   @override
   void onInit() {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:whizapp/controller/coursePlay/comment_contrioller.dart';
+import 'package:whizapp/controller/coursePlay/controllers/comment_contrioller.dart';
 import 'package:whizapp/controller/homePageController/home_page_controller.dart';
 import 'package:whizapp/core/theme/color.dart';
 import 'package:whizapp/view/common_widgets/button_widget.dart';

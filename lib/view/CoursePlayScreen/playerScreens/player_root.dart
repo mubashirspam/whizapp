@@ -1,19 +1,20 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+
 import 'package:get/get.dart';
 import 'package:whizapp/controller/coursePlay/main_controller.dart';
 import 'package:whizapp/controller/homePageController/home_page_controller.dart';
 import 'package:whizapp/core/theme/color.dart';
 import 'package:whizapp/model/course/course_mode.dart';
-import 'package:whizapp/view/CoursePlayScreen/playerScreens/course_detail_page.dart';
+import 'package:whizapp/view/CoursePlayScreen/playerScreens/course_Enrolled_page.dart';
 import 'package:whizapp/view/CoursePlayScreen/playerScreens/course_preview_screen.dart';
 
 import '../../../controller/authentication/auth_controller.dart';
 
-class MainPlayerScreen extends StatelessWidget {
+class PlayerRoot extends StatelessWidget {
   final CourseModel course;
-  const MainPlayerScreen({super.key, required this.course});
+  const PlayerRoot({super.key, required this.course});
 
   @override
   Widget build(BuildContext context) {
@@ -22,29 +23,28 @@ class MainPlayerScreen extends StatelessWidget {
         Get.find<CoursePlayMainController>();
     ever(mainController.optionSuccessOrFailure, (option) {
       option.fold(
-          () => Get.showSnackbar(GetSnackBar(
-                duration: Duration(seconds: 2),
-                title: "Enrollment Status",
-                message: "Enrollment Success",
-                backgroundColor: AppColor.success,
-                
-              )),
-          (a) => Get.showSnackbar(GetSnackBar(
-                duration: Duration(seconds: 2),
-                title: "Enrollment Status",
-                backgroundColor: AppColor.redDanger,
-                message: "Enrollment Failed",
-              )));
+          () => Get.snackbar(
+                "Enrollment Status",
+                "Enrollment Success",
+                colorText: AppColor.whiteLight,
+                isDismissible: true,
+              ),
+          (a) => Get.snackbar(
+                "Enrollment Status",
+                "Enrollment Failed",
+                colorText: AppColor.whiteLight,
+                isDismissible: true,
+              ));
     });
 
     HomePageController homePageController = Get.find<HomePageController>();
 
     return Obx(() {
       bool isSubscribed = (homePageController.userModel.value != null &&
-          homePageController.userModel.value!.myLearnings.any(
-              (myLearning) => myLearning.courseId!.trim() == course.id.trim()));
+          homePageController.userModel.value!.myLearnings.contains(course.id));
       if (isSubscribed == true) {
-        return CourseDetailPage(course: course);
+        log('truedjdjdjdjdjdjdjdj');
+        return CourseEnrolledPage(course: course, uid: homePageController.userModel.value!.uid,);
       } else {
         return CoursePreview(
           course: course,
