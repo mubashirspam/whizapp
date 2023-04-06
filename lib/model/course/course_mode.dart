@@ -6,6 +6,7 @@ import 'package:whizapp/model/course/ratings.dart';
 
 class CourseModel {
   String id;
+  final int  enrollments;
   final String name;
   final String description;
 
@@ -18,8 +19,9 @@ class CourseModel {
   final String totalDuration;
   final String thumbnailUrl;
 
-  CourseModel(
+  CourseModel( 
       {required this.id,
+     required this.enrollments,
       required this.ratings,
       required this.name,
       required this.description,
@@ -35,6 +37,7 @@ class CourseModel {
     Map data = doc.data() as Map;
 
     return CourseModel(
+     enrollments: data['enrollments'],
         id: doc.id,
         ratings: Ratings.fromJson(data['ratings']),
         name: data['name'],
@@ -52,6 +55,7 @@ class CourseModel {
 
   Map<String, dynamic> toMap() {
     return {
+      'enrollments':enrollments,
       'name': name,
       'ratings': ratings,
       'description': description,

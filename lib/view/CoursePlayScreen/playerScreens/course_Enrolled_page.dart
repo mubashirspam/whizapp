@@ -19,18 +19,19 @@ import 'package:whizapp/model/course/course_mode.dart';
 import 'package:whizapp/view/CoursePlayScreen/bottomSheets/comment_bottom_sheet.dart';
 import 'package:whizapp/view/CoursePlayScreen/bottomSheets/description_bottom_sheet.dart';
 
-
 import 'package:whizapp/view/CoursePlayScreen/widgets/couse_app_bottom_barbutton.dart';
 import 'package:whizapp/view/CoursePlayScreen/widgets/expansion_widget.dart';
 import 'package:whizapp/view/common_widgets/no_result_page.dart';
 import 'package:whizapp/view/constants/const_dimensions.dart';
 
 import '../../../controller/coursePlay/controllers/comment_contrioller.dart';
+import '../../../controller/coursePlay/main_controller.dart';
 
 class CourseEnrolledPage extends StatelessWidget {
   final CourseModel course;
   final String uid;
-  const CourseEnrolledPage({super.key, required this.course, required this.uid});
+  const CourseEnrolledPage(
+      {super.key, required this.course, required this.uid});
 
   @override
   Widget build(BuildContext context) {
@@ -47,26 +48,13 @@ class CourseEnrolledPage extends StatelessWidget {
       backgroundColor: AppColor.backgroundLight,
       floatingActionButton: CourseAppBottomBarButton(
         buttonColor: AppColor.yellowLight,
-        onTap: () {
-
-        whatsapp() async{
-   var contact = "+91xxxxxxxxxx";
-   var androidUrl = "whatsapp://send?phone=$contact&text=Hi, I need some help";
-   var iosUrl = "https://wa.me/$contact?text=${Uri.parse('Hi, I need some help')}";
-   
-   try{
-      if(Platform.isIOS){
-         await launchUrl(Uri.parse(iosUrl));
-      }
-      else{
-        log('is android ===================');
-         await launchUrl(Uri.parse(androidUrl));
-      }
-   } on Exception{
-    log('WhatsApp is not installed.');
-  }
-}
-whatsapp();
+        onTap: () async {
+          final result =
+              await Get.find<CoursePlayMainController>().referredToWhatsapp();
+          result.fold(
+              (l) => Get.snackbar(
+                  "Whatsapp not Installed", "Please install Whatsapp"),
+              (r) => null);
         },
         width: 52,
         child: const Icon(
@@ -171,12 +159,8 @@ whatsapp();
                                               onPressed: () {
                                                 Get.bottomSheet(
                                                   DescriptionSheetChild(
-                                                    courseId: course.id,
+                                                    course: course,
                                                     uid: uid,
-                                                    courseName: course.name,
-                                                    auther: course.createdBy,
-                                                    description:
-                                                        course.description,
                                                   ),
                                                   backgroundColor:
                                                       AppColor.whiteLight,

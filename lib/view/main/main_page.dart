@@ -16,6 +16,7 @@ import 'package:whizapp/view/login/login_page.dart';
 import 'package:whizapp/view/main/widgets/bottom_navigation_widgets.dart';
 import 'package:whizapp/view/mylearning/my_learning_page.dart';
 import 'package:whizapp/view/profile/profile_page.dart';
+import 'package:whizapp/view/whislist/whishlist_page.dart';
 
 import '../../controller/authentication/auth_controller.dart';
 
@@ -24,10 +25,9 @@ class MainPage extends GetView<HomePageController> {
 
   final List<Widget> _pages = <Widget>[
     const HomePage(),
-
     const MyLearningPage(),
-    //WhishListPage(),
-    const NoResultPage(),
+  /*   WhishListPage(), */
+     const NoResultPage(),
 
     const ProfilePage()
   ];

@@ -49,6 +49,14 @@ class CoursePreview extends StatelessWidget {
       bottomNavigationBar: CoursePlayBottomButton(
         onTap: () async =>
             await mainController.handleCourseSubcription(course.id, uid),
+        onTapHelp: () async {
+          final result =
+              await Get.find<CoursePlayMainController>().referredToWhatsapp();
+          result.fold(
+              (l) => Get.snackbar(
+                  "Whatsapp not Installed", "Please install Whatsapp"),
+              (r) => null);
+        },
       ),
       body: Obx(
         () => mainController.isLoading.isTrue

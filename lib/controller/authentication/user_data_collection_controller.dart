@@ -56,11 +56,17 @@ class UserDataCollectorController extends GetxController
 
     change(null, status: RxStatus.loading());
     try {
-      await firestore
+      WriteBatch writeBatch = firestore.batch();
+      final userRef = firestore.collection('user').doc(userModel.uid.trim());
+      final progressRef = firestore
           .collection('user')
           .doc(userModel.uid.trim())
-          .set(userModel.toJson());
+          .collection('progress')
+          .doc(userModel.uid.trim());
 
+      writeBatch.set(userRef, userModel.toJson());
+      writeBatch.set(progressRef, {'isNull':true});
+      await writeBatch.commit();
       final userModelStatus = await authController.getCurrentUserModel(user);
       return userModelStatus;
     } catch (e) {

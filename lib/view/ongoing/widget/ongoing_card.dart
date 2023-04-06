@@ -51,24 +51,29 @@ class OngoingCardWidget extends StatelessWidget {
                   height: 45,
                   child: Center(child: Image.asset(AppImg.logo)),
                 ),
-                Wrap(
-                  direction: Axis.vertical,
-                  children: [
-                    SizedBox(
-                      child: Text(
-                        // course name
-                        '',
-                        maxLines: 2,
-                        overflow: TextOverflow.clip,
-                        style: Theme.of(context).textTheme.titleMedium,
+                Expanded(
+                  child: Wrap(
+                    direction: Axis.vertical,
+                    children: [
+                      SizedBox(
+                        child: Text(
+                
+                          // course name
+                          'English Tutorial----------------------------',
+                          maxLines: 1,
+                          overflow: TextOverflow.clip,
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
                       ),
-                    ),
-                    Text(
-                      //course creator
-                      '',
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
-                  ],
+                      Text(
+                        //course creator
+                        'Bisher ------------------------------------',
+                        style: Theme.of(context).textTheme.titleSmall,
+                        maxLines: 1,
+                         overflow: TextOverflow.clip,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -85,7 +90,7 @@ class OngoingCardWidget extends StatelessWidget {
                 ),
                 Text(
                   //progress of the course
-                  '',
+                  '30% Complete',
                   style: const TextStyle(
                     color: AppColor.textVilotLight,
                     fontSize: 14,
@@ -112,10 +117,18 @@ class OngoingCardWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  //total number of lessons in the course
-                  " Lessons",
-                  style: Theme.of(context).textTheme.titleSmall,
+                Row(
+                  children: [
+                    SvgPicture.asset(
+                  AppICons.lessons,
+                  width: ConstDimensions.iconWidthXtraSmall,
+                ),
+                    Text(
+                      //total number of lessons in the course
+                      "16 Lessons",
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                  ],
                 ),
                 SvgPicture.asset(
                   AppICons.inmyLearnings,

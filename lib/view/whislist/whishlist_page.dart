@@ -1,4 +1,4 @@
-/* import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
@@ -22,25 +22,23 @@ class _WhishListPageState extends State<WhishListPage> {
   @override
   Widget build(BuildContext context) {
    
-    return Obx(() {
-      if (_courseController.isLoading.value) {
-        return const Center(child: CircularProgressIndicator());
-      } else {
+ 
+      
         return Column(children: [
           SizedBox(
             height: 400,
             child: ListView.builder(
-              itemCount: _courseController.courses.length,
+              itemCount: 5,
               itemBuilder: (context, index) {
-                final course = _courseController.courses[index];
+        
                 return ListTile(
-                  title: Text(course.name),
+                  title: Text("Course Name"),
                   subtitle: Text(
-                    course.description,
+                    "Course Description",
                     style: const TextStyle(color: Colors.black),
                   ),
                   trailing: Text(
-                    course.rating.toString(),
+                    '12',
                     style: const TextStyle(color: Colors.black),
                   ),
                 );
@@ -233,8 +231,8 @@ class _WhishListPageState extends State<WhishListPage> {
         //     );
         //   },
         // );
-      }
-    });
+      
+   
   }
 }
- */
+ 

@@ -73,7 +73,8 @@ class FeaturedCardWidget extends StatelessWidget {
           SizedBox(
             height: 20,
             child: course.ratings.totalRating != null &&
-                    course.ratings.totalCount != null
+                    course.ratings.totalCount != null&&
+                    course.ratings.totalCount != 0
                 ? Wrap(
                     alignment: WrapAlignment.start,
                     crossAxisAlignment: WrapCrossAlignment.center,
@@ -89,7 +90,7 @@ class FeaturedCardWidget extends StatelessWidget {
                           left: 5,
                         ),
                         child: Text(
-                          "${course.ratings.totalRating!}/5",
+                          "${course.ratings.totalRating!.toPrecision(1)}/5",
                           style: const TextStyle(
                             color: AppColor.textPrimeryLight,
                             fontSize: 12,
@@ -125,7 +126,7 @@ class FeaturedCardWidget extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 5),
                 child: Text(
-                  "22 Entrolled",
+                  "${course.enrollments} Enrolled",
                   style: Theme.of(context).textTheme.displaySmall,
                 ),
               ),

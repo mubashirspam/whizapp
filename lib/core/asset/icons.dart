@@ -26,10 +26,12 @@ class AppICons {
   static const inwhishlist = 'assets/icons/fill/Heart.svg';
   static const inmyLearnings = 'assets/icons/fill/Play.svg';
 
-  // othor
+  // other
   static const notification = 'assets/icons/fill/Notification.svg';
   static const tickSquare = 'assets/icons/fill/TickSquare.svg';
   static const lockYello = 'assets/icons/fill/LockYellow.svg';
   static const arrowUpCircle = 'assets/icons/fill/ArrowUpCircle.svg';
   static const arrowDownCircle = 'assets/icons/fill/ArrowDownCircle.svg';
+   static const lessons = 'assets/icons/fill/lessons.svg';
+
 }

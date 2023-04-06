@@ -1,12 +1,11 @@
-
-
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:get/get.dart';
-
-
+import 'package:url_launcher/url_launcher.dart';
+import 'package:whizapp/core/endPoints/end_point.dart';
 
 import '../../model/course/progress/course_id.dart';
 
@@ -59,11 +58,32 @@ class CoursePlayMainController extends GetxController {
                       progress: 0, courseId: courseId, myRating: null))
               .toFirestore(),
           SetOptions(merge: true));
+
+      final courseRef =
+          firebaseFirestore.collection('courses').doc(courseId.trim());
+      writeBatch.update(courseRef, {'enrollments': FieldValue.increment(1)});
       await writeBatch.commit();
       return const Right(null);
     } catch (e) {
       log('exception subscribe course XXXXXXXXXXXXXXXXXXXXXXXXXXX');
       return Left(e.toString());
+    }
+  }
+
+  Future<Either<String, void>> referredToWhatsapp() async {
+    var androidUrl = EndPoints.androidUrl;
+    var iosUrl = EndPoints.iosUrl;
+
+    try {
+      if (Platform.isIOS) {
+        await launchUrl(Uri.parse(iosUrl));
+      } else {
+        await launchUrl(Uri.parse(androidUrl));
+      }
+      return const Right(null);
+    } on Exception {
+      log('WhatsApp is not installed.');
+      return const Left('WhatsApp is not installed.');
     }
   }
 }
