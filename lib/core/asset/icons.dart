@@ -32,6 +32,9 @@ class AppICons {
   static const lockYello = 'assets/icons/fill/LockYellow.svg';
   static const arrowUpCircle = 'assets/icons/fill/ArrowUpCircle.svg';
   static const arrowDownCircle = 'assets/icons/fill/ArrowDownCircle.svg';
-   static const lessons = 'assets/icons/fill/lessons.svg';
+  static const lessons = 'assets/icons/fill/lessons.svg';
+  static const edit = 'assets/icons/fill/Edit.svg';
 
+  static const email = 'assets/icons/fill/Message.svg';
+  static const password = 'assets/icons/fill/Lock.svg';
 }

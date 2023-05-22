@@ -65,12 +65,12 @@ class UserDataCollectorController extends GetxController
           .doc(userModel.uid.trim());
 
       writeBatch.set(userRef, userModel.toJson());
-      writeBatch.set(progressRef, {'isNull':true});
+      writeBatch.set(progressRef, {'isNull': true});
       await writeBatch.commit();
       final userModelStatus = await authController.getCurrentUserModel(user);
       return userModelStatus;
     } catch (e) {
-      log(e.toString() + "getCurrentUsermodel ===== exception");
+      log("${e}getCurrentUsermodel ===== exception");
       return Left(e.toString());
     }
   }

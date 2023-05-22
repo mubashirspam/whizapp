@@ -8,9 +8,12 @@ import 'package:whizapp/view/CoursePlayScreen/widgets/couse_app_bottom_barbutton
 class CoursePlayBottomButton extends StatelessWidget {
   final bool isVisible;
   final Function() onTap;
-    final Function() onTapHelp;
+  final Function() onTapHelp;
   const CoursePlayBottomButton(
-      {super.key, this.isVisible = true, required this.onTap, required this.onTapHelp});
+      {super.key,
+      this.isVisible = true,
+      required this.onTap,
+      required this.onTapHelp});
 
   @override
   Widget build(BuildContext context) {

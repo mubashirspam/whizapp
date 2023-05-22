@@ -11,16 +11,27 @@ import 'package:whizapp/core/asset/image.dart';
 import 'package:whizapp/core/theme/color.dart';
 import 'package:whizapp/view/common_widgets/button_widget.dart';
 import 'package:whizapp/view/constants/const_dimensions.dart';
-import 'package:whizapp/view/login/login_page.dart';
 
-import 'package:whizapp/view/main/widgets/bottom_navigation_widgets.dart';
-
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  double se = 0;
+
+  @override
+  void initState() {
+    se = 5;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     AuthController authController = Get.find<AuthController>();
+    double width = MediaQuery.of(context).size.width;
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(20),
@@ -143,11 +154,58 @@ class ProfilePage extends StatelessWidget {
                   title: const Text("Terms & Conditions"),
                   trailing: SvgPicture.asset(AppICons.arrowRight),
                 ),
-                TextButton(
-                    onPressed: () {
-                      //FirestoreService().createCourse(course);
-                    },
-                    child: Text("upload"))
+                // Container(
+                //     height: 100,
+                //     width: double.maxFinite,
+                //     color: Colors.blue,
+                //     margin: const EdgeInsets.all(20),
+                //     padding: const EdgeInsets.all(20),
+                //     child: Stack(
+                //       children: [
+                //         AnimatedPositioned(
+                //             left: se,
+                //             child: Container(
+                //               width: 50,
+                //               height: 50,
+                //               color: Colors.white,
+                //             ),
+                //             duration: Duration(milliseconds: 300)),
+                //         Row(
+                //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //           crossAxisAlignment: CrossAxisAlignment.center,
+                //           children: [
+                //             GestureDetector(
+                //                 onTap: () {
+                //                   setState(() {
+                //                     se = width / 5;
+                //                   });
+                //                 },
+                //                 child: Icon(Icons.home)),
+                //             GestureDetector(
+                //                 onTap: () {
+                //                   setState(() {
+                //                     se = width / 4;
+                //                   });
+                //                 },
+                //                 child: Icon(Icons.home)),
+                //             GestureDetector(
+                //                 onTap: () {
+                //                   setState(() {
+                //                     se = width / 3;
+                //                   });
+                //                 },
+                //                 child: Icon(Icons.home)),
+                //             GestureDetector(
+                //                 onTap: () {
+                //                   setState(() {
+                //                     se = width / 2;
+                //                   });
+                //                 },
+                //                 child: Icon(Icons.home)),
+                //           ],
+                //         ),
+                //       ],
+                //     ))
               ],
             ),
           ),

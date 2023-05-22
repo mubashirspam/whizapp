@@ -73,7 +73,7 @@ class FeaturedCardWidget extends StatelessWidget {
           SizedBox(
             height: 20,
             child: course.ratings.totalRating != null &&
-                    course.ratings.totalCount != null&&
+                    course.ratings.totalCount != null &&
                     course.ratings.totalCount != 0
                 ? Wrap(
                     alignment: WrapAlignment.start,

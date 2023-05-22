@@ -57,7 +57,7 @@ class CommentController extends GetxController {
     _streamSubscription = getSingleCommentStream(courseId).listen((commentIds) {
       comments(commentIds);
     }, onError: (e) {
-      log(e.toString() + "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+      log("${e}xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     });
   }
 
@@ -91,7 +91,7 @@ class CommentController extends GetxController {
 
       return none();
     } catch (e) {
-      log(e.toString() + " Excep delete Message xxxxxxxxxxxxxxxxxxxxxxxxxxx");
+      log("$e Excep delete Message xxxxxxxxxxxxxxxxxxxxxxxxxxx");
       return Some(e.toString());
     }
   }

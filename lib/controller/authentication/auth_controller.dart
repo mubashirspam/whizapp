@@ -38,6 +38,8 @@ class AuthController extends GetxController
     ever(firebaseUser, initUser);
   }
 
+  
+
   void initUser(User? user) async {
     if (user != null) {
       change(null, status: RxStatus.loading());
@@ -80,11 +82,10 @@ class AuthController extends GetxController
         return const Right(null);
       }
     } on FirebaseException catch (e) {
-      log(e.code.toString() +
-          'firebase exception XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
+      log('${e.code}firebase exception XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
       return Left(e.code.toString());
     } catch (e) {
-      log(e.toString() + "catche xeeee");
+      log("${e}catche xeeee");
       return left(e.toString());
     }
   }
@@ -142,7 +143,7 @@ class AuthController extends GetxController
         },
       );
     } on FirebaseAuthException catch (error) {
-      log("Exption ${phoneNo.value}");
+      log("Exption $error");
     }
   }
 

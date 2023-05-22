@@ -90,12 +90,14 @@ class DescriptionSheetChild extends StatelessWidget {
                   .copyWith(color: AppColor.textPrimeryLight),
             ),
           ),
-       showRatingBar ==true?   CustomRatingWidget(
-            uid: uid!,
-            courseId: course.id,
-            showRatingBar: showRatingBar,
-            courseRatings: course.ratings,
-          ):const SizedBox()
+          showRatingBar == true
+              ? CustomRatingWidget(
+                  uid: uid!,
+                  courseId: course.id,
+                  showRatingBar: showRatingBar,
+                  courseRatings: course.ratings,
+                )
+              : const SizedBox()
         ],
       ),
     );

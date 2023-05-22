@@ -57,7 +57,6 @@ class OngoingCardWidget extends StatelessWidget {
                     children: [
                       SizedBox(
                         child: Text(
-                
                           // course name
                           'English Tutorial----------------------------',
                           maxLines: 1,
@@ -70,7 +69,7 @@ class OngoingCardWidget extends StatelessWidget {
                         'Bisher ------------------------------------',
                         style: Theme.of(context).textTheme.titleSmall,
                         maxLines: 1,
-                         overflow: TextOverflow.clip,
+                        overflow: TextOverflow.clip,
                       ),
                     ],
                   ),
@@ -120,9 +119,9 @@ class OngoingCardWidget extends StatelessWidget {
                 Row(
                   children: [
                     SvgPicture.asset(
-                  AppICons.lessons,
-                  width: ConstDimensions.iconWidthXtraSmall,
-                ),
+                      AppICons.lessons,
+                      width: ConstDimensions.iconWidthXtraSmall,
+                    ),
                     Text(
                       //total number of lessons in the course
                       "16 Lessons",

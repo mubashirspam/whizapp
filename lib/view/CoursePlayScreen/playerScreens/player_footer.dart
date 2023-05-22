@@ -86,7 +86,7 @@ class PlayerFooter extends StatelessWidget {
                                   Get.bottomSheet(
                                     DescriptionSheetChild(
                                       showRatingBar: false,
-                                    course: course,
+                                      course: course,
                                     ),
                                     backgroundColor: AppColor.whiteLight,
                                     enableDrag: false,

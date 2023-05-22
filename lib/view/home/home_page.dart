@@ -13,13 +13,14 @@ import 'package:whizapp/core/asset/image.dart';
 import 'package:whizapp/core/theme/color.dart';
 import 'package:whizapp/model/course/course_mode.dart';
 
-import 'package:whizapp/view/CoursePlayScreen/playerScreens/course_Enrolled_page.dart';
+import 'package:whizapp/view/CoursePlayScreen/playerScreens/course_enrolled_page.dart';
 import 'package:whizapp/view/CoursePlayScreen/playerScreens/player_root.dart';
 import 'package:whizapp/view/constants/const_dimensions.dart';
 import 'package:whizapp/view/featured/widget/featurd_card_widget.dart';
 import 'package:whizapp/view/home/widgts/search_widget.dart';
 import 'package:whizapp/view/home/widgts/section_heading.dart';
 import 'package:whizapp/view/main/widgets/bottom_navigation_widgets.dart';
+import 'package:whizapp/view/ongoing/widget/ongoing_card.dart';
 
 class HomePage extends GetView<HomePageController> {
   const HomePage({super.key});
@@ -193,7 +194,7 @@ class HomePage extends GetView<HomePageController> {
                                   ),
                                   const SizedBox(height: 20),
                                   //shows first ongoing course
-                                  //   OngoingCardWidget(ongoingCourse: homePageController.ongoingCourses[0],),
+                                  // OngoingCardWidget(ongoingCourse: homePageController.ongoingCourses[0],),
                                   const SizedBox(height: 20),
                                   SectionHeading(
                                     title: "Featured Course",
